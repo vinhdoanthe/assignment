@@ -1,6 +1,6 @@
 class SubmissionGradesController < ApplicationController
   before_action :set_submission_grade, only: [:show, :edit, :update, :destroy]
-  after_action :attach_file, only: [:update, :edit]
+  after_action :attach_file, only: [:update, :update]
   before_action :purge_file, only: [:destroy]
 
   # GET /submission_grades
@@ -82,6 +82,7 @@ class SubmissionGradesController < ApplicationController
   end
 
   def purge_file
-    @submission_grade.purge
+    @submission_grade.submission_file.purge
+    @submission_grade.graded_file.purge
   end
 end

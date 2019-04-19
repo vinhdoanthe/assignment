@@ -29,7 +29,12 @@
   <div class="field">
     <%= form.label :submission_file %>
     <%#= form.text_field :submission_file_id %>
-    <%= form.file_field :submission_file %>
+    <% if @submission_grade.submission_file.attached? %>
+      <p>Had</p>
+      <% else %>
+      <%= form.file_field :submission_file, direct_upload: true %>
+      <% end %>
+
   </div>
 
   <div class="field">

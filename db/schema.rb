@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_19_051108) do
+ActiveRecord::Schema.define(version: 2019_04_19_103904) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -136,6 +136,23 @@ ActiveRecord::Schema.define(version: 2019_04_19_051108) do
     t.boolean "cr16_enable"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "cr1_comment"
+    t.text "cr2_comment"
+    t.text "cr3_comment"
+    t.text "cr4_comment"
+    t.text "cr5_comment"
+    t.text "cr6_comment"
+    t.text "cr7_comment"
+    t.text "cr8_comment"
+    t.text "cr9_comment"
+    t.text "cr10_comment"
+    t.text "cr11_comment"
+    t.text "cr12_comment"
+    t.text "cr13_comment"
+    t.text "cr14_comment"
+    t.text "cr15_comment"
+    t.text "cr16_comment"
+    t.text "comment"
     t.index ["rubric_id"], name: "index_graded_rubrics_on_rubric_id"
   end
 
@@ -231,6 +248,10 @@ ActiveRecord::Schema.define(version: 2019_04_19_051108) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "type"
+    t.string "role"
+    t.string "status"
+    t.string "full_name"
+    t.string "funid"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

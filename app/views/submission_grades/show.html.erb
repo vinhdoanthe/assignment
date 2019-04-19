@@ -2,7 +2,7 @@
 
 <p>
   <strong>Assignment:</strong>
-  <%= @submission_grade.assignment %>
+  <%= @submission_grade.assignment.name %>
 </p>
 
 <p>
@@ -17,7 +17,7 @@
 
 <p>
   <strong>Submission file:</strong>
-  <%= @submission_grade.submission_file %>
+<%= link_to "Submission File", rails_blob_path(@submission_grade.submission_file, disposition: "attachment") %>
 </p>
 
 <p>
@@ -47,7 +47,7 @@
 
 <p>
   <strong>Graded file:</strong>
-  <%= @submission_grade.graded_file %>
+  <%= link_to "Graded File", rails_blob_path(@submission_grade.graded_file, disposition: "attachment") %>
 </p>
 
 <p>

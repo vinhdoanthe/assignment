@@ -26,19 +26,21 @@
     <%= form.text_field :status %>
   </div>
 
-  <div class="field">
-    <%= form.label :cr1_des %>
-    <%= form.text_area :cr1_des %>
-  </div>
+  <div class="row">
+    <div class="field rubric-criteria-description">
+      <%= form.label :cr1_des %>
+      <%= form.text_area :cr1_des %>
+    </div>
 
-  <div class="field">
-    <%= form.label :cr1_score %>
-    <%= form.text_field :cr1_score %>
-  </div>
+    <div class="field rubric-criteria-score">
+      <%= form.label :cr1_score %>
+      <%= form.text_field :cr1_score %>
+    </div>
 
-  <div class="field">
-    <%= form.label :cr1_enable %>
-    <%= form.check_box :cr1_enable %>
+    <div class="field rubric-criteria-enable">
+      <%= form.label :cr1_enable %>
+      <%= form.check_box :cr1_enable %>
+    </div>
   </div>
 
   <div class="field">

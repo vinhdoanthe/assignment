@@ -23,19 +23,17 @@
   <tbody>
   <% @submission_grades.each do |submission_grade| %>
     <tr>
-      <td><%= submission_grade.assignment %></td>
+      <td><%= submission_grade.assignment.name %></td>
       <td><%= submission_grade.student.email %></td>
       <td><%= submission_grade.submission_status %></td>
-      <!--        <td><%#= submission_grade.submission_file %></td>-->
-      <td><%= url_for(submission_grade.submission_file) %></td>
+      <td><%= link_to "Submission File", rails_blob_path(submission_grade.submission_file, disposition: "attachment") %></td>
 
       <td><%= submission_grade.attempt_count %></td>
       <td><%= submission_grade.latest %></td>
       <td><%= submission_grade.mentor.email %></td>
       <td><%= submission_grade.grade_status %></td>
       <td><%= submission_grade.graded_rubric %></td>
-<!--      <td><%#= submission_grade.graded_file %></td>-->
-      <td><%= url_for(submission_grade.graded_file) %></td>
+      <td><%= link_to "Graded File", rails_blob_path(submission_grade.graded_file, disposition: "attachment") %></td>
       <td><%= submission_grade.point %></td>
       <td><%= link_to 'Show', submission_grade %></td>
       <td><%= link_to 'Edit', edit_submission_grade_path(submission_grade) %></td>
