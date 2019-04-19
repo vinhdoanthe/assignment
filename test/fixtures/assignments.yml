@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  start_date: 2019-04-18
+  end_date: 2019-04-18
+  point: 9.99
+  course_instance: one
+  status: MyString
+  max_attempt: 1
+
+two:
+  name: MyString
+  start_date: 2019-04-18
+  end_date: 2019-04-18
+  point: 9.99
+  course_instance: two
+  status: MyString
+  max_attempt: 1

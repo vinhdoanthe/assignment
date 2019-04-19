@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @assignment.name %>
+</p>
+
+<p>
+  <strong>Start date:</strong>
+  <%= @assignment.start_date %>
+</p>
+
+<p>
+  <strong>End date:</strong>
+  <%= @assignment.end_date %>
+</p>
+
+<p>
+  <strong>Point:</strong>
+  <%= @assignment.point %>
+</p>
+
+<p>
+  <strong>Course instance:</strong>
+  <%= @assignment.course_instance %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <%= @assignment.status %>
+</p>
+
+<p>
+  <strong>Max attempt:</strong>
+  <%= @assignment.max_attempt %>
+</p>
+
+<%= link_to 'Edit', edit_assignment_path(@assignment) %> |
+<%= link_to 'Back', assignments_path %>

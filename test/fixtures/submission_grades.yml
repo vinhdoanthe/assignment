@@ -1,0 +1,27 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  assignment: one
+  student: one
+  submission_status: MyString
+  submission_file: one
+  attempt_count: 1
+  latest: false
+  mentor: one
+  grade_status: MyString
+  graded_rubric: one
+  graded_file: one
+  point: 9.99
+
+two:
+  assignment: two
+  student: two
+  submission_status: MyString
+  submission_file: two
+  attempt_count: 1
+  latest: false
+  mentor: two
+  grade_status: MyString
+  graded_rubric: two
+  graded_file: two
+  point: 9.99

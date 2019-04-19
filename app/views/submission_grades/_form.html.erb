@@ -1,0 +1,72 @@
+<%= form_with(model: submission_grade, local: true) do |form| %>
+  <% if submission_grade.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(submission_grade.errors.count, "error") %> prohibited this submission_grade from being saved:</h2>
+
+      <ul>
+      <% submission_grade.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :assignment_id %>
+    <%= form.text_field :assignment_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :student_id %>
+    <%= form.text_field :student_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :submission_status %>
+    <%= form.text_field :submission_status %>
+  </div>
+
+  <div class="field">
+    <%= form.label :submission_file_id %>
+    <%= form.text_field :submission_file_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :attempt_count %>
+    <%= form.number_field :attempt_count %>
+  </div>
+
+  <div class="field">
+    <%= form.label :latest %>
+    <%= form.check_box :latest %>
+  </div>
+
+  <div class="field">
+    <%= form.label :mentor_id %>
+    <%= form.text_field :mentor_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :grade_status %>
+    <%= form.text_field :grade_status %>
+  </div>
+
+  <div class="field">
+    <%= form.label :graded_rubric_id %>
+    <%= form.text_field :graded_rubric_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :graded_file_id %>
+    <%= form.text_field :graded_file_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :point %>
+    <%= form.text_field :point %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

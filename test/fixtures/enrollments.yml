@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  course_instance: one
+  start_date: 2019-04-18
+  end_date: 2019-04-18
+  is_active: false
+
+two:
+  user: two
+  course_instance: two
+  start_date: 2019-04-18
+  end_date: 2019-04-18
+  is_active: false

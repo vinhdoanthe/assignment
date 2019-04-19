@@ -1,0 +1,47 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Submission Grades</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Assignment</th>
+      <th>Student</th>
+      <th>Submission status</th>
+      <th>Submission file</th>
+      <th>Attempt count</th>
+      <th>Latest</th>
+      <th>Mentor</th>
+      <th>Grade status</th>
+      <th>Graded rubric</th>
+      <th>Graded file</th>
+      <th>Point</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @submission_grades.each do |submission_grade| %>
+      <tr>
+        <td><%= submission_grade.assignment %></td>
+        <td><%= submission_grade.student %></td>
+        <td><%= submission_grade.submission_status %></td>
+        <td><%= submission_grade.submission_file %></td>
+        <td><%= submission_grade.attempt_count %></td>
+        <td><%= submission_grade.latest %></td>
+        <td><%= submission_grade.mentor %></td>
+        <td><%= submission_grade.grade_status %></td>
+        <td><%= submission_grade.graded_rubric %></td>
+        <td><%= submission_grade.graded_file %></td>
+        <td><%= submission_grade.point %></td>
+        <td><%= link_to 'Show', submission_grade %></td>
+        <td><%= link_to 'Edit', edit_submission_grade_path(submission_grade) %></td>
+        <td><%= link_to 'Destroy', submission_grade, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Submission Grade', new_submission_grade_path %>

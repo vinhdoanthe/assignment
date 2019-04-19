@@ -1,0 +1,59 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Assignment:</strong>
+  <%= @submission_grade.assignment %>
+</p>
+
+<p>
+  <strong>Student:</strong>
+  <%= @submission_grade.student %>
+</p>
+
+<p>
+  <strong>Submission status:</strong>
+  <%= @submission_grade.submission_status %>
+</p>
+
+<p>
+  <strong>Submission file:</strong>
+  <%= @submission_grade.submission_file %>
+</p>
+
+<p>
+  <strong>Attempt count:</strong>
+  <%= @submission_grade.attempt_count %>
+</p>
+
+<p>
+  <strong>Latest:</strong>
+  <%= @submission_grade.latest %>
+</p>
+
+<p>
+  <strong>Mentor:</strong>
+  <%= @submission_grade.mentor %>
+</p>
+
+<p>
+  <strong>Grade status:</strong>
+  <%= @submission_grade.grade_status %>
+</p>
+
+<p>
+  <strong>Graded rubric:</strong>
+  <%= @submission_grade.graded_rubric %>
+</p>
+
+<p>
+  <strong>Graded file:</strong>
+  <%= @submission_grade.graded_file %>
+</p>
+
+<p>
+  <strong>Point:</strong>
+  <%= @submission_grade.point %>
+</p>
+
+<%= link_to 'Edit', edit_submission_grade_path(@submission_grade) %> |
+<%= link_to 'Back', submission_grades_path %>
