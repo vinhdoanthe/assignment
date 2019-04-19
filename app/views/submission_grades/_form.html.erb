@@ -27,8 +27,9 @@
   </div>
 
   <div class="field">
-    <%= form.label :submission_file_id %>
-    <%= form.text_field :submission_file_id %>
+    <%= form.label :submission_file %>
+    <%#= form.text_field :submission_file_id %>
+    <%= form.file_field :submission_file %>
   </div>
 
   <div class="field">
@@ -43,7 +44,8 @@
 
   <div class="field">
     <%= form.label :mentor_id %>
-    <%= form.text_field :mentor_id %>
+    <%#= form.text_field :mentor_id %>
+    <%= form.collection_select(:mentor_id, User.all, :id, :email, {:prompt => 'Select a Mentor', :selected => @submission_grade.mentor_id}, {class: 'form-control'}) %>
   </div>
 
   <div class="field">
@@ -57,8 +59,8 @@
   </div>
 
   <div class="field">
-    <%= form.label :graded_file_id %>
-    <%= form.text_field :graded_file_id %>
+    <%= form.label :graded_file %>
+    <%= form.file_field :graded_file %>
   </div>
 
   <div class="field">

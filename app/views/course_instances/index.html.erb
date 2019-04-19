@@ -25,8 +25,8 @@
         <td><%= course_instance.description %></td>
         <td><%= course_instance.start_date %></td>
         <td><%= course_instance.end_date %></td>
-        <td><%= course_instance.program %></td>
-        <td><%= course_instance.course %></td>
+        <td><%= course_instance.program.code %></td>
+        <td><%= course_instance.course.code %></td>
         <td><%= course_instance.status %></td>
         <td><%= link_to 'Show', course_instance %></td>
         <td><%= link_to 'Edit', edit_course_instance_path(course_instance) %></td>

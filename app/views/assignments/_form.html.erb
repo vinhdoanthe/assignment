@@ -32,8 +32,7 @@
   </div>
 
   <div class="field">
-    <%= form.label :course_instance_id %>
-    <%= form.text_field :course_instance_id %>
+      <%= form.collection_select(:course_instance_id, CourseInstance.all, :id, :code, {:prompt => 'Select an Instance', :selected => @assignment.course_instance_id}, {class: 'form-control'}) %>
   </div>
 
   <div class="field">

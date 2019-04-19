@@ -12,13 +12,13 @@
   <% end %>
 
   <div class="field">
-    <%= form.label :assignment_id %>
-    <%= form.text_field :assignment_id %>
+    <%= form.collection_select(:assignment_id, Assignment.all, :id, :name, {:prompt => 'Select an Assignment', :selected => @rubric.assignment_id}, {class: 'form-control'}) %>
+
   </div>
 
   <div class="field">
     <%= form.label :type %>
-    <%= form.number_field :type %>
+    <%= form.number_field :rubric_type %>
   </div>
 
   <div class="field">

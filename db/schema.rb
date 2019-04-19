@@ -10,7 +10,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_19_035742) do
+ActiveRecord::Schema.define(version: 2019_04_19_051108) do
+
+  create_table "active_storage_attachments", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "record_type", null: false
+    t.integer "record_id", null: false
+    t.integer "blob_id", null: false
+    t.datetime "created_at", null: false
+    t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
+    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
+  end
+
+  create_table "active_storage_blobs", force: :cascade do |t|
+    t.string "key", null: false
+    t.string "filename", null: false
+    t.string "content_type"
+    t.text "metadata"
+    t.bigint "byte_size", null: false
+    t.string "checksum", null: false
+    t.datetime "created_at", null: false
+    t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
 
   create_table "assignments", force: :cascade do |t|
     t.string "name"
@@ -128,7 +149,7 @@ ActiveRecord::Schema.define(version: 2019_04_19_035742) do
 
   create_table "rubrics", force: :cascade do |t|
     t.integer "assignment_id"
-    t.integer "type"
+    t.integer "rubric_type"
     t.string "status"
     t.text "cr1_des"
     t.decimal "cr1_score"
@@ -187,22 +208,18 @@ ActiveRecord::Schema.define(version: 2019_04_19_035742) do
     t.integer "assignment_id"
     t.integer "student_id"
     t.string "submission_status"
-    t.integer "submission_file_id"
     t.integer "attempt_count"
     t.boolean "latest"
     t.integer "mentor_id"
     t.string "grade_status"
     t.integer "graded_rubric_id"
-    t.integer "graded_file_id"
     t.decimal "point"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["assignment_id"], name: "index_submission_grades_on_assignment_id"
-    t.index ["graded_file_id"], name: "index_submission_grades_on_graded_file_id"
     t.index ["graded_rubric_id"], name: "index_submission_grades_on_graded_rubric_id"
     t.index ["mentor_id"], name: "index_submission_grades_on_mentor_id"
     t.index ["student_id"], name: "index_submission_grades_on_student_id"
-    t.index ["submission_file_id"], name: "index_submission_grades_on_submission_file_id"
   end
 
   create_table "users", force: :cascade do |t|

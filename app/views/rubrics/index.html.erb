@@ -63,8 +63,8 @@
   <tbody>
     <% @rubrics.each do |rubric| %>
       <tr>
-        <td><%= rubric.assignment %></td>
-        <td><%= rubric.type %></td>
+        <td><%= rubric.assignment.name %></td>
+        <td><%= rubric.rubric_type %></td>
         <td><%= rubric.status %></td>
         <td><%= rubric.cr1_des %></td>
         <td><%= rubric.cr1_score %></td>
