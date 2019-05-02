@@ -4,21 +4,30 @@
       <h2><%= pluralize(enrollment.errors.count, "error") %> prohibited this enrollment from being saved:</h2>
 
       <ul>
-      <% enrollment.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
+        <% enrollment.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
       </ul>
     </div>
   <% end %>
 
   <div class="field">
     <%= form.label :user_id %>
-    <%= form.text_field :user_id %>
+    <% if @enrollment.user.nil? %>
+      <%= form.collection_select(:user_id, User.all, :id, :email, {:prompt => 'Select user'}, {:class => 'form-control'}) %>
+    <% else %>
+      <%= form.collection_select(:user_id, User.all, :id, :email, {:prompt => 'Select user', :selected => @enrollment.user_id}, {:class => 'form-control'}) %>
+    <% end %>
   </div>
 
   <div class="field">
     <%= form.label :course_instance_id %>
-    <%= form.text_field :course_instance_id %>
+    <%#= form.text_field :course_instance_id %>
+    <% if @enrollment.course_instance.nil? %>
+      <%= form.collection_select(:course_instance_id, CourseInstance.where(status: 'active'), :id, :code, {:prompt => 'Choose course instance'}, {:class => 'form-control'}) %>
+    <% else %>
+      <%= form.collection_select(:course_instance_id, CourseInstance.where(status: 'active'), :id, :code, {:prompt => 'Choose course instance', :selected => @enrollment.course_instance_id}, {:class => 'form-control'}) %>
+    <% end %>
   </div>
 
   <div class="field">

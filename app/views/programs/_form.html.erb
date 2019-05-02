@@ -23,7 +23,7 @@
 
   <div class="field">
     <%= form.label :status %>
-    <%= form.text_field :status %>
+    <%= form.collection_select(:status, Program.program_status, :first, :last, {:prompt => 'Select Program Status', :selected => @program.status}, {class: 'form-control'}) %>
   </div>
 
   <div class="actions">

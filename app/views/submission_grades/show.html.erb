@@ -17,7 +17,10 @@
 
 <p>
   <strong>Submission file:</strong>
-<%= link_to "Submission File", rails_blob_path(@submission_grade.submission_file, disposition: "attachment") %>
+  <% if @submission_grade.submission_file.attached? %>
+    <%= link_to "Submission File", rails_blob_path(@submission_grade.submission_file, disposition: "attachment") %>
+  <% else %>
+  <% end %>
 </p>
 
 <p>
@@ -32,13 +35,16 @@
 
 <p>
   <strong>Mentor:</strong>
-  <%= @submission_grade.mentor.email %>
+  <% if @submission_grade.mentor.nil? %>
+  <% else %>
+    <%= @submission_grade.mentor.email %>
+  <% end %>
 </p>
 
-<p>
-  <strong>Grade status:</strong>
-  <%= @submission_grade.grade_status %>
-</p>
+<!--<p>-->
+<!--  <strong>Grade status:</strong>-->
+  <%#= @submission_grade.grade_status %>
+<!--</p>-->
 
 <p>
   <strong>Graded rubric:</strong>
@@ -47,7 +53,10 @@
 
 <p>
   <strong>Graded file:</strong>
-  <%= link_to "Graded File", rails_blob_path(@submission_grade.graded_file, disposition: "attachment") %>
+  <% if @submission_grade.graded_file.attached? %>
+    <%= link_to "Graded File", rails_blob_path(@submission_grade.graded_file, disposition: "attachment") %>
+  <% else %>
+  <% end %>
 </p>
 
 <p>

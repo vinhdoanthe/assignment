@@ -15,6 +15,7 @@ class EnrollmentsController < ApplicationController
   # GET /enrollments/new
   def new
     @enrollment = Enrollment.new
+    @enrollment.is_active = true
   end
 
   # GET /enrollments/1/edit

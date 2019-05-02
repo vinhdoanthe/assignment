@@ -39,6 +39,20 @@
   <strong>Status:</strong>
   <%= @course_instance.status %>
 </p>
+<% if @course_instance.assignments.exists? %>
+  <h2>List of assignments</h2>
+  <% @course_instance.assignments.each do |assignment| %>
+    <p>
+      <%= link_to assignment.name, assignment_path(assignment) %>
+    </p>
+  <% end %>
+<% else %>
+  <p>This instance has no assignment</p>
+<% end %>
+<div class="row">
+  <%= link_to 'Create Assignment', new_assignment_path(:course_instance_id => @course_instance.id), class: 'btn btn-primary' %>
+</div>
 
+<hr>
 <%= link_to 'Edit', edit_course_instance_path(@course_instance) %> |
 <%= link_to 'Back', course_instances_path %>

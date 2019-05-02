@@ -15,12 +15,14 @@
 
   <div>
     <%= f.label :role %>
-    <%= f.text_field :role %>
+    <%#= f.text_field :role %>
+    <%= f.collection_select(:role, User.get_roles, :first, :last, {:prompt => 'Choose role'}) %>
   </div>
 
   <div>
     <%= f.label :status %>
-    <%= f.text_field :status %>
+    <%#= f.text_field :status %>
+    <%= f.collection_select(:role, User.get_statuses, :first, :last, {:prompt => 'Choose status'}) %>
   </div>
 
   <div>

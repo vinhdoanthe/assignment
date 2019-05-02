@@ -9,5 +9,10 @@ Rails.application.routes.draw do
   resources :programs
   resources :courses
   root to: "home#index"
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+
+  get 'get_assignments_by_course_instance/:course_instance_id', to: 'assignments#get_assignments_by_course_instance'
+  get 'my_courses', to: 'course_instances#my_courses'
+  get 'list_assignments_of_course', to: 'course_instances#list_assignments_of_course'
+  get 'active_assignments', to: 'assignments#active_assignments'
+  get 'submissions', to: 'submission_grades#list_latest_submissions'
 end

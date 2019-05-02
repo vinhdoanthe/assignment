@@ -12,7 +12,7 @@
     <th>Attempt count</th>
     <th>Latest</th>
     <th>Mentor</th>
-<!--    <th>Grade status</th>-->
+    <!--    <th>Grade status</th>-->
     <th>Graded rubric</th>
     <th>Graded file</th>
     <th>Point</th>
@@ -21,7 +21,7 @@
   </thead>
 
   <tbody>
-  <% @submission_grades.each do |submission_grade| %>
+  <% submission_grades.each do |submission_grade| %>
     <tr>
       <td><%= submission_grade.assignment.name %></td>
       <td><%= submission_grade.student.email %></td>
@@ -35,7 +35,7 @@
       <td><%= submission_grade.attempt_count %></td>
       <td><%= submission_grade.latest %></td>
       <td><%= submission_grade.mentor.nil? ? "" : submission_grade.mentor.email %></td>
-<!--      <td><%#= submission_grade.grade_status %></td>-->
+      <!--      <td><%#= submission_grade.grade_status %></td>-->
       <td><%= submission_grade.graded_rubric %></td>
       <td>
         <% if submission_grade.graded_file.attached? %>

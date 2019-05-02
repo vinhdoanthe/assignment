@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_19_103904) do
+ActiveRecord::Schema.define(version: 2019_05_02_041949) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -228,7 +228,6 @@ ActiveRecord::Schema.define(version: 2019_04_19_103904) do
     t.integer "attempt_count"
     t.boolean "latest"
     t.integer "mentor_id"
-    t.string "grade_status"
     t.integer "graded_rubric_id"
     t.decimal "point"
     t.datetime "created_at", null: false

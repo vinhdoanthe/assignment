@@ -37,3 +37,11 @@
 
 <%= link_to 'Edit', edit_assignment_path(@assignment) %> |
 <%= link_to 'Back', assignments_path %>
+
+<div class="row">
+  <% if @assignment.rubric.nil? %>
+    <%= link_to "Add rubric", new_rubric_path(:assignment_id => @assignment.id), class: 'btn btn-primary' %>
+  <% else %>
+    <%= link_to "View rubric", rubric_path(@assignment.rubric), class: 'btn btn-secondary' %>
+  <% end %>
+</div>

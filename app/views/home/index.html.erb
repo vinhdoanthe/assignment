@@ -1,12 +1,22 @@
 <div>
-  <ul>
-    <li><%= link_to "Program", programs_path %></li>
-    <li><%= link_to "Course", courses_path %></li>
-    <li><%= link_to "Course Instance", course_instances_path %></li>
-    <li><%= link_to "Assignment", assignments_path %></li>
-    <li><%= link_to "Rubric", rubrics_path %></li>
-    <li><%= link_to "Enrollment", enrollments_path %></li>
-    <li><%= link_to "Submission Grade", submission_grades_path %></li>
-    <li><%= link_to "Graded Rubric", graded_rubrics_path %></li>
- </ul>
+  <% if current_user.admin? %>
+    <!--    Admin home page-->
+    <ul>
+      <li><%= link_to "Program", programs_path %></li>
+      <li><%= link_to "Course", courses_path %></li>
+      <li><%= link_to "Course Instance", course_instances_path %></li>
+      <li><%= link_to "Assignment", assignments_path %></li>
+      <li><%= link_to "Rubric", rubrics_path %></li>
+      <li><%= link_to "Enrollment", enrollments_path %></li>
+      <li><%= link_to "Submission Grade", submission_grades_path %></li>
+      <li><%= link_to "Graded Rubric", graded_rubrics_path %></li>
+      <li><%= link_to "Submissions", submissions_path %></li>
+    </ul>
+  <% elsif current_user.learner? %>
+    <!--Learner home page-->
+    <li><%= link_to "My courses", my_courses_path %></li>
+    <li><%= link_to "My assignments", active_assignments_path(:student_id => current_user.id) %></li>
+  <% else %>
+    <!--Mentor home page-->
+  <% end %>
 </div>

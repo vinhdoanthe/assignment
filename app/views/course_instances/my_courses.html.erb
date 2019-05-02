@@ -1,0 +1,8 @@
+<h2>My courses</h2>
+<div class="container">
+  <% @my_courses.each do |course| %>
+    <div class="row">
+      <div><%= link_to course.code, list_assignments_of_course_path(:instance_id => course.id) %></div>
+    </div>
+  <% end %>
+</div>

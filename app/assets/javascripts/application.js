@@ -14,6 +14,15 @@
 //= require activestorage
 //= require turbolinks
 //= require jquery3
+//= require smart_listing
+//= require best_in_place
+//= require jquery-ui
+//= require best_in_place.jquery-ui
 //= require popper
 //= require bootstrap-sprockets
 //= require_tree .
+
+$(document).ready(function() {
+    /* Activating Best In Place */
+    jQuery(".best_in_place").best_in_place();
+});
