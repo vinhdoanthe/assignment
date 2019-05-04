@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_02_041949) do
+ActiveRecord::Schema.define(version: 2019_05_04_033211) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -74,10 +74,11 @@ ActiveRecord::Schema.define(version: 2019_05_02_041949) do
     t.integer "course_instance_id"
     t.date "start_date"
     t.date "end_date"
-    t.boolean "is_active"
+    t.string "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["course_instance_id"], name: "index_enrollments_on_course_instance_id"
+    t.index ["user_id", "course_instance_id"], name: "index_enrollments_on_user_id_and_course_instance_id", unique: true
     t.index ["user_id"], name: "index_enrollments_on_user_id"
   end
 
@@ -246,13 +247,25 @@ ActiveRecord::Schema.define(version: 2019_05_02_041949) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "type"
     t.string "role"
     t.string "status"
     t.string "full_name"
     t.string "funid"
+    t.string "username"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["username", "funid"], name: "index_users_on_username_and_funid"
+  end
+
+  create_table "versions", force: :cascade do |t|
+    t.string "item_type", null: false
+    t.integer "item_id", limit: 8, null: false
+    t.string "event", null: false
+    t.string "whodunnit"
+    t.text "object", limit: 1073741823
+    t.datetime "created_at"
+    t.text "object_changes", limit: 1073741823
+    t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
   end
 
 end

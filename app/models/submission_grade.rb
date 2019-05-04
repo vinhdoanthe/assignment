@@ -1,6 +1,9 @@
 class SubmissionGrade < ApplicationRecord
   include SubmissionGradesHelper
+  extend Enumerize
+
   # include Constants
+  has_paper_trail on: [:create, :update, :destroy]
   belongs_to :assignment
   belongs_to :student, :class_name => "User", :foreign_key => "student_id"
   # belongs_to :submission_file
@@ -9,4 +12,9 @@ class SubmissionGrade < ApplicationRecord
   # belongs_to :graded_file
   has_one_attached :submission_file
   has_one_attached :graded_file
+  
+  enumerize :submission_status, in: [Constants::SUBMISSION_GRADE_STATUS_SUBMITTED,
+                                     Constants::SUBMISSION_GRADE_STATUS_ASSIGNED,
+                                     Constants::SUBMISSION_GRADE_STATUS_PASSED,
+                                     Constants::SUBMISSION_GRADE_STATUS_NOTPASSED]
 end

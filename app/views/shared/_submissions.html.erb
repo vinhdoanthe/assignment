@@ -1,0 +1,29 @@
+<div class="container">
+  <% unless submissions.empty? %>
+    <%#= submissions.length %>
+    <table class="table table-striped table-hover">
+      <tr>
+        <th>Status</th>
+        <th>Course instance</th>
+        <th>Assignment</th>
+        <th>Submission</th>
+        <th>Attempts</th>
+        <th>Grade</th>
+        <th>Point</th>
+      </tr>
+      <% submissions.each do |submission| %>
+        <tr>
+          <td><%= submission.submission_status %></td>
+          <td><%= submission.assignment.course_instance.code %></td>
+          <td><%= submission.assignment.name %></td>
+          <td><%= (submission.submission_file.attached?) ? link_to("Submission",rails_blob_path(submission.submission_file, disposition: "attachment")) : '' %></td>
+          <td><%= submission.attempt_count %></td>
+          <td></td>
+          <td><%= (submission.submission_status == Constants::SUBMISSION_GRADE_STATUS_SUBMITTED || submission.submission_status == Constants::SUBMISSION_GRADE_STATUS_ASSIGNED) ? 'N/A' : submission.point %></td>
+        </tr>
+      <% end %>
+    </table>
+  <% else %>
+    <p>You have no assigned submissions</p>
+  <% end %>
+</div>

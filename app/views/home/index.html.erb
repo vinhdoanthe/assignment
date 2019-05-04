@@ -10,13 +10,15 @@
       <li><%= link_to "Enrollment", enrollments_path %></li>
       <li><%= link_to "Submission Grade", submission_grades_path %></li>
       <li><%= link_to "Graded Rubric", graded_rubrics_path %></li>
-      <li><%= link_to "Submissions", submissions_path %></li>
     </ul>
   <% elsif current_user.learner? %>
     <!--Learner home page-->
     <li><%= link_to "My courses", my_courses_path %></li>
-    <li><%= link_to "My assignments", active_assignments_path(:student_id => current_user.id) %></li>
-  <% else %>
+    <li><%= link_to "My assignments", active_assignments_path %></li>
+  <% elsif current_user.mentor? %>
     <!--Mentor home page-->
+    <%= link_to "Assigned submissions", assigned_submissions_path %>
+  <% else %>
+<!--  Some thing to-do here-->
   <% end %>
 </div>

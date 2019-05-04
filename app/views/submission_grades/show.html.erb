@@ -1,68 +1,73 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Assignment:</strong>
-  <%= @submission_grade.assignment.name %>
-</p>
+<div>
+  <table class='table'>
+    <tr>
+      <th>Assignment:</th>
+      <td> <%= @submission_grade.assignment.name %></td>
+    </tr>
+    <tr>
+      <th>Course instance:</th>
+      <td><%= @submission_grade.assignment.course_instance.code %></td>
+    </tr>
+    <tr>
+      <th>Student:</th>
+      <td><%= @submission_grade.student.email %></td>
+    </tr>
+    <tr>
+      <th>Submission status:</th>
+      <td><%= @submission_grade.submission_status %></td>
+    </tr>
+    <tr>
+      <th>Submission file:</th>
+      <td>
+        <% if @submission_grade.submission_file.attached? %>
+          <%= link_to "Submission File", rails_blob_path(@submission_grade.submission_file, disposition: "attachment") %>
+        <% else %>
+        <% end %>
+      </td>
+    </tr>
+    <tr>
+      <th>Attempt count:</th>
+      <td><%= @submission_grade.attempt_count %></td>
+    </tr>
+    <tr>
+      <th>Mentor:</th>
+      <td>
+        <% if @submission_grade.mentor.nil? %>
+        <% else %>
+          <%= @submission_grade.mentor.email %>
+        <% end %>
+      </td>
+    </tr>
+    <tr>
+      <th>Graded rubric:</th>
+      <td><%= @submission_grade.graded_rubric %></td>
+    </tr>
 
-<p>
-  <strong>Student:</strong>
-  <%= @submission_grade.student.email %>
-</p>
+    <tr>
+      <th>Graded file:</th>
+      <td>
+        <% if @submission_grade.graded_file.attached? %>
+          <%= link_to "Graded File", rails_blob_path(@submission_grade.graded_file, disposition: "attachment") %>
+        <% else %>
+        <% end %>
+      </td>
+    </tr>
 
-<p>
-  <strong>Submission status:</strong>
-  <%= @submission_grade.submission_status %>
-</p>
+    <tr>
+      <th>Point:</th>
+      <td><%= (@submission_grade.submission_status == Constants::SUBMISSION_GRADE_STATUS_ASSIGNED or @submission_grade.submission_status == Constants::SUBMISSION_GRADE_STATUS_SUBMITTED) ? 'N/A' : @submission_grade.point %></td>
+    </tr>
+  </table>
+</div>
 
-<p>
-  <strong>Submission file:</strong>
-  <% if @submission_grade.submission_file.attached? %>
-    <%= link_to "Submission File", rails_blob_path(@submission_grade.submission_file, disposition: "attachment") %>
-  <% else %>
-  <% end %>
-</p>
+<% if current_user.learner? %>
+  <%= link_to("Back", active_assignments_path).html_safe %>
+<% elsif current_user.mentor? %>
 
-<p>
-  <strong>Attempt count:</strong>
-  <%= @submission_grade.attempt_count %>
-</p>
+<% elsif current_user.admin? %>
 
-<p>
-  <strong>Latest:</strong>
-  <%= @submission_grade.latest %>
-</p>
+<% else %>
 
-<p>
-  <strong>Mentor:</strong>
-  <% if @submission_grade.mentor.nil? %>
-  <% else %>
-    <%= @submission_grade.mentor.email %>
-  <% end %>
-</p>
-
-<!--<p>-->
-<!--  <strong>Grade status:</strong>-->
-  <%#= @submission_grade.grade_status %>
-<!--</p>-->
-
-<p>
-  <strong>Graded rubric:</strong>
-  <%= @submission_grade.graded_rubric %>
-</p>
-
-<p>
-  <strong>Graded file:</strong>
-  <% if @submission_grade.graded_file.attached? %>
-    <%= link_to "Graded File", rails_blob_path(@submission_grade.graded_file, disposition: "attachment") %>
-  <% else %>
-  <% end %>
-</p>
-
-<p>
-  <strong>Point:</strong>
-  <%= @submission_grade.point %>
-</p>
-
-<%= link_to 'Edit', edit_submission_grade_path(@submission_grade) %> |
-<%= link_to 'Back', submission_grades_path %>
+<% end %>

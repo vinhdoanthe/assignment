@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
-  resources :submission_grades
+  mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
+  resources :submission_grades do
+    post 'assign_mentor', :on => :collection
+  end
   resources :enrollments
   devise_for :users
   resources :graded_rubrics
@@ -14,5 +17,5 @@ Rails.application.routes.draw do
   get 'my_courses', to: 'course_instances#my_courses'
   get 'list_assignments_of_course', to: 'course_instances#list_assignments_of_course'
   get 'active_assignments', to: 'assignments#active_assignments'
-  get 'submissions', to: 'submission_grades#list_latest_submissions'
+  get 'assigned_submissions', to: 'submission_grades#assigned_submissions'
 end

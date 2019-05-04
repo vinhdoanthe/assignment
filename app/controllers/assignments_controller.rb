@@ -1,5 +1,5 @@
 class AssignmentsController < ApplicationController
-  include Constants
+  # include Constants
   include AssignmentsHelper
 
   before_action :set_assignment, only: [:show, :edit, :update, :destroy]
@@ -17,23 +17,19 @@ class AssignmentsController < ApplicationController
   end
 
   def active_assignments
-    if params[:student_id].present?
-      if validate_access_active_assignments?(params[:student_id])
-        active_enrollments = Enrollment.where(:user_id => params[:student_id], :is_active => true)
-        active_instances = []
-        active_enrollments.each do |enrollment|
-          active_instances.append(enrollment.course_instance)
-        end
-        active_instances = active_instances.select {|instance| instance.status == Constants::COURSE_INSTANCE_STATUS_ACTIVE}
-        @active_assignments = []
-        active_instances.each do |instance|
-          @active_assignments = @active_assignments + instance.assignments
-        end
-      else
-        flash[:notice] = 'You do not have permission to take this action!'
-        redirect_to root_path
+    if validate_access_active_assignments?(current_user.id)
+      active_enrollments = Enrollment.where(:user_id => current_user.id, :status => Constants::ENROLLMENT_STATUS_ACTIVE)
+      active_instances = []
+      active_enrollments.each do |enrollment|
+        active_instances.append(enrollment.course_instance)
+      end
+      active_instances = active_instances.select {|instance| instance.status == Constants::COURSE_INSTANCE_STATUS_ACTIVE}
+      @active_assignments = []
+      active_instances.each do |instance|
+        @active_assignments += instance.assignments
       end
     else
+      flash[:notice] = 'You do not have permission to take this action!'
       redirect_to root_path
     end
   end

@@ -16,7 +16,30 @@ module Constants
   USER_ROLE_MENTOR = 'mentor'
   USER_ROLE_LEARNER = 'learner'
 
+  # user statuses
+  USER_STATUS_ACTIVE = 'active'
+  USER_STATUS_INACTIVE = 'inactive'
+
   # assignment statuses
   ASSIGNMENT_STATUS_ACTIVE = 'active'
   ASSIGNMENT_STATUS_INACTIVE = 'inactive'
+
+  # enrollment statuses
+  ENROLLMENT_STATUS_ACTIVE = 'active'
+  ENROLLMENT_STATUS_PENDING = 'pending'
+  ENROLLMENT_STATUS_UNENROLL = 'unenroll'
+  ENROLLMENT_STATUS_COMPLETED = 'completed'
+  ENROLLMENT_STATUS_STOPPED = 'stopped'
+
+  # program statuses
+  PROGRAM_STATUS_ACTIVE = 'active'
+  PROGRAM_STATUS_INACTIVE = 'inactive'
+
+  # course statuses
+  COURSE_STATUS_ACTIVE = 'active'
+  COURSE_STATUS_INACTIVE = 'inactive'
+
+  # rubric statuses
+  RUBRIC_STATUS_ACTIVE = 'active'
+  RUBRIC_STATUS_INACTIVE = 'inactive'
 end

@@ -1,15 +1,29 @@
 class CourseInstance < ApplicationRecord
-  belongs_to :program
-  belongs_to :course
-  has_many :assignments
+  extend Enumerize
+  include Constants
+
   validate :validate_constraints
+  validates :code, presence: true, uniqueness: {case_sensitive: false, message: 'Code can not be duplicated!!!'}
+  validates :name, presence: true
+
+  belongs_to :program, :inverse_of => :course_instances
+  belongs_to :course, :inverse_of => :course_instances
+  has_many :assignments
+
+  enumerize :status, in: [Constants::COURSE_INSTANCE_STATUS_ACTIVE,
+                          Constants::COURSE_INSTANCE_STATUS_DEVELOPING,
+                          COURSE_INSTANCE_STATUS_INACTIVE]
+
+  def display_name
+    "#{code}"
+  end
 
   class << self
-    def course_instance_status
-      statuses = {
-          'developing' => 'developing',
-          'active' => 'active',
-          'inactive' => 'inactive'
+    def statuses
+      {
+          Constants::COURSE_INSTANCE_STATUS_ACTIVE => Constants::COURSE_INSTANCE_STATUS_ACTIVE,
+          Constants::COURSE_INSTANCE_STATUS_DEVELOPING => Constants::COURSE_INSTANCE_STATUS_DEVELOPING,
+          Constants::COURSE_INSTANCE_STATUS_INACTIVE => Constants::COURSE_INSTANCE_STATUS_INACTIVE
       }
     end
   end

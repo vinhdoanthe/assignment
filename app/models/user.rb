@@ -1,5 +1,7 @@
 class User < ApplicationRecord
   include Constants
+  extend Enumerize
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -9,6 +11,9 @@ class User < ApplicationRecord
   has_many :course_instances, through: :enrollments
   has_many :submission_grades, :foreign_key => :student_id
 
+  def display_name
+    "#{username}"
+  end
   def admin?
     self.role == Constants::USER_ROLE_ADMIN
   end
@@ -21,9 +26,11 @@ class User < ApplicationRecord
     self.role == Constants::USER_ROLE_MENTOR
   end
 
+  enumerize :role, in: [Constants::USER_ROLE_ADMIN, Constants::USER_ROLE_MENTOR, Constants::USER_ROLE_LEARNER]
+  enumerize :status, in: [Constants::USER_STATUS_ACTIVE, Constants::USER_STATUS_INACTIVE]
   class << self
     def get_roles
-      roles = {
+      {
           Constants::USER_ROLE_ADMIN => Constants::USER_ROLE_ADMIN,
           Constants::USER_ROLE_MENTOR => Constants::USER_ROLE_MENTOR,
           Constants::USER_ROLE_LEARNER => Constants::USER_ROLE_LEARNER
@@ -31,9 +38,9 @@ class User < ApplicationRecord
     end
 
     def get_statuses
-      statuses = {
-          'active' => 'active',
-          'inactive' => 'inactive'
+      {
+          Constants::USER_STATUS_ACTIVE => Constants::USER_STATUS_ACTIVE,
+          Constants::USER_STATUS_INACTIVE => Constants::USER_STATUS_INACTIVE
       }
     end
   end
