@@ -5,12 +5,13 @@ class SubmissionGradesController < ApplicationController
   include SubmissionGradesHelper
   include SmartListing::Helper::ControllerExtensions
   helper SmartListing::Helper
-  before_action :set_submission_grade, only: %i[show edit update destroy]
-  before_action :authorized_admin!, only: %i[edit update destroy index]
-  before_action :authorized_owner!, only: [:show]
+  before_action :set_submission_grade, only: %i[show edit destroy]
+  before_action :authorized_admin!, only: %i[edit destroy index]
+  before_action :authorized_permission!, only: %i[show edit update destroy]
   after_action :attach_file, only: %i[create update]
   before_action :purge_file, only: [:destroy]
-  before_action :update_latest, only: [:create]
+  # before_action :update_latest, only: [:create]
+  before_action :set_submission_grade, :update_latest, only: [:update]
   before_action :authorized_granted!, only: [:assigned_submissions]
   # before_action :change_submission_status, only: [:update]
   # GET /submission_grades
@@ -20,7 +21,37 @@ class SubmissionGradesController < ApplicationController
   end
 
   def assigned_submissions
-    @assigned_submissions = SubmissionGrade.where(mentor_id: current_user.id, submission_status: SUBMISSION_GRADE_STATUS_ASSIGNED, latest: true)
+    @assigned_submissions = SubmissionGrade.where(mentor_id: current_user.id, submission_status: SUBMISSION_GRADE_STATUS_ASSIGNED, latest: true).or(SubmissionGrade.where(mentor_id: current_user.id, submission_status: SUBMISSION_GRADE_STATUS_SUBMITTED, latest: true))
+  end
+
+  def grade
+    if params[:submission_id].present?
+      @submission_grade = SubmissionGrade.find(params[:submission_id])
+      authorized_permission!
+    else
+      flash[:notice] = "Submission does not existed!"
+      redirect_to root_path
+    end
+  end
+
+  def update_grade
+    @submission_grade = SubmissionGrade.find(params[:submission_id])
+    authorized_permission!
+    @submission_grade.point = params[:submission_grade][:point]
+    if @submission_grade.point < 8
+      @submission_grade.submission_status = Constants::SUBMISSION_GRADE_STATUS_NOTPASSED
+    else
+      @submission_grade.submission_status = Constants::SUBMISSION_GRADE_STATUS_PASSED
+    end
+    respond_to do |format|
+      if @submission_grade.save
+        format.html {redirect_to @submission_grade, notice: 'Submission grade was successfully created.'}
+        format.json {render :show, status: :created, location: @submission_grade}
+      else
+        format.html {render :new}
+        format.json {render json: @submission_grade.errors, status: :unprocessable_entity}
+      end
+    end
   end
 
   # def assign_mentor
@@ -34,7 +65,8 @@ class SubmissionGradesController < ApplicationController
 
   # GET /submission_grades/1
   # GET /submission_grades/1.json
-  def show; end
+  def show;
+  end
 
   # GET /submission_grades/new
   def new
@@ -46,7 +78,8 @@ class SubmissionGradesController < ApplicationController
   end
 
   # GET /submission_grades/1/edit
-  def edit; end
+  def edit;
+  end
 
   # POST /submission_grades
   # POST /submission_grades.json
@@ -56,11 +89,11 @@ class SubmissionGradesController < ApplicationController
       @submission_grade.attempt_count = find_attempt_count(@submission_grade.assignment_id, current_user.id)
       respond_to do |format|
         if @submission_grade.save
-          format.html { redirect_to @submission_grade, notice: 'Submission grade was successfully created.' }
-          format.json { render :show, status: :created, location: @submission_grade }
+          format.html {redirect_to @submission_grade, notice: 'Submission grade was successfully created.'}
+          format.json {render :show, status: :created, location: @submission_grade}
         else
-          format.html { render :new }
-          format.json { render json: @submission_grade.errors, status: :unprocessable_entity }
+          format.html {render :new}
+          format.json {render json: @submission_grade.errors, status: :unprocessable_entity}
         end
       end
     else
@@ -74,11 +107,11 @@ class SubmissionGradesController < ApplicationController
   def update
     respond_to do |format|
       if @submission_grade.update(submission_grade_params)
-        format.html { redirect_to @submission_grade, notice: 'Submission grade was successfully updated.' }
-        format.json { render :show, status: :ok, location: @submission_grade }
+        format.html {redirect_to @submission_grade, notice: 'Submission grade was successfully updated.'}
+        format.json {render :show, status: :ok, location: @submission_grade}
       else
-        format.html { render :edit }
-        format.json { render json: @submission_grade.errors, status: :unprocessable_entity }
+        format.html {render :edit}
+        format.json {render json: @submission_grade.errors, status: :unprocessable_entity}
       end
     end
   end
@@ -88,8 +121,8 @@ class SubmissionGradesController < ApplicationController
   def destroy
     @submission_grade.destroy
     respond_to do |format|
-      format.html { redirect_to submission_grades_url, notice: 'Submission grade was successfully destroyed.' }
-      format.json { head :no_content }
+      format.html {redirect_to submission_grades_url, notice: 'Submission grade was successfully destroyed.'}
+      format.json {head :no_content}
     end
   end
 
@@ -123,13 +156,22 @@ class SubmissionGradesController < ApplicationController
     end
   end
 
-  def authorized_owner!
-    if current_user.submission_grades.include?(@submission_grade)
+  def authorized_permission!
+    if current_user.learner?
+      if current_user.submission_grades.include?(@submission_grade)
 
+      else
+        flash.now[:notice] = 'You do not have permission to perform this action'
+        redirect_to root_path
+      end
+    elsif current_user.admin?
+      true
+    elsif current_user.mentor?
+      @submission_grade.mentor_id == current_user.id
     else
-      flash.now[:notice] = 'You do not have permission to perform this action'
-      redirect_to root_path
+
     end
+
   end
 
   def init_submission_grade
@@ -165,6 +207,9 @@ class SubmissionGradesController < ApplicationController
     end
   end
 
+  # def update_grade_params
+  #   params.require(:submission_grade).permit(:point)
+  # end
   # def change_submission_status
   #   before_save_submission = SubmissionGrade.where(student_id: @submission_grade.student_id, assignment_id: @submission_grade.assignment_id, latest: true)
   #

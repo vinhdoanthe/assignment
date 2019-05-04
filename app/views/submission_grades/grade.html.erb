@@ -1,0 +1,122 @@
+<h2>Grade submission</h2>
+<div class="container">
+  <div class="row">
+    <table class='table'>
+      <tr>
+        <th>Assignment:</th>
+        <td> <%= @submission_grade.assignment.name %></td>
+      </tr>
+      <tr>
+        <th>Course instance:</th>
+        <td><%= @submission_grade.assignment.course_instance.code %></td>
+      </tr>
+      <tr>
+        <th>Student:</th>
+        <td><%= @submission_grade.student.email %></td>
+      </tr>
+      <tr>
+        <th>Submission status:</th>
+        <td><%= @submission_grade.submission_status %></td>
+      </tr>
+      <tr>
+        <th>Submission file:</th>
+        <td>
+          <% if @submission_grade.submission_file.attached? %>
+            <%= link_to "Submission File", rails_blob_path(@submission_grade.submission_file, disposition: "attachment") %>
+          <% else %>
+          <% end %>
+        </td>
+      </tr>
+      <tr>
+        <th>Attempt count:</th>
+        <td><%= @submission_grade.attempt_count %></td>
+      </tr>
+    </table>
+  </div>
+  <div class="row">
+    <%= form_for :submission_grade do |form| %>
+      <% if @submission_grade.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(submission_grade.errors.count, "error") %> prohibited this submission_grade from being
+            saved:</h2>
+
+          <ul>
+            <% @submission_grade.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <%= hidden_field_tag :submission_id, @submission_grade.id %>
+<!--      <div class="field" hidden>-->
+        <%#= form.label :assignment_id %>
+        <%#= form.text_field :assignment_id %>
+<!--      </div>-->
+
+<!--      <div class="field">-->
+        <%#= form.label :assignment_code %>
+        <%#= form.text_field :assignment_code, {:value => @submission_grade.assignment.name, :disabled => true} %>
+<!--      </div>-->
+<!--      <div class="field" hidden>-->
+        <%#= form.label :student_id %>
+        <%#= form.text_field :student_id %>
+<!--      </div>-->
+
+<!--      <div class="field">-->
+        <%#= form.label :student_email %>
+        <%#= form.text_field :student_email, {:value => current_user.email, :disabled => true} %>
+<!--      </div>-->
+
+<!--      <div class="field" hidden>-->
+        <%#= form.label :submission_status %>
+        <%#= form.text_field :submission_status %>
+<!--      </div>-->
+
+<!--      <div class="field">-->
+        <%#= form.label :submission_file %>
+        <%# if @submission_grade.submission_file.attached? %>
+<!--          <!--      <p>Had</p>-->-->
+        <%# else %>
+          <%#= form.file_field :submission_file, direct_upload: true %>
+        <%# end %>
+
+<!--      </div>-->
+
+<!--      <div class="field" hidden>-->
+        <%#= form.label :attempt_count %>
+        <%#= form.number_field :attempt_count %>
+<!--      </div>-->
+
+<!--      <div class="field" hidden>-->
+        <%#= form.label :latest %>
+        <%#= form.check_box :latest %>
+<!--      </div>-->
+
+<!--      <div class="field" hidden>-->
+        <%#= form.label :mentor_id %>
+        <%#= form.collection_select(:mentor_id, User.all, :id, :email, {:prompt => 'Select a Mentor', :selected => @submission_grade.mentor_id}, {class: 'form-control'}) %>
+<!--      </div>-->
+
+<!--      <div class="field" hidden>-->
+        <%#= form.label :graded_rubric_id %>
+        <%#= form.text_field :graded_rubric_id %>
+<!--      </div>-->
+
+<!--      <div class="field" hidden>-->
+        <%#= form.label :graded_file %>
+        <%#= form.file_field :graded_file %>
+<!--      </div>-->
+
+      <div class="field">
+        <%= form.label :point %>
+        <%= form.text_field :point %>
+      </div>
+
+      <div class="actions">
+        <%= form.submit "Grade" %>
+      </div>
+    <% end %>
+
+  </div>
+</div>

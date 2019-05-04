@@ -18,4 +18,6 @@ Rails.application.routes.draw do
   get 'list_assignments_of_course', to: 'course_instances#list_assignments_of_course'
   get 'active_assignments', to: 'assignments#active_assignments'
   get 'assigned_submissions', to: 'submission_grades#assigned_submissions'
+  get 'grade_submission', to: 'submission_grades#grade'
+  post 'grade_submission', to: 'submission_grades#update_grade'
 end
