@@ -13,9 +13,14 @@
         <td><%= assignment.name %></td>
         <td><%= assignment.status_of_learner(current_user.id) %></td>
         <% if student_can_submit?(assignment.id, current_user.id) %>
-          <td><%= link_to 'Submit solution', new_submission_grade_path(:assignment => assignment) %></td>
+          <td>
+            <%= link_to 'Submit solution', new_submission_grade_path(:assignment => assignment) %>
+            <% if assignment.status_of_learner(current_user.id) == Constants::SUBMISSION_GRADE_STATUS_NOTPASSED %>
+              | <%= link_to "View", submission_grade_path(get_submission(assignment.id)) %>
+            <% end %>
+          </td>
         <% else %>
-          <td>You submitted solution for this assignment</td>
+          <td><%= link_to "View", submission_grade_path(get_submission(assignment.id)) %></td>
         <% end %>
       </tr>
     <% end %>

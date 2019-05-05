@@ -35,11 +35,11 @@ RailsAdmin.config do |config|
       except ['SubmissionGrade', 'GradedRubric']
     end
     export
-    # bulk_delete
+    bulk_delete
     show
     edit
     delete do
-      except ['SubmissionGrade', 'GradedRubric']
+      except ['GradedRubric']
     end
     # use rails_admin_import gem
     import do

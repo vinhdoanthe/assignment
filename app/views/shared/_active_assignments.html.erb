@@ -22,9 +22,12 @@
           <!--        <th><%#=  %></th>-->
           <td>
             <% if student_can_submit?(assignment.id, current_user.id) %>
-              <div><%= link_to 'Submit solution', new_submission_grade_path(:assignment => assignment), :class => 'btn btn-primary' %></div>
+              <%= link_to 'Submit solution', new_submission_grade_path(:assignment => assignment) %>
+              <% if assignment.status_of_learner(current_user.id) == Constants::SUBMISSION_GRADE_STATUS_NOTPASSED %>
+                | <%= link_to "View", submission_grade_path(get_submission(assignment.id)) %>
+              <% end %>
             <% else %>
-              <div><%= link_to "View", submission_grade_path(get_submission(assignment.id)) %></div>
+              <%= link_to "View", submission_grade_path(get_submission(assignment.id)) %>
             <% end %>
           </td>
         </tr>

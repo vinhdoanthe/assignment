@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_04_033211) do
+ActiveRecord::Schema.define(version: 2019_05_05_021030) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -154,7 +154,25 @@ ActiveRecord::Schema.define(version: 2019_05_04_033211) do
     t.text "cr15_comment"
     t.text "cr16_comment"
     t.text "comment"
+    t.boolean "cr1_passed"
+    t.boolean "cr2_passed"
+    t.boolean "cr3_passed"
+    t.boolean "cr4_passed"
+    t.boolean "cr5_passed"
+    t.boolean "cr6_passed"
+    t.boolean "cr7_passed"
+    t.boolean "cr8_passed"
+    t.boolean "cr9_passed"
+    t.boolean "cr10_passed"
+    t.boolean "cr11_passed"
+    t.boolean "cr12_passed"
+    t.boolean "cr13_passed"
+    t.boolean "cr14_passed"
+    t.boolean "cr15_passed"
+    t.boolean "cr16_passed"
+    t.integer "submission_grade_id"
     t.index ["rubric_id"], name: "index_graded_rubrics_on_rubric_id"
+    t.index ["submission_grade_id"], name: "index_graded_rubrics_on_submission_grade_id"
   end
 
   create_table "programs", force: :cascade do |t|

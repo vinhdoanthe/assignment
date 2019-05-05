@@ -5,14 +5,14 @@ class SubmissionGradesController < ApplicationController
   include SubmissionGradesHelper
   include SmartListing::Helper::ControllerExtensions
   helper SmartListing::Helper
-  before_action :set_submission_grade, only: %i[show edit destroy]
+  before_action :set_submission_grade, :authorized_permission!, only: %i[show edit update destroy]
   before_action :authorized_admin!, only: %i[edit destroy index]
-  before_action :authorized_permission!, only: %i[show edit update destroy]
-  after_action :attach_file, only: %i[create update]
-  before_action :purge_file, only: [:destroy]
-  # before_action :update_latest, only: [:create]
-  before_action :set_submission_grade, :update_latest, only: [:update]
   before_action :authorized_granted!, only: [:assigned_submissions]
+  after_action :attach_file, only: %i[create update]
+  # before_action :authorized_permission!, only: %i[show edit update destroy]
+  # before_action :purge_file, only: [:destroy]
+  # before_action :update_latest, only: [:create]
+  # before_action :set_submission_grade, :update_latest, only: [:update]
   # before_action :change_submission_status, only: [:update]
   # GET /submission_grades
   # GET /submission_grades.json
@@ -28,6 +28,13 @@ class SubmissionGradesController < ApplicationController
     if params[:submission_id].present?
       @submission_grade = SubmissionGrade.find(params[:submission_id])
       authorized_permission!
+      prev_submission = SubmissionGrade.where(:student_id => @submission_grade.student_id, :assignment_id => @submission_grade.assignment_id, :attempt_count => @submission_grade.attempt_count - 1).first
+      unless prev_submission.nil?
+        @prev_graded_rubric = prev_submission.graded_rubric
+      else
+        @prev_graded_rubric = GradedRubric.new(:rubric_id => @submission_grade.assignment.rubric.id)
+      end
+      @rubric_template = @submission_grade.assignment.rubric
     else
       flash[:notice] = "Submission does not existed!"
       redirect_to root_path
@@ -89,6 +96,9 @@ class SubmissionGradesController < ApplicationController
       @submission_grade.attempt_count = find_attempt_count(@submission_grade.assignment_id, current_user.id)
       respond_to do |format|
         if @submission_grade.save
+          unless @submission_grade.attempt_count == 1
+            update_latest
+          end
           format.html {redirect_to @submission_grade, notice: 'Submission grade was successfully created.'}
           format.json {render :show, status: :created, location: @submission_grade}
         else
@@ -119,6 +129,7 @@ class SubmissionGradesController < ApplicationController
   # DELETE /submission_grades/1
   # DELETE /submission_grades/1.json
   def destroy
+    purge_file
     @submission_grade.destroy
     respond_to do |format|
       format.html {redirect_to submission_grades_url, notice: 'Submission grade was successfully destroyed.'}
@@ -140,8 +151,12 @@ class SubmissionGradesController < ApplicationController
   end
 
   def attach_file
-    @submission_grade.submission_file.attach(params[:submission_file])
-    @submission_grade.graded_file.attach(params[:graded_file])
+    unless @submission_grade.submission_file.attached?
+      @submission_grade.submission_file.attach(params[:submission_file])
+    end
+    unless @submission_grade.graded_file.attached?
+      @submission_grade.graded_file.attach(params[:graded_file])
+    end
   end
 
   def purge_file
@@ -185,8 +200,8 @@ class SubmissionGradesController < ApplicationController
 
   def update_latest
     begin
-      prev_latest = SubmissionGrade.where(student_id: @submission_grade.user_id, assignment_id: @submission_grade.assignment_id, latest: true).first
-    rescue StandardError
+      prev_latest = SubmissionGrade.where(student_id: @submission_grade.student_id, assignment_id: @submission_grade.assignment_id, latest: true).first
+    rescue
       prev_latest = nil
     end
     unless prev_latest.nil?

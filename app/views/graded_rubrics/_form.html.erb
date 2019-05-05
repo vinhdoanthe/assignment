@@ -4,274 +4,87 @@
       <h2><%= pluralize(graded_rubric.errors.count, "error") %> prohibited this graded_rubric from being saved:</h2>
 
       <ul>
-      <% graded_rubric.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
+        <% graded_rubric.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
       </ul>
     </div>
   <% end %>
+  <div class="row col-12">
+    <div class="row col-12">
+      <div class="field">
+        <%= form.label :rubric_id %>
+        <%= form.text_field :rubric_id %>
+      </div>
 
-  <div class="field">
-    <%= form.label :rubric_id %>
-    <%= form.text_field :rubric_id %>
-  </div>
+      <div class="field">
+        <%= form.label :type %>
+        <%= form.number_field :type %>
+      </div>
 
-  <div class="field">
-    <%= form.label :type %>
-    <%= form.number_field :type %>
-  </div>
+      <div class="field">
+        <%= form.label :status %>
+        <%= form.text_field :status %>
+      </div>
+    </div>
 
-  <div class="field">
-    <%= form.label :status %>
-    <%= form.text_field :status %>
-  </div>
-
-  <div class="field">
-    <%= form.label :point %>
-    <%= form.text_field :point %>
-  </div>
-
-  <div class="field">
-    <%= form.label :cr1_des %>
-    <%= form.text_area :cr1_des %>
-  </div>
-
-  <div class="field">
-    <%= form.label :cr1_score %>
-    <%= form.text_field :cr1_score %>
-  </div>
-
-  <div class="field">
-    <%= form.label :cr1_enable %>
-    <%= form.check_box :cr1_enable %>
-  </div>
-
-  <div class="field">
-    <%= form.label :cr2_des %>
-    <%= form.text_area :cr2_des %>
-  </div>
-
-  <div class="field">
-    <%= form.label :cr2_score %>
-    <%= form.text_field :cr2_score %>
-  </div>
-
-  <div class="field">
-    <%= form.label :cr2_enable %>
-    <%= form.check_box :cr2_enable %>
-  </div>
-
-  <div class="field">
-    <%= form.label :cr3_des %>
-    <%= form.text_area :cr3_des %>
-  </div>
-
-  <div class="field">
-    <%= form.label :cr3_score %>
-    <%= form.text_field :cr3_score %>
-  </div>
-
-  <div class="field">
-    <%= form.label :cr3_enable %>
-    <%= form.check_box :cr3_enable %>
-  </div>
-
-  <div class="field">
-    <%= form.label :cr4_des %>
-    <%= form.text_area :cr4_des %>
-  </div>
-
-  <div class="field">
-    <%= form.label :cr4_score %>
-    <%= form.text_field :cr4_score %>
-  </div>
-
-  <div class="field">
-    <%= form.label :cr4_enable %>
-    <%= form.check_box :cr4_enable %>
-  </div>
-
-  <div class="field">
-    <%= form.label :cr5_des %>
-    <%= form.text_area :cr5_des %>
-  </div>
-
-  <div class="field">
-    <%= form.label :cr5_score %>
-    <%= form.text_field :cr5_score %>
-  </div>
-
-  <div class="field">
-    <%= form.label :cr5_enable %>
-    <%= form.check_box :cr5_enable %>
-  </div>
-
-  <div class="field">
-    <%= form.label :cr6_des %>
-    <%= form.text_area :cr6_des %>
-  </div>
-
-  <div class="field">
-    <%= form.label :cr6_score %>
-    <%= form.text_field :cr6_score %>
-  </div>
-
-  <div class="field">
-    <%= form.label :cr6_enable %>
-    <%= form.check_box :cr6_enable %>
-  </div>
-
-  <div class="field">
-    <%= form.label :cr7_des %>
-    <%= form.text_area :cr7_des %>
-  </div>
-
-  <div class="field">
-    <%= form.label :cr7_score %>
-    <%= form.text_field :cr7_score %>
-  </div>
-
-  <div class="field">
-    <%= form.label :cr7_enable %>
-    <%= form.check_box :cr7_enable %>
-  </div>
-
-  <div class="field">
-    <%= form.label :cr8_des %>
-    <%= form.text_area :cr8_des %>
-  </div>
-
-  <div class="field">
-    <%= form.label :cr8_score %>
-    <%= form.text_field :cr8_score %>
-  </div>
-
-  <div class="field">
-    <%= form.label :cr8_enable %>
-    <%= form.check_box :cr8_enable %>
-  </div>
-
-  <div class="field">
-    <%= form.label :cr9_des %>
-    <%= form.text_area :cr9_des %>
-  </div>
-
-  <div class="field">
-    <%= form.label :cr9_score %>
-    <%= form.text_field :cr9_score %>
-  </div>
-
-  <div class="field">
-    <%= form.label :cr9_enable %>
-    <%= form.check_box :cr9_enable %>
-  </div>
-
-  <div class="field">
-    <%= form.label :cr10_des %>
-    <%= form.text_area :cr10_des %>
-  </div>
-
-  <div class="field">
-    <%= form.label :cr10_score %>
-    <%= form.text_field :cr10_score %>
-  </div>
-
-  <div class="field">
-    <%= form.label :cr10_enable %>
-    <%= form.check_box :cr10_enable %>
-  </div>
-
-  <div class="field">
-    <%= form.label :cr11_des %>
-    <%= form.text_area :cr11_des %>
-  </div>
-
-  <div class="field">
-    <%= form.label :cr11_score %>
-    <%= form.text_field :cr11_score %>
-  </div>
-
-  <div class="field">
-    <%= form.label :cr11_enable %>
-    <%= form.check_box :cr11_enable %>
-  </div>
-
-  <div class="field">
-    <%= form.label :cr12_des %>
-    <%= form.text_area :cr12_des %>
-  </div>
-
-  <div class="field">
-    <%= form.label :cr12_score %>
-    <%= form.text_field :cr12_score %>
-  </div>
-
-  <div class="field">
-    <%= form.label :cr12_enable %>
-    <%= form.check_box :cr12_enable %>
-  </div>
-
-  <div class="field">
-    <%= form.label :cr13_des %>
-    <%= form.text_area :cr13_des %>
-  </div>
-
-  <div class="field">
-    <%= form.label :cr13_score %>
-    <%= form.text_field :cr13_score %>
-  </div>
-
-  <div class="field">
-    <%= form.label :cr13_enable %>
-    <%= form.check_box :cr13_enable %>
-  </div>
-
-  <div class="field">
-    <%= form.label :cr14_des %>
-    <%= form.text_area :cr14_des %>
-  </div>
-
-  <div class="field">
-    <%= form.label :cr14_score %>
-    <%= form.text_field :cr14_score %>
-  </div>
-
-  <div class="field">
-    <%= form.label :cr14_enable %>
-    <%= form.check_box :cr14_enable %>
-  </div>
-
-  <div class="field">
-    <%= form.label :cr15_des %>
-    <%= form.text_area :cr15_des %>
-  </div>
-
-  <div class="field">
-    <%= form.label :cr15_score %>
-    <%= form.text_field :cr15_score %>
-  </div>
-
-  <div class="field">
-    <%= form.label :cr15_enable %>
-    <%= form.check_box :cr15_enable %>
-  </div>
-
-  <div class="field">
-    <%= form.label :cr16_des %>
-    <%= form.text_area :cr16_des %>
-  </div>
-
-  <div class="field">
-    <%= form.label :cr16_score %>
-    <%= form.text_field :cr16_score %>
-  </div>
-
-  <div class="field">
-    <%= form.label :cr16_enable %>
-    <%= form.check_box :cr16_enable %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
+    <div class="row col-12">
+      <table class="table">
+        <tr>
+          <th> #</th>
+          <th> Description</th>
+          <th> Pass?</th>
+          <th> Comment</th>
+        </tr>
+        <tr>
+          <% if rubric_template.cr1_enable %>
+            <th>1</th>
+            <td>
+              <%= rubric_template.cr1_des  %>
+            </td>
+            <td><%= form.check_box :cr1_passed %></td>
+            <td class="field">
+              <%= form.text_area :cr1_comment %>
+            </td>
+          <% end %>
+        </tr>
+        <tr>
+          <% if rubric_template.cr2_enable %>
+            <th>2</th>
+            <td>
+              <%= rubric_template.cr2_des  %>
+            </td>
+            <td><%= form.check_box :cr2_passed %></td>
+            <td class="field">
+              <%= form.text_area :cr2_comment %>
+            </td>
+          <% end %>
+        </tr>
+        <tr>
+          <% if rubric_template.cr3_enable %>
+            <th>3</th>
+            <td>
+              <%= rubric_template.cr3_des  %>
+            </td>
+            <td><%= form.check_box :cr3_passed %></td>
+            <td class="field">
+              <%= form.text_area :cr3_comment %>
+            </td>
+          <% end %>
+        </tr>
+        <tr>
+          <% if rubric_template.cr4_enable %>
+            <th>4</th>
+            <td>
+              <%= rubric_template.cr4_des  %>
+            </td>
+            <td><%= form.check_box :cr4_passed %></td>
+            <td class="field">
+              <%= form.text_area :cr4_comment %>
+            </td>
+          <% end %>
+        </tr>
+      </table>
+    </div>
   </div>
 <% end %>

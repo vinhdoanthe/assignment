@@ -49,72 +49,22 @@
       <% end %>
 
       <%= hidden_field_tag :submission_id, @submission_grade.id %>
-<!--      <div class="field" hidden>-->
-        <%#= form.label :assignment_id %>
-        <%#= form.text_field :assignment_id %>
-<!--      </div>-->
 
-<!--      <div class="field">-->
-        <%#= form.label :assignment_code %>
-        <%#= form.text_field :assignment_code, {:value => @submission_grade.assignment.name, :disabled => true} %>
-<!--      </div>-->
-<!--      <div class="field" hidden>-->
-        <%#= form.label :student_id %>
-        <%#= form.text_field :student_id %>
-<!--      </div>-->
-
-<!--      <div class="field">-->
-        <%#= form.label :student_email %>
-        <%#= form.text_field :student_email, {:value => current_user.email, :disabled => true} %>
-<!--      </div>-->
-
-<!--      <div class="field" hidden>-->
-        <%#= form.label :submission_status %>
-        <%#= form.text_field :submission_status %>
-<!--      </div>-->
-
-<!--      <div class="field">-->
-        <%#= form.label :submission_file %>
-        <%# if @submission_grade.submission_file.attached? %>
-<!--          <!--      <p>Had</p>-->-->
-        <%# else %>
-          <%#= form.file_field :submission_file, direct_upload: true %>
-        <%# end %>
-
-<!--      </div>-->
-
-<!--      <div class="field" hidden>-->
-        <%#= form.label :attempt_count %>
-        <%#= form.number_field :attempt_count %>
-<!--      </div>-->
-
-<!--      <div class="field" hidden>-->
-        <%#= form.label :latest %>
-        <%#= form.check_box :latest %>
-<!--      </div>-->
-
-<!--      <div class="field" hidden>-->
-        <%#= form.label :mentor_id %>
-        <%#= form.collection_select(:mentor_id, User.all, :id, :email, {:prompt => 'Select a Mentor', :selected => @submission_grade.mentor_id}, {class: 'form-control'}) %>
-<!--      </div>-->
-
-<!--      <div class="field" hidden>-->
-        <%#= form.label :graded_rubric_id %>
-        <%#= form.text_field :graded_rubric_id %>
-<!--      </div>-->
-
-<!--      <div class="field" hidden>-->
-        <%#= form.label :graded_file %>
-        <%#= form.file_field :graded_file %>
-<!--      </div>-->
-
-      <div class="field">
-        <%= form.label :point %>
-        <%= form.text_field :point %>
-      </div>
-
-      <div class="actions">
-        <%= form.submit "Grade" %>
+      <% if @submission_grade.assignment.rubric.nil? %>
+        <div class="field">
+          <%= form.label :point %>
+          <%= form.text_field :point %>
+        </div>
+      <% else %>
+        <div class="row">
+          <%= render :partial => 'graded_rubrics/form', :locals => {:graded_rubric => @prev_graded_rubric, :rubric_template => @rubric_template} %>
+        </div>
+      <% end %>
+      <div class="row">
+        <div class="actions">
+          <%= link_to "Back", :back, :class => 'btn btn-secondary' %>
+          <%= form.submit "Grade", :class => 'btn btn-primary' %>
+        </div>
       </div>
     <% end %>
 
