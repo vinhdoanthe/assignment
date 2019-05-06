@@ -6,9 +6,18 @@ class ApplicationController < ActionController::Base
   before_action :set_paper_trail_whodunnit
 
   protected
+
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up) {|u| u.permit(:name, :email, :password)}
 
     devise_parameter_sanitizer.permit(:account_update) {|u| u.permit(:full_name, :role, :status, :funid, :email, :password, :current_password)}
   end
+
+  def require_admin!
+    unless current_user.admin?
+      flash[:notice] = "You do not have permission to take this action"
+      redirect_to root_path
+    end
+  end
+
 end

@@ -119,6 +119,7 @@ RailsAdmin.config do |config|
 
   config.model GradedRubric do
     parent SubmissionGrade
+    object_label_method :display_name
   end
 
   config.model CourseInstance do
@@ -133,5 +134,18 @@ RailsAdmin.config do |config|
 
   config.model Rubric do
     parent Assignment
+    object_label_method :display_name
   end
+
+  config.model CriteriaFormat do
+    parent Rubric
+    object_label_method :display_name
+    visible false
+  end
+
+  config.model GradedCriterium do
+    parent GradedRubric
+    visible false
+  end
+
 end

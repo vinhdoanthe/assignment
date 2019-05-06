@@ -39,9 +39,9 @@
   <div class="field">
     <%= form.label :submission_file %>
     <% if @submission_grade.submission_file.attached? %>
-<!--      <p>Had</p>-->
+      <%= link_to "Submission File", rails_blob_path(@submission_grade.submission_file, disposition: "attachment") %>
     <% else %>
-      <%= form.file_field :submission_file, direct_upload: true %>
+      <%= form.file_field :submission_file, direct_upload: true, :required => true %>
     <% end %>
 
   </div>

@@ -7,16 +7,14 @@ class Assignment < ApplicationRecord
 
   belongs_to :course_instance
   has_one :rubric, :dependent => :destroy, :inverse_of => :assignment
-  # attr_accessible :rubric_attributes
-  # accepts_nested_attributes_for :rubric, :allow_destroy => true
-
   has_paper_trail on: [:create, :update, :destroy]
+  has_many :criteria_formats, :through => :rubric
 
   enumerize :status, in: [Constants::ASSIGNMENT_STATUS_ACTIVE,
                           Constants::ASSIGNMENT_STATUS_INACTIVE]
 
   def display_name
-    "#{self.course_instance.nil?? '' : self.course_instance.code} - #{self.name}"
+    "#{self.course_instance.nil? ? '' : self.course_instance.code} - #{self.name}"
   end
 
   def status_of_learner(user_id)
@@ -49,8 +47,8 @@ class Assignment < ApplicationRecord
   private
 
   def validate_constraints
-    if end_date < start_date
-      errors.add(:start_date, 'End date must be after Start date')
-    end
+    # if end_date < start_date
+    #   errors.add(:start_date, 'End date must be after Start date')
+    # end
   end
 end

@@ -28,13 +28,13 @@ class SubmissionGradesController < ApplicationController
     if params[:submission_id].present?
       @submission_grade = SubmissionGrade.find(params[:submission_id])
       authorized_permission!
-      prev_submission = SubmissionGrade.where(:student_id => @submission_grade.student_id, :assignment_id => @submission_grade.assignment_id, :attempt_count => @submission_grade.attempt_count - 1).first
-      unless prev_submission.nil?
-        @prev_graded_rubric = prev_submission.graded_rubric
-      else
-        @prev_graded_rubric = GradedRubric.new(:rubric_id => @submission_grade.assignment.rubric.id)
-      end
-      @rubric_template = @submission_grade.assignment.rubric
+      # prev_submission = SubmissionGrade.where(:student_id => @submission_grade.student_id, :assignment_id => @submission_grade.assignment_id, :attempt_count => @submission_grade.attempt_count - 1).first
+      # unless prev_submission.nil?
+      #   @prev_graded_rubric = prev_submission.graded_rubric
+      # else
+      #   @prev_graded_rubric = GradedRubric.new(:rubric_id => @submission_grade.assignment.rubric.id)
+      # end
+      # @rubric_template = @submission_grade.assignment.rubric
     else
       flash[:notice] = "Submission does not existed!"
       redirect_to root_path
@@ -80,7 +80,14 @@ class SubmissionGradesController < ApplicationController
     @submission_grade = SubmissionGrade.new
     init_submission_grade
     if params[:assignment].present?
-      @submission_grade.assignment = Assignment.find(params[:assignment])
+      latest_submission = SubmissionGrade.where(:assignment_id => params[:assignment], :latest => true).first
+      if latest_submission.nil?
+        @submission_grade.assignment = Assignment.find(params[:assignment])
+      elsif latest_submission.submission_status == Constants::SUBMISSION_GRADE_STATUS_NOTPASSED
+        @submission_grade.assignment = Assignment.find(params[:assignment])
+      else
+        redirect_to active_assignments_path
+      end
     end
   end
 
@@ -96,19 +103,19 @@ class SubmissionGradesController < ApplicationController
       @submission_grade.attempt_count = find_attempt_count(@submission_grade.assignment_id, current_user.id)
       respond_to do |format|
         if @submission_grade.save
-          unless @submission_grade.attempt_count == 1
-            update_latest
-          end
-          format.html {redirect_to @submission_grade, notice: 'Submission grade was successfully created.'}
+          format.html {redirect_to active_assignments_path, notice: 'Submission grade was successfully created.'}
           format.json {render :show, status: :created, location: @submission_grade}
+          # redirect_to active_assignments_path
         else
           format.html {render :new}
           format.json {render json: @submission_grade.errors, status: :unprocessable_entity}
         end
+        unless @submission_grade.attempt_count == 1
+          update_latest
+        end
       end
     else
       render js: "alert('You do not have permission to perform this action');"
-      # flash.now[:notice] = 'You do not have permission to perform this action'
     end
   end
 
@@ -200,17 +207,20 @@ class SubmissionGradesController < ApplicationController
 
   def update_latest
     begin
-      prev_latest = SubmissionGrade.where(student_id: @submission_grade.student_id, assignment_id: @submission_grade.assignment_id, latest: true).first
+      prev_latest = SubmissionGrade.where(student_id: @submission_grade.student_id, assignment_id: @submission_grade.assignment_id, attempt_count: (@submission_grade.attempt_count - 1)).first
     rescue
       prev_latest = nil
     end
     unless prev_latest.nil?
       prev_latest.latest = false
-      if prev_latest.save
-
-      else
-        flash[:notice] = 'Error when submit new solution: can not update recent submission'
-        redirect_to :back
+      begin
+        unless prev_latest.save
+          format.html {render :new}
+          format.json {render json: @submission_grade.errors, status: :unprocessable_entity}
+        end
+      rescue DBMError
+        flash[:notice] = DBMError.to_s
+        redirect_to root_path
       end
     end
   end

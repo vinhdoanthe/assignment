@@ -1,4 +1,5 @@
 class GradedCriteriaController < ApplicationController
+  before_action :require_admin!
   before_action :set_graded_criterium, only: [:show, :edit, :update, :destroy]
 
   # GET /graded_criteria

@@ -1,4 +1,5 @@
 class CriteriaFormatsController < ApplicationController
+  before_action :require_admin!
   before_action :set_criteria_format, only: [:show, :edit, :update, :destroy]
 
   # GET /criteria_formats
