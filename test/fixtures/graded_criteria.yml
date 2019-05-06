@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  graded_rubric: one
+  description: MyText
+  point: 9.99
+  required: false
+  is_passed: false
+  comment: MyText
+
+two:
+  graded_rubric: two
+  description: MyText
+  point: 9.99
+  required: false
+  is_passed: false
+  comment: MyText

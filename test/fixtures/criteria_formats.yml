@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  rubric: one
+  description: MyText
+  point: 9.99
+  required: false
+
+two:
+  rubric: two
+  description: MyText
+  point: 9.99
+  required: false

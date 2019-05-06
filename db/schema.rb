@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_05_021030) do
+ActiveRecord::Schema.define(version: 2019_05_06_040245) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -69,6 +69,16 @@ ActiveRecord::Schema.define(version: 2019_05_05_021030) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "criteria_formats", force: :cascade do |t|
+    t.integer "rubric_id"
+    t.text "description"
+    t.decimal "point"
+    t.boolean "required"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["rubric_id"], name: "index_criteria_formats_on_rubric_id"
+  end
+
   create_table "enrollments", force: :cascade do |t|
     t.integer "user_id"
     t.integer "course_instance_id"
@@ -80,6 +90,18 @@ ActiveRecord::Schema.define(version: 2019_05_05_021030) do
     t.index ["course_instance_id"], name: "index_enrollments_on_course_instance_id"
     t.index ["user_id", "course_instance_id"], name: "index_enrollments_on_user_id_and_course_instance_id", unique: true
     t.index ["user_id"], name: "index_enrollments_on_user_id"
+  end
+
+  create_table "graded_criteria", force: :cascade do |t|
+    t.integer "graded_rubric_id"
+    t.text "description"
+    t.decimal "point"
+    t.boolean "required"
+    t.boolean "is_passed"
+    t.text "comment"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["graded_rubric_id"], name: "index_graded_criteria_on_graded_rubric_id"
   end
 
   create_table "graded_rubrics", force: :cascade do |t|

@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
+  resources :graded_criteria
+  resources :criteria_formats
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
+  resources :admins
   resources :submission_grades do
     post 'assign_mentor', :on => :collection
   end

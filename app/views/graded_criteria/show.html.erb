@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Graded rubric:</strong>
+  <%= @graded_criterium.graded_rubric %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @graded_criterium.description %>
+</p>
+
+<p>
+  <strong>Point:</strong>
+  <%= @graded_criterium.point %>
+</p>
+
+<p>
+  <strong>Required:</strong>
+  <%= @graded_criterium.required %>
+</p>
+
+<p>
+  <strong>Is passed:</strong>
+  <%= @graded_criterium.is_passed %>
+</p>
+
+<p>
+  <strong>Comment:</strong>
+  <%= @graded_criterium.comment %>
+</p>
+
+<%= link_to 'Edit', edit_graded_criterium_path(@graded_criterium) %> |
+<%= link_to 'Back', graded_criteria_path %>

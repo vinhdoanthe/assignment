@@ -1,0 +1,33 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Criteria Formats</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Rubric</th>
+      <th>Description</th>
+      <th>Point</th>
+      <th>Required</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @criteria_formats.each do |criteria_format| %>
+      <tr>
+        <td><%= criteria_format.rubric %></td>
+        <td><%= criteria_format.description %></td>
+        <td><%= criteria_format.point %></td>
+        <td><%= criteria_format.required %></td>
+        <td><%= link_to 'Show', criteria_format %></td>
+        <td><%= link_to 'Edit', edit_criteria_format_path(criteria_format) %></td>
+        <td><%= link_to 'Destroy', criteria_format, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Criteria Format', new_criteria_format_path %>
