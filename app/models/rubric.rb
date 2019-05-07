@@ -16,8 +16,8 @@ class Rubric < ApplicationRecord
   class << self
     def statuses
       {
-        Constants::RUBRIC_STATUS_ACTIVE => Constants::RUBRIC_STATUS_ACTIVE,
-        Constants::RUBRIC_STATUS_INACTIVE => Constants::RUBRIC_STATUS_INACTIVE
+          Constants::RUBRIC_STATUS_ACTIVE => Constants::RUBRIC_STATUS_ACTIVE,
+          Constants::RUBRIC_STATUS_INACTIVE => Constants::RUBRIC_STATUS_INACTIVE
       }
     end
   end

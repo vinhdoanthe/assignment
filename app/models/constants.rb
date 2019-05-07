@@ -42,4 +42,8 @@ module Constants
   # rubric statuses
   RUBRIC_STATUS_ACTIVE = 'active'
   RUBRIC_STATUS_INACTIVE = 'inactive'
+
+  # criteria types
+  CRITERIA_TYPE_POINT = 'point'
+  CRITERIA_TYPE_PASS_FAIL = 'pass fail'
 end

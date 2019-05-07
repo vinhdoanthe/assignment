@@ -3,8 +3,7 @@ class SubmissionGrade < ApplicationRecord
   include Constants
   extend Enumerize
 
-  before_save :update_submision_status
-
+  # before_save :update_submision_status
 
   has_paper_trail on: [:create, :update, :destroy]
   belongs_to :assignment
@@ -19,6 +18,9 @@ class SubmissionGrade < ApplicationRecord
   after_save {submission_file.purge if remove_submission_file == '1'}
   attr_accessor :remove_graded_file
   after_save {graded_file_file.purge if remove_graded_file == '1'}
+
+  accepts_nested_attributes_for :graded_rubric
+  # graded_rubric_attributes: [:id, :rubric_id, :description, :rubric_type, :comment]
 
   enumerize :submission_status, in: [Constants::SUBMISSION_GRADE_STATUS_SUBMITTED,
                                      Constants::SUBMISSION_GRADE_STATUS_ASSIGNED,

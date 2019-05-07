@@ -9,13 +9,7 @@ class SubmissionGradesController < ApplicationController
   before_action :authorized_admin!, only: %i[edit destroy index]
   before_action :authorized_granted!, only: [:assigned_submissions]
   after_action :attach_file, only: %i[create update]
-  # before_action :authorized_permission!, only: %i[show edit update destroy]
-  # before_action :purge_file, only: [:destroy]
-  # before_action :update_latest, only: [:create]
-  # before_action :set_submission_grade, :update_latest, only: [:update]
-  # before_action :change_submission_status, only: [:update]
-  # GET /submission_grades
-  # GET /submission_grades.json
+
   def index
     @submission_grades = SubmissionGrade.where(latest: true)
   end
@@ -28,13 +22,35 @@ class SubmissionGradesController < ApplicationController
     if params[:submission_id].present?
       @submission_grade = SubmissionGrade.find(params[:submission_id])
       authorized_permission!
-      # prev_submission = SubmissionGrade.where(:student_id => @submission_grade.student_id, :assignment_id => @submission_grade.assignment_id, :attempt_count => @submission_grade.attempt_count - 1).first
-      # unless prev_submission.nil?
-      #   @prev_graded_rubric = prev_submission.graded_rubric
-      # else
-      #   @prev_graded_rubric = GradedRubric.new(:rubric_id => @submission_grade.assignment.rubric.id)
-      # end
-      # @rubric_template = @submission_grade.assignment.rubric
+      unless @submission_grade.assignment.rubric.nil?
+        @graded_rubric = GradedRubric.new
+        @graded_rubric.submission_grade_id = @submission_grade.id
+        @graded_rubric.rubric_id = @submission_grade.assignment.rubric.nil? ? nil : @submission_grade.assignment.rubric.id
+        @graded_rubric.rubric_type = @submission_grade.assignment.rubric.rubric_type
+        @graded_rubric.description = @submission_grade.assignment.rubric.description
+        @graded_criteriums = []
+        @to_grade_criteria_formats = []
+        if @submission_grade.attempt_count == 1 # First attempt
+          @to_grade_criteria_formats = @submission_grade.assignment.rubric.criteria_formats
+        else
+          passed_criteria = Assignment.get_graded_criteria(@submission_grade.assignment_id, @submission_grade.student_id)
+          required_criteria = @submission_grade.assignment.rubric.criteria_formats.select {|criterium| criterium.required == true}
+          passed_index = []
+          passed_criteria.each do |criterium|
+            passed_index += criterium.index
+          end
+          @to_grade_criteria_formats = required_criteria.select {|criterium| passed_index.exclude?(criterium.index)}
+        end
+        @to_grade_criteria_formats.each do |to_criteria|
+          graded_criterum = GradedCriterium.new
+          # graded_criterum.graded_rubric_id = @graded_rubric.id
+          graded_criterum.description = to_criteria.description
+          graded_criterum.index = to_criteria.index
+          graded_criterum.required = to_criteria.required
+          graded_criterum.point = to_criteria.max_point
+          @graded_criteriums.append(graded_criterum)
+        end
+      end
     else
       flash[:notice] = "Submission does not existed!"
       redirect_to root_path
@@ -45,13 +61,88 @@ class SubmissionGradesController < ApplicationController
     @submission_grade = SubmissionGrade.find(params[:submission_id])
     authorized_permission!
     @submission_grade.point = params[:submission_grade][:point]
-    if @submission_grade.point < 8
-      @submission_grade.submission_status = Constants::SUBMISSION_GRADE_STATUS_NOTPASSED
+    if params[:submission_grade][:point].present?
+      if @submission_grade.point < 8
+        @submission_grade.submission_status = Constants::SUBMISSION_GRADE_STATUS_NOTPASSED
+      else
+        @submission_grade.submission_status = Constants::SUBMISSION_GRADE_STATUS_PASSED
+      end
     else
-      @submission_grade.submission_status = Constants::SUBMISSION_GRADE_STATUS_PASSED
+      # process graded rubric
+      # @submission_grade.update(permit_grade_params)
+      received_graded_criterums = graded_criteriums_params
+
+      # render :json => received_graded_criterums
+      puts "Length of received"
+      puts received_graded_criterums
+      # puts received_graded_criterums.length
+      puts "Length of received end"
+      @graded_criteriums = []
+      # temp_index = 0
+      received_graded_criterums.each do |criterium|
+        graded_criterium = GradedCriterium.new()
+        graded_criterium.index = criterium[:index]
+        graded_criterium.description = criterium[:description]
+        graded_criterium.required = criterium[:required]
+        graded_criterium.point = criterium.is_passed ? 0 : criterium.point
+        graded_criterium.is_passed = criterium.is_passed
+        graded_criterium.comment = criterium.comment
+        @graded_criteriums.append(graded_criterium)
+      end
+      # received_graded_criterums.each do |criterium|
+      #   graded_criterium = GradedCriterium.new()
+      #   graded_criterium.index = criterium["index"]
+      #   graded_criterium.description = criterium["description"]
+      #   graded_criterium.required = criterium["required"]
+      #   graded_criterium.point = criterium.is_passed ? 0 : criterium.point
+      #   graded_criterium.is_passed = criterium.is_passed
+      #   graded_criterium.comment = criterium.comment
+      #   @graded_criteriums.append(graded_criterium)
+      # end
+
+      received_graded_rubric = graded_rubric_params
+      @graded_rubric = GradedRubric.new
+      @graded_rubric.comment = received_graded_rubric.comment
+
+      # calculate graded rubric point
+      point = 0
+      if (@submission_grade.attempt_count == 1) ## If submit first time
+        @graded_criteriums.each do |criterium|
+          if criterium.is_passed
+            point += criterium.point
+          end
+        end
+      else
+        @graded_criteriums.each do |criterium|
+          if criterium.is_passed
+            point += (criterium.point / 2)
+            criterium.point = criterium.point / 2
+          end
+        end
+      end
+      @graded_rubric.point == point
+
+      # calculate accumulated submission grade point
+      if @submission_grade.attempt_count == 1
+        @submission_grade.point = point
+      else
+        prev_point = SubmissionGrade.where(student_id: @submission_grade.student_id, assignment_id: @submission_grade.assignment_id, attempt_count: (@submission_grade.attempt_count -1)).last.point
+        @submission_grade.point = prev_point + point
+      end
     end
     respond_to do |format|
       if @submission_grade.save
+        # @graded_rubric.submission_grade_id = @submission_grade.id
+        # rubric = @submission_grade.assignment.rubric
+        # @graded_rubric.rubric_id = rubric.id
+        # @graded_rubric.description = rubric.description
+        # @graded_rubric.rubric_type = rubric.rubric_type
+        # if @graded_rubric.save
+        #   @graded_criteriums.each do |graded_criterium|
+        #     graded_criterium.graded_rubric_id = @graded_rubric.id
+        #     graded_criterium.save
+        #   end
+        # end
         format.html {redirect_to @submission_grade, notice: 'Submission grade was successfully created.'}
         format.json {render :show, status: :created, location: @submission_grade}
       else
@@ -60,15 +151,6 @@ class SubmissionGradesController < ApplicationController
       end
     end
   end
-
-  # def assign_mentor
-  #   @ids = params[:submission_grades][ids]
-  #   begin
-  #     SubmissionGrade.where("id IN ? ", @ids).update_all(mentor_id: params[:mentor_id])
-  #   rescue
-  #     flash[:notice] = 'Assign error!!!'
-  #   end
-  # end
 
   # GET /submission_grades/1
   # GET /submission_grades/1.json
@@ -152,10 +234,23 @@ class SubmissionGradesController < ApplicationController
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
+  def graded_criteriums_params
+    # params[:submission_grade][:graded_rubric][:]
+    params.require(:submission_grade).permit(:graded_rubric => [{:graded_criteriums_attributes => [:index, :description, :required, :point, :comment, :is_passed]}])
+  end
+
+  def graded_rubric_params
+    params.require(:submission_grade).permit(:graded_rubric => [:comment])
+  end
+
   def submission_grade_params
     # params.require(:submission_grade).permit(:assignment_id, :student_id, :submission_status, :attempt_count, :latest, :mentor_id, :grade_status, :graded_rubric_id, :point)
     params.require(:submission_grade).permit(:assignment_id, :student_id, :submission_status, :submission_file, :attempt_count, :latest, :mentor_id, :graded_rubric_id, :graded_file, :point)
   end
+
+  # def permit_grade_params
+  #   params.require(:submission_grade).permit(:attach_file, :comment, :graded_rubric => [{:graded_criteriums_attributes => [:comment, :is_passed]}])
+  # end
 
   def attach_file
     unless @submission_grade.submission_file.attached?
@@ -232,15 +327,23 @@ class SubmissionGradesController < ApplicationController
     end
   end
 
-  # def update_grade_params
-  #   params.require(:submission_grade).permit(:point)
-  # end
-  # def change_submission_status
-  #   before_save_submission = SubmissionGrade.where(student_id: @submission_grade.student_id, assignment_id: @submission_grade.assignment_id, latest: true)
-  #
-  #   # if assigned new mentor
-  #   if before_save_submission.status == SUBMISSION_GRADE_STATUS_SUBMITTED && before_save_submission.mentor.nil? && @submission_grade.mentor_id.present?
-  #     @submission_grade.submission_status = SUBMISSION_GRADE_STATUS_ASSIGNED
-  #   end
-  # end
+  def calculate_point(criteriums = [], attempt = 1)
+    if criteriums.length.zero?
+      0
+    else
+      point = 0
+      criteriums.each do |criterium|
+        case criterium.criteria_type
+        when Constants::CRITERIA_TYPE_POINT
+          point += criterium.point * criterium.weighted
+        when Constants::CRITERIA_TYPE_PASS_FAIL
+          if criterium.is_passed
+            point += criterium.max_point * criterium.weighted
+          end
+        else
+
+        end
+      end
+    end
+  end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_06_071252) do
+ActiveRecord::Schema.define(version: 2019_05_07_094828) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -72,11 +72,13 @@ ActiveRecord::Schema.define(version: 2019_05_06_071252) do
   create_table "criteria_formats", force: :cascade do |t|
     t.integer "rubric_id"
     t.text "description"
-    t.decimal "point"
+    t.decimal "max_point"
     t.boolean "required"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "index", default: 0, null: false
+    t.integer "weighted", default: 0
+    t.string "criteria_type"
     t.index ["rubric_id"], name: "index_criteria_formats_on_rubric_id"
   end
 

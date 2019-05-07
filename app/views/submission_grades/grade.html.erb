@@ -1,4 +1,4 @@
-<h2>Grade submission</h2>
+<h2>Submission information</h2>
 <div class="container">
   <div class="row">
     <table class='table'>
@@ -33,8 +33,12 @@
       </tr>
     </table>
   </div>
+  <hr>
+  <h2>Grading area</h2>
   <div class="row">
+
     <%= form_for :submission_grade do |form| %>
+
       <% if @submission_grade.errors.any? %>
         <div id="error_explanation">
           <h2><%= pluralize(submission_grade.errors.count, "error") %> prohibited this submission_grade from being
@@ -51,15 +55,93 @@
       <%= hidden_field_tag :submission_id, @submission_grade.id %>
 
       <% if @submission_grade.assignment.rubric.nil? %>
-        <div class="field">
-          <%= form.label :point %>
-          <%= form.text_field :point %>
-        </div>
+        <table class="table">
+          <tbody>
+          <tr>
+            <th><%= form.label :point %></th>
+            <td><%= form.text_field :point %></td>
+          </tr>
+          <tr>
+            <th>Additional grading file</th>
+            <td>
+              <% if @submission_grade.graded_file.attached? %>
+                <%= link_to "Submission File", rails_blob_path(@submission_grade.graded_file, disposition: "attachment") %>
+              <% else %>
+                <%= form.file_field :graded_file, direct_upload: true %>
+              <% end %>
+            </td>
+          </tr>
+          </tbody>
+        </table>
       <% else %>
-<!--        <div class="row">-->
-          <%#= render :partial => 'graded_rubrics/form', :locals => {:graded_rubric => @prev_graded_rubric, :rubric_template => @rubric_template} %>
-<!--        </div>-->
+        <!--        <div class="row">-->
+        <%#= render :partial => 'graded_rubrics/form', :locals => {:graded_rubric => @prev_graded_rubric, :rubric_template => @rubric_template} %>
+        <%#= form.fields_for :graded_rubric, @graded_rubric do |graded_rubric_form| %>
+        <%#= render :partial => 'graded_rubrics/form', form: graded_rubric_form %>
+        <!--            <div class="row col-12">-->
+        <!--              <div class="row col-12">-->
+        <!--                <div class="field">-->
+        <!--                  <h3>Rubric</h3>-->
+        <!--                </div>-->
+        <!--              </div>-->
+
+        <!--              <div class="row col-12">-->
+        <!--                <table class="table">-->
+        <!--                  <thead>-->
+        <!--                  <th> #</th>-->
+        <!--                  <th> Description</th>-->
+        <!--                  <th> Pass?</th>-->
+        <!--                  <th> Comment</th>-->
+        <!--                  </thead>-->
+        <!--                  <!--                  <p><%##= @graded_criteria.length %></p>-->-->
+        <!--                  <tbody>-->
+        <%# @graded_criteriums.each do |graded_criterum| %>
+        <!--                    <tr>-->
+        <%#= graded_rubric_form.fields_for :graded_criteriums, graded_criterum do |graded_criterium_form| %>
+        <!--                        <!--                        <td hidden><%##= graded_criterium_form.graded_rubric_id :graded_rubric_id %></td>-->
+        -->
+        <!--                        <td hidden><%#= graded_criterium_form.text_field :index %></td>-->
+        <!--                        <td hidden><%#= graded_criterium_form.text_area :description %></td>-->
+        <!--                        <td hidden><%#= graded_criterium_form.text_field :point %></td>-->
+        <!--                        <td hidden><%#= graded_criterium_form.check_box :required %></td>-->
+        <!--                        <th><%#= graded_criterum.index %></th>-->
+        <!--                        <td><p><%#= graded_criterum.description %></p></td>-->
+        <!--                        <td><%#= graded_criterium_form.check_box :is_passed %></td>-->
+        <!--                        <td><%#= graded_criterium_form.text_area :comment %></td>-->
+        <%# end %>
+        <!--                    </tr>-->
+        <%# end %>
+        <!--                  </tbody>-->
+        <!--                </table>-->
+        <!--              </div>-->
+        <!--            </div>-->
+        <!--            <table>-->
+        <!--              <tbody>-->
+        <!--              <tr>-->
+        <!--                <td>-->
+        <%#= graded_rubric_form.label :comment %>
+        <!--                </td>-->
+        <!--                <td>-->
+        <%#= graded_rubric_form.text_area :comment %>
+        <!--                </td>-->
+        <!--              </tr>-->
+        <!--              <tr>-->
+        <!--                <th>Attach grade file:</th>-->
+        <!--                <td>-->
+        <%# if @submission_grade.graded_file.attached? %>
+        <%#= link_to "Submission File", rails_blob_path(@submission_grade.graded_file, disposition: "attachment") %>
+        <%# else %>
+        <%#= form.file_field :graded_file, direct_upload: true %>
+        <%# end %>
+        <!--                </td>-->
+        <!--              </tr>-->
+        <!--              </tbody>-->
+        <!--            </table>-->
+        <%# end %>
+        <!--        </div>-->
       <% end %>
+
+
       <div class="row">
         <div class="actions">
           <%= link_to "Back", :back, :class => 'btn btn-secondary' %>
