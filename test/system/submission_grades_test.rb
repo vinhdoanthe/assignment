@@ -24,7 +24,7 @@ class SubmissionGradesTest < ApplicationSystemTestCase
     fill_in "Point", with: @submission_grade.point
     fill_in "Student", with: @submission_grade.student_id
     fill_in "Submission file", with: @submission_grade.submission_file_id
-    fill_in "Submission status", with: @submission_grade.submission_status
+    fill_in "Submission status", with: @submission_grade.status
     click_on "Create Submission grade"
 
     assert_text "Submission grade was successfully created"
@@ -45,7 +45,7 @@ class SubmissionGradesTest < ApplicationSystemTestCase
     fill_in "Point", with: @submission_grade.point
     fill_in "Student", with: @submission_grade.student_id
     fill_in "Submission file", with: @submission_grade.submission_file_id
-    fill_in "Submission status", with: @submission_grade.submission_status
+    fill_in "Submission status", with: @submission_grade.status
     click_on "Update Submission grade"
 
     assert_text "Submission grade was successfully updated"

@@ -16,7 +16,7 @@
     </tr>
     <tr>
       <th>Submission status:</th>
-      <td><%= @submission_grade.submission_status %></td>
+      <td><%= @submission_grade.status %></td>
     </tr>
     <tr>
       <th>Submission file:</th>
@@ -57,7 +57,7 @@
 
     <tr>
       <th>Point:</th>
-      <td><%= (@submission_grade.submission_status == Constants::SUBMISSION_GRADE_STATUS_ASSIGNED or @submission_grade.submission_status == Constants::SUBMISSION_GRADE_STATUS_SUBMITTED) ? 'N/A' : @submission_grade.point %></td>
+      <td><%= (@submission_grade.status == Constants::SUBMISSION_GRADE_STATUS_ASSIGNED or @submission_grade.status == Constants::SUBMISSION_GRADE_STATUS_SUBMITTED) ? 'N/A' : @submission_grade.point %></td>
     </tr>
   </table>
 </div>
@@ -67,7 +67,7 @@
 <% elsif current_user.mentor? %>
   <%# if @submission_grade.student_id == @submission_grade.mentor_id %>
   <%= link_to "Back", assigned_submissions_path, class: 'btn btn-secondary' %>
-  <% if @submission_grade.submission_status == Constants::SUBMISSION_GRADE_STATUS_SUBMITTED || @submission_grade.submission_status == Constants::SUBMISSION_GRADE_STATUS_ASSIGNED %>
+  <% if @submission_grade.status == Constants::SUBMISSION_GRADE_STATUS_SUBMITTED || @submission_grade.status == Constants::SUBMISSION_GRADE_STATUS_ASSIGNED %>
     <%= link_to "Grade", @submission_grade.graded_rubric.nil? ? grade_submission_path(:submission_id => @submission_grade.id) : edit_graded_rubric_path(@submission_grade.graded_rubric), :class => 'btn btn-primary' %>
   <% end %>
 <% elsif current_user.admin? %>

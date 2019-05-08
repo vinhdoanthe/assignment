@@ -3,7 +3,7 @@
 one:
   assignment: one
   student: one
-  submission_status: MyString
+  status: MyString
   submission_file: one
   attempt_count: 1
   latest: false
@@ -16,7 +16,7 @@ one:
 two:
   assignment: two
   student: two
-  submission_status: MyString
+  status: MyString
   submission_file: two
   attempt_count: 1
   latest: false

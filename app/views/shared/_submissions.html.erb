@@ -15,13 +15,13 @@
         </tr>
         <% submissions.each do |submission| %>
           <tr>
-            <td><%= submission.submission_status %></td>
+            <td><%= submission.status %></td>
             <td><%= submission.assignment.course_instance.code %></td>
             <td><%= submission.assignment.name %></td>
             <td><%= (submission.submission_file.attached?) ? link_to("Submission", rails_blob_path(submission.submission_file, disposition: "attachment")) : '' %></td>
             <td><%= submission.attempt_count %></td>
             <td></td>
-            <td><%= (submission.submission_status == Constants::SUBMISSION_GRADE_STATUS_SUBMITTED || submission.submission_status == Constants::SUBMISSION_GRADE_STATUS_ASSIGNED) ? 'N/A' : submission.point %></td>
+            <td><%= (submission.status == Constants::SUBMISSION_GRADE_STATUS_SUBMITTED || submission.status == Constants::SUBMISSION_GRADE_STATUS_ASSIGNED) ? 'N/A' : submission.point %></td>
             <td>
               <% if current_user.mentor? %>
                 <%= link_to "View", submission_grade_path(submission) %> |

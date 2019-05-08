@@ -25,7 +25,7 @@
     <tr>
       <td><%= submission_grade.assignment.name %></td>
       <td><%= submission_grade.student.email %></td>
-      <td><%= submission_grade.submission_status %></td>
+      <td><%= submission_grade.status %></td>
       <td>
         <% if submission_grade.submission_file.attached? %>
           <%= link_to "Submission File", rails_blob_path(submission_grade.submission_file, disposition: "attachment") %>

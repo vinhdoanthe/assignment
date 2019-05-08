@@ -17,7 +17,7 @@ class SubmissionGradesControllerTest < ActionDispatch::IntegrationTest
 
   test "should create submission_grade" do
     assert_difference('SubmissionGrade.count') do
-      post submission_grades_url, params: { submission_grade: { assignment_id: @submission_grade.assignment_id, attempt_count: @submission_grade.attempt_count, grade_status: @submission_grade.grade_status, graded_file_id: @submission_grade.graded_file_id, graded_rubric_id: @submission_grade.graded_rubric_id, latest: @submission_grade.latest, mentor_id: @submission_grade.mentor_id, point: @submission_grade.point, student_id: @submission_grade.student_id, submission_file_id: @submission_grade.submission_file_id, submission_status: @submission_grade.submission_status } }
+      post submission_grades_url, params: { submission_grade: { assignment_id: @submission_grade.assignment_id, attempt_count: @submission_grade.attempt_count, grade_status: @submission_grade.grade_status, graded_file_id: @submission_grade.graded_file_id, graded_rubric_id: @submission_grade.graded_rubric_id, latest: @submission_grade.latest, mentor_id: @submission_grade.mentor_id, point: @submission_grade.point, student_id: @submission_grade.student_id, submission_file_id: @submission_grade.submission_file_id, status: @submission_grade.status } }
     end
 
     assert_redirected_to submission_grade_url(SubmissionGrade.last)
@@ -34,7 +34,7 @@ class SubmissionGradesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update submission_grade" do
-    patch submission_grade_url(@submission_grade), params: { submission_grade: { assignment_id: @submission_grade.assignment_id, attempt_count: @submission_grade.attempt_count, grade_status: @submission_grade.grade_status, graded_file_id: @submission_grade.graded_file_id, graded_rubric_id: @submission_grade.graded_rubric_id, latest: @submission_grade.latest, mentor_id: @submission_grade.mentor_id, point: @submission_grade.point, student_id: @submission_grade.student_id, submission_file_id: @submission_grade.submission_file_id, submission_status: @submission_grade.submission_status } }
+    patch submission_grade_url(@submission_grade), params: { submission_grade: { assignment_id: @submission_grade.assignment_id, attempt_count: @submission_grade.attempt_count, grade_status: @submission_grade.grade_status, graded_file_id: @submission_grade.graded_file_id, graded_rubric_id: @submission_grade.graded_rubric_id, latest: @submission_grade.latest, mentor_id: @submission_grade.mentor_id, point: @submission_grade.point, student_id: @submission_grade.student_id, submission_file_id: @submission_grade.submission_file_id, status: @submission_grade.status } }
     assert_redirected_to submission_grade_url(@submission_grade)
   end
 

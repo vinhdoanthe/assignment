@@ -72,7 +72,7 @@ RailsAdmin.config do |config|
     weight -2
     list do
       sort_by :created_at
-      filters [:submission_status, :created_at]
+      filters [:status, :created_at]
       configure :id do
         hide
       end
@@ -144,7 +144,7 @@ RailsAdmin.config do |config|
     object_label_method :display_name
     visible false
     edit do
-      fields :rubric, :index, :description, :max_point, :weighted, :required
+      fields :rubric, :index, :description, :point, :weight, :is_required
     end
   end
 

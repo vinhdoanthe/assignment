@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_07_094828) do
+ActiveRecord::Schema.define(version: 2019_05_08_151222) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -35,14 +35,13 @@ ActiveRecord::Schema.define(version: 2019_05_07_094828) do
 
   create_table "assignments", force: :cascade do |t|
     t.string "name"
-    t.date "start_date"
-    t.date "end_date"
-    t.decimal "point"
     t.integer "course_instance_id"
     t.string "status"
     t.integer "max_attempt"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "description"
+    t.string "grade_type"
     t.index ["course_instance_id"], name: "index_assignments_on_course_instance_id"
   end
 
@@ -50,8 +49,6 @@ ActiveRecord::Schema.define(version: 2019_05_07_094828) do
     t.string "code"
     t.string "name"
     t.text "description"
-    t.date "start_date"
-    t.date "end_date"
     t.integer "program_id"
     t.integer "course_id"
     t.string "status"
@@ -72,12 +69,12 @@ ActiveRecord::Schema.define(version: 2019_05_07_094828) do
   create_table "criteria_formats", force: :cascade do |t|
     t.integer "rubric_id"
     t.text "description"
-    t.decimal "max_point"
-    t.boolean "required"
+    t.decimal "point"
+    t.boolean "is_required"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "index", default: 0, null: false
-    t.integer "weighted", default: 0
+    t.integer "weight", default: 0
     t.string "criteria_type"
     t.index ["rubric_id"], name: "index_criteria_formats_on_rubric_id"
   end
@@ -99,26 +96,23 @@ ActiveRecord::Schema.define(version: 2019_05_07_094828) do
     t.integer "graded_rubric_id"
     t.text "description"
     t.decimal "point"
-    t.boolean "required"
+    t.boolean "is_required"
     t.boolean "is_passed"
     t.text "comment"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "index", default: 0, null: false
+    t.string "criteria_type"
+    t.decimal "weight"
     t.index ["graded_rubric_id"], name: "index_graded_criteria_on_graded_rubric_id"
   end
 
   create_table "graded_rubrics", force: :cascade do |t|
-    t.integer "rubric_id"
-    t.integer "rubric_type"
-    t.string "status"
     t.decimal "point"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "comment"
     t.integer "submission_grade_id"
-    t.text "description"
-    t.index ["rubric_id"], name: "index_graded_rubrics_on_rubric_id"
     t.index ["submission_grade_id"], name: "index_graded_rubrics_on_submission_grade_id"
   end
 
@@ -132,27 +126,24 @@ ActiveRecord::Schema.define(version: 2019_05_07_094828) do
 
   create_table "rubrics", force: :cascade do |t|
     t.integer "assignment_id"
-    t.integer "rubric_type"
-    t.string "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.text "description"
     t.index ["assignment_id"], name: "index_rubrics_on_assignment_id"
   end
 
   create_table "submission_grades", force: :cascade do |t|
     t.integer "assignment_id"
     t.integer "student_id"
-    t.string "submission_status"
-    t.integer "attempt_count"
-    t.boolean "latest"
+    t.string "status"
+    t.integer "attempt"
+    t.boolean "is_latest"
     t.integer "mentor_id"
-    t.integer "graded_rubric_id"
     t.decimal "point"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "assigned_at"
+    t.datetime "graded_at"
     t.index ["assignment_id"], name: "index_submission_grades_on_assignment_id"
-    t.index ["graded_rubric_id"], name: "index_submission_grades_on_graded_rubric_id"
     t.index ["mentor_id"], name: "index_submission_grades_on_mentor_id"
     t.index ["student_id"], name: "index_submission_grades_on_student_id"
   end
@@ -168,11 +159,8 @@ ActiveRecord::Schema.define(version: 2019_05_07_094828) do
     t.string "role"
     t.string "status"
     t.string "full_name"
-    t.string "funid"
-    t.string "username"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-    t.index ["username", "funid"], name: "index_users_on_username_and_funid"
   end
 
   create_table "versions", force: :cascade do |t|

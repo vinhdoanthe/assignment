@@ -1,8 +1,13 @@
-class Enrollment < ApplicationRecord
-  include Constants
-  extend Enumerize
+# frozen_string_literal: true
 
-  validates :user_id, uniqueness: {scope: :course_instance_id, message: "This enrollment has existed"}
+class Enrollment < ApplicationRecord
+  extend Enumerize
+  include Constants
+
+  validates :user_id, uniqueness: { scope: :course_instance_id,
+                                    message: 'This enrollment has existed' }
+  validates :start_date, presence: false
+  validates :end_date, presence: false
 
   belongs_to :user
   belongs_to :course_instance
@@ -12,5 +17,4 @@ class Enrollment < ApplicationRecord
                           Constants::ENROLLMENT_STATUS_PENDING,
                           Constants::ENROLLMENT_STATUS_COMPLETED,
                           Constants::ENROLLMENT_STATUS_STOPPED]
-
 end

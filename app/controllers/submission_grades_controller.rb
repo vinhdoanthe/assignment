@@ -15,7 +15,7 @@ class SubmissionGradesController < ApplicationController
   end
 
   def assigned_submissions
-    @assigned_submissions = SubmissionGrade.where(mentor_id: current_user.id, submission_status: SUBMISSION_GRADE_STATUS_ASSIGNED, latest: true).or(SubmissionGrade.where(mentor_id: current_user.id, submission_status: SUBMISSION_GRADE_STATUS_SUBMITTED, latest: true))
+    @assigned_submissions = SubmissionGrade.where(mentor_id: current_user.id, status: SUBMISSION_GRADE_STATUS_ASSIGNED, latest: true).or(SubmissionGrade.where(mentor_id: current_user.id, status: SUBMISSION_GRADE_STATUS_SUBMITTED, latest: true))
   end
 
   def grade
@@ -34,9 +34,9 @@ class SubmissionGradesController < ApplicationController
     @submission_grade.point = params[:submission_grade][:point]
     if params[:submission_grade][:point].present?
       if @submission_grade.point < 8
-        @submission_grade.submission_status = Constants::SUBMISSION_GRADE_STATUS_NOTPASSED
+        @submission_grade.status = Constants::SUBMISSION_GRADE_STATUS_NOTPASSED
       else
-        @submission_grade.submission_status = Constants::SUBMISSION_GRADE_STATUS_PASSED
+        @submission_grade.status = Constants::SUBMISSION_GRADE_STATUS_PASSED
       end
     else
       ## Do nothing here (maybe Todo for authorization)
@@ -65,7 +65,7 @@ class SubmissionGradesController < ApplicationController
       latest_submission = SubmissionGrade.where(:assignment_id => params[:assignment], :latest => true).first
       if latest_submission.nil?
         @submission_grade.assignment = Assignment.find(params[:assignment])
-      elsif latest_submission.submission_status == Constants::SUBMISSION_GRADE_STATUS_NOTPASSED
+      elsif latest_submission.status == Constants::SUBMISSION_GRADE_STATUS_NOTPASSED
         @submission_grade.assignment = Assignment.find(params[:assignment])
       else
         redirect_to active_assignments_path
@@ -145,8 +145,8 @@ class SubmissionGradesController < ApplicationController
   end
 
   def submission_grade_params
-    # params.require(:submission_grade).permit(:assignment_id, :student_id, :submission_status, :attempt_count, :latest, :mentor_id, :grade_status, :graded_rubric_id, :point)
-    params.require(:submission_grade).permit(:assignment_id, :student_id, :submission_status, :submission_file, :attempt_count, :latest, :mentor_id, :graded_rubric_id, :graded_file, :point)
+    # params.require(:submission_grade).permit(:assignment_id, :student_id, :status, :attempt_count, :latest, :mentor_id, :grade_status, :graded_rubric_id, :point)
+    params.require(:submission_grade).permit(:assignment_id, :student_id, :status, :submission_file, :attempt_count, :latest, :mentor_id, :graded_rubric_id, :graded_file, :point)
   end
 
   # def permit_grade_params
@@ -193,7 +193,7 @@ class SubmissionGradesController < ApplicationController
   end
 
   def init_submission_grade
-    @submission_grade.submission_status = Constants::SUBMISSION_GRADE_STATUS_SUBMITTED
+    @submission_grade.status = Constants::SUBMISSION_GRADE_STATUS_SUBMITTED
     @submission_grade.student_id = current_user.id
     @submission_grade.latest = true
     @submission_grade.mentor_id = nil

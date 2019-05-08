@@ -3,7 +3,7 @@ class CreateSubmissionGrades < ActiveRecord::Migration[5.2]
     create_table :submission_grades do |t|
       t.belongs_to :assignment, foreign_key: true
       t.references :student
-      t.string :submission_status
+      t.string :status
       t.integer :attempt_count
       t.boolean :latest
       t.references :mentor
