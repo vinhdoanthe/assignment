@@ -22,35 +22,6 @@ class SubmissionGradesController < ApplicationController
     if params[:submission_id].present?
       @submission_grade = SubmissionGrade.find(params[:submission_id])
       authorized_permission!
-      unless @submission_grade.assignment.rubric.nil?
-        @graded_rubric = GradedRubric.new
-        @graded_rubric.submission_grade_id = @submission_grade.id
-        @graded_rubric.rubric_id = @submission_grade.assignment.rubric.nil? ? nil : @submission_grade.assignment.rubric.id
-        @graded_rubric.rubric_type = @submission_grade.assignment.rubric.rubric_type
-        @graded_rubric.description = @submission_grade.assignment.rubric.description
-        @graded_criteriums = []
-        @to_grade_criteria_formats = []
-        if @submission_grade.attempt_count == 1 # First attempt
-          @to_grade_criteria_formats = @submission_grade.assignment.rubric.criteria_formats
-        else
-          passed_criteria = Assignment.get_graded_criteria(@submission_grade.assignment_id, @submission_grade.student_id)
-          required_criteria = @submission_grade.assignment.rubric.criteria_formats.select {|criterium| criterium.required == true}
-          passed_index = []
-          passed_criteria.each do |criterium|
-            passed_index += criterium.index
-          end
-          @to_grade_criteria_formats = required_criteria.select {|criterium| passed_index.exclude?(criterium.index)}
-        end
-        @to_grade_criteria_formats.each do |to_criteria|
-          graded_criterum = GradedCriterium.new
-          # graded_criterum.graded_rubric_id = @graded_rubric.id
-          graded_criterum.description = to_criteria.description
-          graded_criterum.index = to_criteria.index
-          graded_criterum.required = to_criteria.required
-          graded_criterum.point = to_criteria.max_point
-          @graded_criteriums.append(graded_criterum)
-        end
-      end
     else
       flash[:notice] = "Submission does not existed!"
       redirect_to root_path
@@ -193,8 +164,9 @@ class SubmissionGradesController < ApplicationController
           format.json {render json: @submission_grade.errors, status: :unprocessable_entity}
         end
         unless @submission_grade.attempt_count == 1
-          update_latest
+          SubmissionGrade.update_latest(@submission_grade.student_id, @submission_grade.assignment_id, @submission_grade.attempt_count - 1)
         end
+        SubmissionGrade.create_graded_rubric(@submission_grade.id)
       end
     else
       render js: "alert('You do not have permission to perform this action');"
@@ -300,25 +272,25 @@ class SubmissionGradesController < ApplicationController
     @submission_grade.point = 0
   end
 
-  def update_latest
-    begin
-      prev_latest = SubmissionGrade.where(student_id: @submission_grade.student_id, assignment_id: @submission_grade.assignment_id, attempt_count: (@submission_grade.attempt_count - 1)).first
-    rescue
-      prev_latest = nil
-    end
-    unless prev_latest.nil?
-      prev_latest.latest = false
-      begin
-        unless prev_latest.save
-          format.html {render :new}
-          format.json {render json: @submission_grade.errors, status: :unprocessable_entity}
-        end
-      rescue DBMError
-        flash[:notice] = DBMError.to_s
-        redirect_to root_path
-      end
-    end
-  end
+  # def update_latest
+  #   begin
+  #     prev_latest = SubmissionGrade.where(student_id: @submission_grade.student_id, assignment_id: @submission_grade.assignment_id, attempt_count: (@submission_grade.attempt_count - 1)).first
+  #   rescue
+  #     prev_latest = nil
+  #   end
+  #   unless prev_latest.nil?
+  #     prev_latest.latest = false
+  #     begin
+  #       unless prev_latest.save
+  #         format.html {render :new}
+  #         format.json {render json: @submission_grade.errors, status: :unprocessable_entity}
+  #       end
+  #     rescue DBMError
+  #       flash[:notice] = DBMError.to_s
+  #       redirect_to root_path
+  #     end
+  #   end
+  # end
 
   def authorized_granted!
     unless current_user.mentor? || current_user.admin?

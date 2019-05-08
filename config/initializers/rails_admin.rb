@@ -29,7 +29,9 @@ RailsAdmin.config do |config|
   # config.show_gravatar = true
 
   config.actions do
-    dashboard # mandatory
+    dashboard do
+      # statistics false
+    end # mandatory
     index # mandatory
     new do
       except ['SubmissionGrade', 'GradedRubric']
@@ -39,7 +41,7 @@ RailsAdmin.config do |config|
     show
     edit
     delete do
-      except ['GradedRubric']
+      # except ['GradedRubric']
     end
     # use rails_admin_import gem
     import do
@@ -48,16 +50,16 @@ RailsAdmin.config do |config|
     # show_in_app
 
     ## With an audit adapter, you can add:
-    history_index do
-      only ['SubmissionGrade', 'GradedRubric']
-    end
-    history_show do
-      only ['SubmissionGrade', 'GradedRubric']
-    end
+    # history_index do
+    #   only ['SubmissionGrade']
+    # end
+    # history_show do
+    #   only ['SubmissionGrade']
+    # end
 
-    select do
-      only ['SubmissionGrade']
-    end
+    # select do
+    #   only ['SubmissionGrade']
+    # end
   end
 
   config.configure_with(:import) do |config|
@@ -141,6 +143,9 @@ RailsAdmin.config do |config|
     parent Rubric
     object_label_method :display_name
     visible false
+    edit do
+      fields :rubric, :index, :description, :max_point, :weighted, :required
+    end
   end
 
   config.model GradedCriterium do

@@ -68,7 +68,7 @@
   <%# if @submission_grade.student_id == @submission_grade.mentor_id %>
   <%= link_to "Back", assigned_submissions_path, class: 'btn btn-secondary' %>
   <% if @submission_grade.submission_status == Constants::SUBMISSION_GRADE_STATUS_SUBMITTED || @submission_grade.submission_status == Constants::SUBMISSION_GRADE_STATUS_ASSIGNED %>
-    <%= link_to "Grade", grade_submission_path(:submission_id => @submission_grade.id), :class => 'btn btn-primary' %>
+    <%= link_to "Grade", @submission_grade.graded_rubric.nil? ? grade_submission_path(:submission_id => @submission_grade.id) : edit_graded_rubric_path(@submission_grade.graded_rubric), :class => 'btn btn-primary' %>
   <% end %>
 <% elsif current_user.admin? %>
 

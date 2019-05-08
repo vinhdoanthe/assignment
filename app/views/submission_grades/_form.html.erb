@@ -41,8 +41,11 @@
     <% if @submission_grade.submission_file.attached? %>
       <%= link_to "Submission File", rails_blob_path(@submission_grade.submission_file, disposition: "attachment") %>
     <% else %>
-      <%= form.file_field :submission_file, direct_upload: true, :required => true %>
-    <% end %>
+      <%= form.file_field :submission_file, :required => true %>
+
+      <%#= form.file_field :submission_file, direct_upload: true, :required => true %>
+
+  <% end %>
 
   </div>
 

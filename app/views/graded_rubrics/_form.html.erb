@@ -1,90 +1,33 @@
-<%#= form_with(model: graded_rubric, local: true) do |form| %>
-  <%# if graded_rubric.errors.any? %>
-<!--    <div id="error_explanation">-->
-<!--      <h2><%#= pluralize(graded_rubric.errors.count, "error") %> prohibited this graded_rubric from being saved:</h2>-->
+<%= form_with(model: graded_rubric, local: true) do |form| %>
+  <% if graded_rubric.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(graded_rubric.errors.count, "error") %> prohibited this graded_rubric from being saved:</h2>
 
-<!--      <ul>-->
-        <%# graded_rubric.errors.full_messages.each do |message| %>
-<!--          <li><%#= message %></li>-->
-        <%# end %>
-<!--      </ul>-->
-<!--    </div>-->
-  <%# end %>
-  <div class="row col-12">
-    <div class="row col-12">
-      <div class="field">
-        <%= form.label :rubric_id %>
-        <%= form.text_field :rubric_id %>
-      </div>
-
-      <div class="field">
-        <%= form.label :type %>
-        <%= form.number_field :type %>
-      </div>
-
-      <div class="field">
-        <%= form.label :status %>
-        <%= form.text_field :status %>
-      </div>
+      <ul>
+        <% graded_rubric.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
     </div>
+  <% end %>
 
-    <div class="row col-12">
-      <table class="table">
-        <tr>
-          <th> #</th>
-          <th> Description</th>
-          <th> Pass?</th>
-          <th> Comment</th>
-        </tr>
-        <!--        <tr>-->
-        <%# if rubric_template.cr1_enable %>
-        <!--            <th>1</th>-->
-        <!--            <td>-->
-        <%#= rubric_template.cr1_des  %>
-        <!--            </td>-->
-        <!--            <td><%#= form.check_box :cr1_passed %></td>-->
-        <!--            <td class="field">-->
-        <%#= form.text_area :cr1_comment %>
-        <!--            </td>-->
-        <%# end %>
-        <!--        </tr>-->
-        <!--        <tr>-->
-        <%# if rubric_template.cr2_enable %>
-        <!--            <th>2</th>-->
-        <!--            <td>-->
-        <%#= rubric_template.cr2_des  %>
-        <!--            </td>-->
-        <!--            <td><%#= form.check_box :cr2_passed %></td>-->
-        <!--            <td class="field">-->
-        <%#= form.text_area :cr2_comment %>
-        <!--            </td>-->
-        <%# end %>
-        <!--        </tr>-->
-        <!--        <tr>-->
-        <%# if rubric_template.cr3_enable %>
-        <!--            <th>3</th>-->
-        <!--            <td>-->
-        <%#= rubric_template.cr3_des  %>
-        <!--            </td>-->
-        <!--            <td><%#= form.check_box :cr3_passed %></td>-->
-        <!--            <td class="field">-->
-        <%#= form.text_area :cr3_comment %>
-        <!--            </td>-->
-        <%# end %>
-        <!--        </tr>-->
-        <!--        <tr>-->
-        <%# if rubric_template.cr4_enable %>
-        <!--            <th>4</th>-->
-        <!--            <td>-->
-        <%#= rubric_template.cr4_des  %>
-        <!--            </td>-->
-        <!--            <td><%#= form.check_box :cr4_passed %></td>-->
-        <!--            <td class="field">-->
-        <%#= form.text_area :cr4_comment %>
-        <!--            </td>-->
-        <%# end %>
-        <!--        </tr>-->
-      </table>
-    </div>
+
+  <div class="row">
+  <table class="table">
+  <thead>
+  <tr>
+    <td>#</td>
+    <td>Description</td>
+    <td>Graded/Point</td>
+    <td>Comment</td>
+  </tr>
+  </thead>
+    <tbody>
+
+    </tbody>
+  </table>
   </div>
-<%# end %>
+  <div class="actions">
+    <%= form.submit "Grade", :class => 'btn btn-primary' %>
+  </div>
+<% end %>

@@ -39,7 +39,7 @@ class Assignment < ApplicationRecord
     prev_submission_grades = SubmissionGrade.where(:assignment_id => assignment_id, :student_id => student_id)
     graded_criteria = []
     prev_submission_grades.each do |submission|
-      graded_criteria += submission.graded_criteriums.select {|criterium| criterium.point > 0}
+      graded_criteria += submission.graded_criteriums.select {|criterium| criterium.is_passed}
     end
     graded_criteria
   end

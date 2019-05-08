@@ -15,7 +15,7 @@ class User < ApplicationRecord
   has_many :submission_grades, :foreign_key => :student_id
 
   def display_name
-    "#{username}"
+    "#{username} - #{role}"
   end
   def admin?
     self.role == Constants::USER_ROLE_ADMIN
