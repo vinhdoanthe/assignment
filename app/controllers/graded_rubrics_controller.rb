@@ -40,6 +40,7 @@ class GradedRubricsController < ApplicationController
   # PATCH/PUT /graded_rubrics/1
   # PATCH/PUT /graded_rubrics/1.json
   def update
+    # puts params.inspect
     respond_to do |format|
       if @graded_rubric.update(graded_rubric_params)
         format.html { redirect_to @graded_rubric, notice: 'Graded rubric was successfully updated.' }

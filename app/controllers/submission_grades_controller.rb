@@ -39,81 +39,10 @@ class SubmissionGradesController < ApplicationController
         @submission_grade.submission_status = Constants::SUBMISSION_GRADE_STATUS_PASSED
       end
     else
-      # process graded rubric
-      # @submission_grade.update(permit_grade_params)
-      received_graded_criterums = graded_criteriums_params
-
-      # render :json => received_graded_criterums
-      puts "Length of received"
-      puts received_graded_criterums
-      # puts received_graded_criterums.length
-      puts "Length of received end"
-      @graded_criteriums = []
-      # temp_index = 0
-      received_graded_criterums.each do |criterium|
-        graded_criterium = GradedCriterium.new()
-        graded_criterium.index = criterium[:index]
-        graded_criterium.description = criterium[:description]
-        graded_criterium.required = criterium[:required]
-        graded_criterium.point = criterium.is_passed ? 0 : criterium.point
-        graded_criterium.is_passed = criterium.is_passed
-        graded_criterium.comment = criterium.comment
-        @graded_criteriums.append(graded_criterium)
-      end
-      # received_graded_criterums.each do |criterium|
-      #   graded_criterium = GradedCriterium.new()
-      #   graded_criterium.index = criterium["index"]
-      #   graded_criterium.description = criterium["description"]
-      #   graded_criterium.required = criterium["required"]
-      #   graded_criterium.point = criterium.is_passed ? 0 : criterium.point
-      #   graded_criterium.is_passed = criterium.is_passed
-      #   graded_criterium.comment = criterium.comment
-      #   @graded_criteriums.append(graded_criterium)
-      # end
-
-      received_graded_rubric = graded_rubric_params
-      @graded_rubric = GradedRubric.new
-      @graded_rubric.comment = received_graded_rubric.comment
-
-      # calculate graded rubric point
-      point = 0
-      if (@submission_grade.attempt_count == 1) ## If submit first time
-        @graded_criteriums.each do |criterium|
-          if criterium.is_passed
-            point += criterium.point
-          end
-        end
-      else
-        @graded_criteriums.each do |criterium|
-          if criterium.is_passed
-            point += (criterium.point / 2)
-            criterium.point = criterium.point / 2
-          end
-        end
-      end
-      @graded_rubric.point == point
-
-      # calculate accumulated submission grade point
-      if @submission_grade.attempt_count == 1
-        @submission_grade.point = point
-      else
-        prev_point = SubmissionGrade.where(student_id: @submission_grade.student_id, assignment_id: @submission_grade.assignment_id, attempt_count: (@submission_grade.attempt_count -1)).last.point
-        @submission_grade.point = prev_point + point
-      end
+      ## Do nothing here (maybe Todo for authorization)
     end
     respond_to do |format|
       if @submission_grade.save
-        # @graded_rubric.submission_grade_id = @submission_grade.id
-        # rubric = @submission_grade.assignment.rubric
-        # @graded_rubric.rubric_id = rubric.id
-        # @graded_rubric.description = rubric.description
-        # @graded_rubric.rubric_type = rubric.rubric_type
-        # if @graded_rubric.save
-        #   @graded_criteriums.each do |graded_criterium|
-        #     graded_criterium.graded_rubric_id = @graded_rubric.id
-        #     graded_criterium.save
-        #   end
-        # end
         format.html {redirect_to @submission_grade, notice: 'Submission grade was successfully created.'}
         format.json {render :show, status: :created, location: @submission_grade}
       else
@@ -272,26 +201,6 @@ class SubmissionGradesController < ApplicationController
     @submission_grade.point = 0
   end
 
-  # def update_latest
-  #   begin
-  #     prev_latest = SubmissionGrade.where(student_id: @submission_grade.student_id, assignment_id: @submission_grade.assignment_id, attempt_count: (@submission_grade.attempt_count - 1)).first
-  #   rescue
-  #     prev_latest = nil
-  #   end
-  #   unless prev_latest.nil?
-  #     prev_latest.latest = false
-  #     begin
-  #       unless prev_latest.save
-  #         format.html {render :new}
-  #         format.json {render json: @submission_grade.errors, status: :unprocessable_entity}
-  #       end
-  #     rescue DBMError
-  #       flash[:notice] = DBMError.to_s
-  #       redirect_to root_path
-  #     end
-  #   end
-  # end
-
   def authorized_granted!
     unless current_user.mentor? || current_user.admin?
       flash[:notice] = 'You do not have permission to take this action'
@@ -299,23 +208,4 @@ class SubmissionGradesController < ApplicationController
     end
   end
 
-  def calculate_point(criteriums = [], attempt = 1)
-    if criteriums.length.zero?
-      0
-    else
-      point = 0
-      criteriums.each do |criterium|
-        case criterium.criteria_type
-        when Constants::CRITERIA_TYPE_POINT
-          point += criterium.point * criterium.weighted
-        when Constants::CRITERIA_TYPE_PASS_FAIL
-          if criterium.is_passed
-            point += criterium.max_point * criterium.weighted
-          end
-        else
-
-        end
-      end
-    end
-  end
 end

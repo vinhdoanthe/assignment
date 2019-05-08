@@ -11,21 +11,32 @@
     </div>
   <% end %>
 
+  <div class="row col-12">
+    <table class="table">
+      <thead>
+      <tr>
+        <th>#</th>
+        <th>Description</th>
+        <th>Graded/Point</th>
+        <th>Comment</th>
+      </tr>
+      </thead>
+      <tbody>
+      <%= form.fields_for :graded_criteriums, graded_rubric.graded_criteriums do |criterium_form| %>
+        <tr>
+          <th><%= criterium_form.text_field :index, :disabled => true %></th>
+          <td><%= criterium_form.text_area :description, :disabled => true %></td>
+          <td><%= criterium_form.check_box :is_passed %></td>
+          <td><%= criterium_form.text_area :comment %></td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+    <div class="row col-12">
+      <%= form.label :comment %>
+      <%= form.text_area :comment %>
+    </div>
 
-  <div class="row">
-  <table class="table">
-  <thead>
-  <tr>
-    <td>#</td>
-    <td>Description</td>
-    <td>Graded/Point</td>
-    <td>Comment</td>
-  </tr>
-  </thead>
-    <tbody>
-
-    </tbody>
-  </table>
   </div>
   <div class="actions">
     <%= form.submit "Grade", :class => 'btn btn-primary' %>

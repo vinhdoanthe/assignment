@@ -40,20 +40,20 @@
         <% end %>
       </td>
     </tr>
-    <tr>
-      <th>Graded rubric:</th>
-      <td><%= @submission_grade.graded_rubric %></td>
-    </tr>
+<!--    <tr>-->
+<!--      <th>Graded rubric:</th>-->
+<!--      <td><%#= @submission_grade.graded_rubric %></td>-->
+<!--    </tr>-->
 
-    <tr>
-      <th>Graded file:</th>
-      <td>
-        <% if @submission_grade.graded_file.attached? %>
-          <%= link_to "Graded File", rails_blob_path(@submission_grade.graded_file, disposition: "attachment") %>
-        <% else %>
-        <% end %>
-      </td>
-    </tr>
+<!--    <tr>-->
+<!--      <th>Graded file:</th>-->
+<!--      <td>-->
+        <%# if @submission_grade.graded_file.attached? %>
+          <%#= link_to "Graded File", rails_blob_path(@submission_grade.graded_file, disposition: "attachment") %>
+        <%# else %>
+        <%# end %>
+<!--      </td>-->
+<!--    </tr>-->
 
     <tr>
       <th>Point:</th>
