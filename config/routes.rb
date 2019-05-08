@@ -1,8 +1,26 @@
 Rails.application.routes.draw do
+  devise_for :admin_users, ActiveAdmin::Devise.config
+  ActiveAdmin.routes(self)
+
+  namespace :admin do
+    resources :courses do
+        resources :course_instances
+    end
+    resources :programs do
+        resources :course_instances
+    end
+    resources :course_instances do
+      resources :assignments
+    end
+    resources :assignments do
+      resources :rubrics
+    end
+  end
+
   resources :graded_criteria
   resources :criteria_formats
-  mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
-  resources :admins
+  # mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
+  #resources :admins
   resources :submission_grades do
     post 'assign_mentor', :on => :collection
   end

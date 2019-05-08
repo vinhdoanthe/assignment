@@ -11,6 +11,8 @@ class Assignment < ApplicationRecord
 
   enumerize :status, in: [Constants::ASSIGNMENT_STATUS_ACTIVE,
                           Constants::ASSIGNMENT_STATUS_INACTIVE]
+  enumerize :grade_type, in: [Constants::ASSIGNMENT_GRADE_TYPE_DEFAULT,
+                              Constants::ASSIGNMENT_GRADE_TYPE_INTERVIEW]
 
   def display_name
     "#{self.course_instance.nil? ? '' : self.course_instance.code} - #{self.name}"

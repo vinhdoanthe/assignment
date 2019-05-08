@@ -15,6 +15,9 @@ gem "rails_admin_import", "~> 2.2"
 gem 'enumerize'
 gem 'rails_admin_selectable'
 gem 'cancancan'
+gem 'draper'
+gem 'pundit'
+gem 'activeadmin'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.3'

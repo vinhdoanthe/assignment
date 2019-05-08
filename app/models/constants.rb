@@ -24,6 +24,10 @@ module Constants
   ASSIGNMENT_STATUS_ACTIVE = 'active'
   ASSIGNMENT_STATUS_INACTIVE = 'inactive'
 
+  # grade type of assignment
+  ASSIGNMENT_GRADE_TYPE_DEFAULT = 'default'
+  ASSIGNMENT_GRADE_TYPE_INTERVIEW = 'interview'
+
   # enrollment statuses
   ENROLLMENT_STATUS_ACTIVE = 'active'
   ENROLLMENT_STATUS_PENDING = 'pending'

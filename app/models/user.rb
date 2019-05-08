@@ -6,13 +6,14 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable, :registerable and :omniauthable
   devise :database_authenticatable,
          :recoverable, :rememberable, :validatable
-
+  # attr_accessible :email, :password, :password_confirmation,
+  #                 :remember_me
   has_many :enrollments
   has_many :course_instances, through: :enrollments
   has_many :submission_grades, foreign_key: :student_id
 
   def display_name
-    "#{username} - #{role}"
+    "#{email} - #{role}"
   end
 
   def admin?
