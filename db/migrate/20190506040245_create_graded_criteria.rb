@@ -5,7 +5,7 @@ class CreateGradedCriteria < ActiveRecord::Migration[5.2]
       t.text :description
       t.decimal :point
       t.boolean :required
-      t.boolean :is_passed
+      t.boolean :status
       t.text :comment
 
       t.timestamps

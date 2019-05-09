@@ -70,6 +70,6 @@ class GradedCriteriaController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def graded_criterium_params
-      params.require(:graded_criterium).permit(:graded_rubric_id, :description, :point, :required, :is_passed, :comment)
+      params.require(:graded_criterium).permit(:graded_rubric_id, :description, :point, :required, :status, :comment)
     end
 end

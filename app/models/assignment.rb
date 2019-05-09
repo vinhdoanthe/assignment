@@ -21,7 +21,7 @@ class Assignment < ApplicationRecord
   def status_of_learner(user_id)
     submission_grade = SubmissionGrade.where(assignment_id: id,
                                              student_id: user_id,
-                                             latest: true).first
+                                             is_latest: true).first
     if submission_grade.nil?
       Constants::SUBMISSION_GRADE_STATUS_OPEN
     else
@@ -33,7 +33,7 @@ class Assignment < ApplicationRecord
     prev_submission_grades = SubmissionGrade.where(assignment_id: assignment_id, student_id: student_id)
     graded_criteria = []
     prev_submission_grades.each do |submission|
-      graded_criteria += submission.graded_criteriums.select {|criterium| criterium.is_passed}
+      graded_criteria += submission.graded_criteriums.select {|criterium| criterium.status == Constants::GRADED_CRITERIA_STATUS_PASSED}
     end
     graded_criteria
   end

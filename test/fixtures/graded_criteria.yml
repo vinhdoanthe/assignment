@@ -5,7 +5,7 @@ one:
   description: MyText
   point: 9.99
   required: false
-  is_passed: false
+  status: not graded
   comment: MyText
 
 two:
@@ -13,5 +13,5 @@ two:
   description: MyText
   point: 9.99
   required: false
-  is_passed: false
+  status: not graded
   comment: MyText

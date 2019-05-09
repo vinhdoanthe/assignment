@@ -19,7 +19,7 @@
             <td><%= submission.assignment.course_instance.code %></td>
             <td><%= submission.assignment.name %></td>
             <td><%= (submission.submission_file.attached?) ? link_to("Submission", rails_blob_path(submission.submission_file, disposition: "attachment")) : '' %></td>
-            <td><%= submission.attempt_count %></td>
+            <td><%= submission.is_latest %></td>
             <td></td>
             <td><%= (submission.status == Constants::SUBMISSION_GRADE_STATUS_SUBMITTED || submission.status == Constants::SUBMISSION_GRADE_STATUS_ASSIGNED) ? 'N/A' : submission.point %></td>
             <td>

@@ -29,7 +29,7 @@
     </tr>
     <tr>
       <th>Attempt count:</th>
-      <td><%= @submission_grade.attempt_count %></td>
+      <td><%= @submission_grade.attempt %></td>
     </tr>
     <tr>
       <th>Mentor:</th>
@@ -40,38 +40,26 @@
         <% end %>
       </td>
     </tr>
-<!--    <tr>-->
-<!--      <th>Graded rubric:</th>-->
-<!--      <td><%#= @submission_grade.graded_rubric %></td>-->
-<!--    </tr>-->
-
-<!--    <tr>-->
-<!--      <th>Graded file:</th>-->
-<!--      <td>-->
-        <%# if @submission_grade.graded_file.attached? %>
-          <%#= link_to "Graded File", rails_blob_path(@submission_grade.graded_file, disposition: "attachment") %>
-        <%# else %>
-        <%# end %>
-<!--      </td>-->
-<!--    </tr>-->
-
     <tr>
       <th>Point:</th>
       <td><%= (@submission_grade.status == Constants::SUBMISSION_GRADE_STATUS_ASSIGNED or @submission_grade.status == Constants::SUBMISSION_GRADE_STATUS_SUBMITTED) ? 'N/A' : @submission_grade.point %></td>
     </tr>
   </table>
 </div>
+<div class="actions">
+  <% if current_user.learner? %>
+    <%= link_to "Back", active_assignments_path %>
+  <% elsif current_user.mentor? %>
+    <%# if @submission_grade.student_id == @submission_grade.mentor_id %>
+    <%= link_to "Back", assigned_submissions_path %>
+    <% if @submission_grade.status == Constants::SUBMISSION_GRADE_STATUS_SUBMITTED || @submission_grade.status == Constants::SUBMISSION_GRADE_STATUS_ASSIGNED %>
+      <%= link_to "Grade", @submission_grade.graded_rubric.nil? ?
+                               grade_submission_path(:submission_id => @submission_grade.id)
+                               : edit_graded_rubric_path(@submission_grade.graded_rubric),
+                  class: 'btn btn-outline-primary btn-lg' %>
+    <% end %>
+  <% else %>
 
-<% if current_user.learner? %>
-  <%= link_to("Back", active_assignments_path).html_safe %>
-<% elsif current_user.mentor? %>
-  <%# if @submission_grade.student_id == @submission_grade.mentor_id %>
-  <%= link_to "Back", assigned_submissions_path, class: 'btn btn-secondary' %>
-  <% if @submission_grade.status == Constants::SUBMISSION_GRADE_STATUS_SUBMITTED || @submission_grade.status == Constants::SUBMISSION_GRADE_STATUS_ASSIGNED %>
-    <%= link_to "Grade", @submission_grade.graded_rubric.nil? ? grade_submission_path(:submission_id => @submission_grade.id) : edit_graded_rubric_path(@submission_grade.graded_rubric), :class => 'btn btn-primary' %>
   <% end %>
-<% elsif current_user.admin? %>
+</div>
 
-<% else %>
-
-<% end %>

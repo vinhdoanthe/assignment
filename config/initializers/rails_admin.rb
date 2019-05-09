@@ -79,10 +79,10 @@ RailsAdmin.config do |config|
       configure :updated_at do
         hide
       end
-      configure :attempt_count do
+      configure :is_latest do
         hide
       end
-      configure :latest do
+      configure :is_latest do
         hide
       end
       configure :graded_rubric do

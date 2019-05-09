@@ -29,7 +29,7 @@
       </tr>
       <tr>
         <th>Attempt count:</th>
-        <td><%= @submission_grade.attempt_count %></td>
+        <td><%= @submission_grade.attempt %></td>
       </tr>
     </table>
   </div>
@@ -75,7 +75,7 @@
         </table>
         <div class="row">
           <div class="actions">
-            <%= link_to "Back", :back, class: 'btn btn-secondary' %>
+            <%= link_to "Back", :back %>
             <%= form.submit "Grade", :class => 'btn btn-primary' %>
           </div>
         </div>

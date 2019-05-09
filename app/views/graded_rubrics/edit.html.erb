@@ -1,6 +1,6 @@
 <h1>Grading Form <%= @graded_rubric.display_name %></h1>
 
-<%= render 'form', graded_rubric: @graded_rubric %>
+<%= render 'graded_rubrics/form/edit', graded_rubric: @graded_rubric %>
 
 <!--<%#= link_to 'Show', @graded_rubric %> |-->
 <%= link_to 'Back', :back %>

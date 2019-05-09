@@ -26,7 +26,7 @@
         <tr>
           <th><%= criterium_form.text_field :index, :disabled => true %></th>
           <td><%= criterium_form.text_area :description, :disabled => true %></td>
-          <td><%= criterium_form.check_box :is_passed %></td>
+          <td><%= criterium_form.select :status %></td>
           <td><%= criterium_form.text_area :comment %></td>
         </tr>
       <% end %>

@@ -5,8 +5,8 @@ one:
   student: one
   status: MyString
   submission_file: one
-  attempt_count: 1
-  latest: false
+  is_latest: 1
+  is_latest: false
   mentor: one
   grade_status: MyString
   graded_rubric: one
@@ -18,8 +18,8 @@ two:
   student: two
   status: MyString
   submission_file: two
-  attempt_count: 1
-  latest: false
+  is_latest: 1
+  is_latest: false
   mentor: two
   grade_status: MyString
   graded_rubric: two

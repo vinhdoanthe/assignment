@@ -9,7 +9,7 @@ ActiveAdmin.register Assignment do
     if resource.rubric.nil?
       li link_to "Create rubric", new_admin_rubric_path
     else
-      li link_to 'View rubric', assignment.rubric
+      li link_to 'View rubric', admin_rubric_path(assignment.rubric)
     end
   end
 end

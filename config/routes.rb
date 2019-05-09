@@ -4,29 +4,33 @@ Rails.application.routes.draw do
 
   namespace :admin do
     resources :courses do
-        resources :course_instances
+      resources :course_instances
     end
     resources :programs do
-        resources :course_instances
+      resources :course_instances
     end
     resources :course_instances do
       resources :assignments
+      resources :enrollments
     end
     resources :assignments do
       resources :rubrics
+    end
+    resources :submission_grades do
+      resources :graded_rubrics
     end
   end
 
   resources :graded_criteria
   resources :criteria_formats
   # mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
-  #resources :admins
-  resources :submission_grades do
-    post 'assign_mentor', :on => :collection
-  end
+  # resources :admins
+  resources :submission_grades
   resources :enrollments
   devise_for :users
+
   resources :graded_rubrics
+
   resources :rubrics
   resources :assignments
   resources :course_instances

@@ -50,4 +50,16 @@ module Constants
   # criteria types
   CRITERIA_TYPE_POINT = 'point'
   CRITERIA_TYPE_PASS_FAIL = 'pass fail'
+
+  # graded criteria statuses
+  GRADED_CRITERIA_STATUS_NOTGRADED = 'not graded'
+  GRADED_CRITERIA_STATUS_PASSED = 'passed'
+  GRADED_CRITERIA_STATUS_FAILED = 'failed'
+
+  CRITERIA_MAX_POINT = 5
+
+  # graded rubric statuses
+  # GRADED_RUBRIC_STATUS_NOTGRADED = 'not graded'
+  GRADED_RUBRIC_STATUS_PASSED = 'passed'
+  GRADED_RUBRIC_STATUS_FAILED = 'failed'
 end
