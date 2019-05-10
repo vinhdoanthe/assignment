@@ -15,4 +15,12 @@ class Rubric < ApplicationRecord
     assignment.nil? ? '' : assignment.display_name
   end
 
+  def total_weight
+    total = 0
+    criteria_formats.each do |criteria|
+      total += criteria.weight
+    end
+    total
+  end
+
 end

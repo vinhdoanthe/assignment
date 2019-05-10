@@ -16,21 +16,21 @@
   <!-- Grading Criteria -->
   <%= form.inputs :name => "Criteria" do %>
     <%= form.semantic_fields_for :graded_criteriums do |criteria| %>
-      <%#= render :partial => 'graded_criteria/form', :locals => {graded_criterium: criteria.object} %>
-      <!--      <div class="card">-->
       <strong><%= "Criteria #{criteria.object.index}" %></strong>
-      <%= criteria.input :description, :input_html => { :rows => 2, :disabled => true, :class => 'autogrow' } %>
+      <%= criteria.input :description, :input_html => {:rows => 2, :disabled => true, :class => 'autogrow'} %>
       <% if criteria.object.criteria_type == Constants::CRITERIA_TYPE_PASS_FAIL %>
         <%= criteria.input :status, :as => :select, :default => Constants::GRADED_CRITERIA_STATUS_NOTGRADED %>
       <% else %>
         <%= criteria.input :point %>
       <% end %>
       <%= criteria.input :comment, as: :text, :input_html => {:rows => 5} %>
-      <%#= criteria.object.weight %>
-      <%= criteria.input :weight, :input_html => { :disabled => true } %>
+      <%= criteria.input :weight, :input_html => {:disabled => true} %>
       <hr>
-      <!--      </div>-->
     <% end %>
+  <% end %>
+  <!--    Comment chung-->
+  <%= form.inputs :name => "Comment" do %>
+    <%= form.input :comment, :input_html => {:rows => 5} %>
   <% end %>
 
   <!--  Submit area-->

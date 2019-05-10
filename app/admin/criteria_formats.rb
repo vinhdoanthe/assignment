@@ -3,5 +3,5 @@ ActiveAdmin.register CriteriaFormat do
   belongs_to :rubric
   # end
 
-  permit_params :index, :description, :point, :weight, :is_required, :criteria_type
+  permit_params :index, :description, :weight, :is_required, :criteria_type
 end

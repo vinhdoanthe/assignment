@@ -52,15 +52,25 @@ class GradedRubricsController < ApplicationController
   end
 
   def update
-    # temp_graded_rubric = GradedRubric.new(graded_rubric_params)
-    # calculate_point(temp_graded_rubric)
-    params_update = graded_rubric_params
-    puts params_update.inspect
+    @graded_rubric.update_attributes(graded_rubric_params)
+    @graded_rubric.calculate_point!
+    submission_grade = @graded_rubric.submission_grade
+    if @graded_rubric.get_status == Constants::GRADED_RUBRIC_STATUS_FAILED
+      submission_grade.status = Constants::SUBMISSION_GRADE_STATUS_NOTPASSED
+    else
+      submission_grade.status = Constants::SUBMISSION_GRADE_STATUS_PASSED
+    end
+    submission_grade.update_point(@graded_rubric.point)
 
     respond_to do |format|
-      if @graded_rubric.update(graded_rubric_params)
-        format.html {redirect_to @graded_rubric, notice: 'Graded rubric was successfully updated.'}
-        format.json {render :show, status: :ok, location: @graded_rubric}
+      if @graded_rubric.save
+        if submission_grade.save
+          format.html {redirect_to @graded_rubric, notice: 'Graded rubric was successfully updated.'}
+          format.json {render :show, status: :ok, location: @graded_rubric}
+        else
+          format.html {render :edit}
+          format.json {render json: @graded_rubric.errors, status: :unprocessable_entity}
+        end
       else
         format.html {render :edit}
         format.json {render json: @graded_rubric.errors, status: :unprocessable_entity}

@@ -17,7 +17,6 @@ ActiveAdmin.register Rubric do
         column :criteria_type
         column :weight
         column :is_required
-        column :point
       end
     end
   end
@@ -38,12 +37,6 @@ ActiveAdmin.register Rubric do
           criteria_form.input :index
           criteria_form.input :description
           criteria_form.input :criteria_type
-          # if criteria_form.object.criteria_type
-          # criteria_form.input :point
-          # else
-          # Do nothing
-          criteria_form.input :point
-          # end
           criteria_form.input :weight
           criteria_form.input :is_required
         end
@@ -53,5 +46,5 @@ ActiveAdmin.register Rubric do
   end
 
   permit_params :assignment_id,
-                criteria_formats_attributes: [:id, :index, :description, :criteria_type, :is_required, :weight, :point, :_destroy]
+                criteria_formats_attributes: %i[id index description criteria_type is_required weight _destroy]
 end

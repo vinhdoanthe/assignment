@@ -29,13 +29,14 @@ class Assignment < ApplicationRecord
     end
   end
 
-  def self.get_graded_criteria(assignment_id, student_id)
-    prev_submission_grades = SubmissionGrade.where(assignment_id: assignment_id, student_id: student_id)
-    graded_criteria = []
+  def self.get_passed_criteria(assignment_id, student_id)
+    prev_submission_grades = SubmissionGrade.where(assignment_id: assignment_id,
+                                                   student_id: student_id)
+    passed_criteria = []
     prev_submission_grades.each do |submission|
-      graded_criteria += submission.graded_criteriums.select {|criterium| criterium.status == Constants::GRADED_CRITERIA_STATUS_PASSED}
+      passed_criteria += submission.graded_criteriums.select {|criterium| criterium.status == Constants::GRADED_CRITERIA_STATUS_PASSED}
     end
-    graded_criteria
+    passed_criteria
   end
 
 

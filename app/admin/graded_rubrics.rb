@@ -1,5 +1,5 @@
 ActiveAdmin.register GradedRubric do
-  menu false
+  # menu false
   controller do
     belongs_to :submission_grade, optional: true
   end
@@ -8,7 +8,7 @@ ActiveAdmin.register GradedRubric do
     # panel 'Information' do
     attributes_table do
       row :submission_grade do
-        link_to graded_rubric.submission_grade.display_name, graded_rubric.submission_grade
+        link_to graded_rubric.submission_grade.display_name, admin_submission_grade_path(graded_rubric.submission_grade)
       end
       row :student do
         graded_rubric.submission_grade.student.email
@@ -16,6 +16,9 @@ ActiveAdmin.register GradedRubric do
       row :mentor do
         graded_rubric.submission_grade.mentor.nil? ? 'N/A' : graded_rubric.submission_grade.mentor.email
       end
+
+      row :point
+      row :comment
     end
 
     panel 'Graded criteria' do
@@ -25,7 +28,9 @@ ActiveAdmin.register GradedRubric do
         column :criteria_type
         column :weight
         column :is_required
+        column :status
         column :point
+        column :comment
       end
     end
   end

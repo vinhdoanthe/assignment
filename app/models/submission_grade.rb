@@ -29,17 +29,18 @@ class SubmissionGrade < ApplicationRecord
 
   def self.update_latest(student_id, assignment_id, attempt)
     begin
-      prev_latest = SubmissionGrade.where(student_id: student_id, assignment_id: assignment_id, is_latest: attempt).first
+      prev_latest = SubmissionGrade.where(student_id: student_id,
+                                          assignment_id: assignment_id,
+                                          attempt: attempt).first
     rescue StandardError
       prev_latest = nil
     end
     unless prev_latest.nil?
-      prev_latest.latest = false
+      prev_latest.is_latest = false
       begin
-        unless prev_latest.save
-        end
-      rescue DBMError
-        flash[:notice] = DBMError.to_s
+        prev_latest.save
+      rescue StandardError => error
+        puts "Submission grade update_latest #{error.inspect}"
       end
     end
   end
@@ -48,7 +49,7 @@ class SubmissionGrade < ApplicationRecord
     submission_grade = SubmissionGrade.find(submission_id)
     rubric = submission_grade.assignment.rubric
     unless rubric.nil?
-      passed_criteriums = submission_grade.is_latest == 1 ? [] : Assignment.get_graded_criteria(submission_grade.assignment_id, submission_grade.student_id)
+      passed_criteriums = submission_grade.attempt == 1 ? [] : Assignment.get_passed_criteria(submission_grade.assignment_id, submission_grade.student_id)
       passed_indexes = passed_criteriums.empty? ? [] : passed_criteriums.map(&:index)
 
       graded_rubric = GradedRubric.new(comment: '', point: 0)
@@ -56,48 +57,55 @@ class SubmissionGrade < ApplicationRecord
 
       graded_rubric.save
 
+      puts "Passed criteriums #{passed_criteriums.inspect}"
+      puts "passed_indexes.inspect #{passed_indexes.inspect}"
+      puts "graded_rubric.inspect #{graded_rubric.inspect}"
+
       begin
         criteria_formats = rubric.criteria_formats
 
-        criteria_formats&.each do |criteria_format|
-          criteria = nil
+        criteria_formats.each do |criteria_format|
           if passed_indexes.empty?
-            criteria =
-              GradedCriterium.new(graded_rubric_id: graded_rubric.id,
-                                  index: criteria_format.index,
-                                  description: criteria_format.description,
-                                  status: Constants::GRADED_CRITERIA_STATUS_NOTGRADED,
-                                  comment: '',
-                                  is_required: criteria_format.is_required,
-                                  criteria_type: criteria_format.criteria_type,
-                                  weight: criteria_format.weight,
-                                  point: 0)
+            GradedCriterium.create_from_graded_rubric(graded_rubric.id,
+                                                      criteria_format.index,
+                                                      criteria_format.description,
+                                                      Constants::GRADED_CRITERIA_STATUS_NOTGRADED,
+                                                      '',
+                                                      criteria_format.is_required,
+                                                      criteria_format.criteria_type,
+                                                      criteria_format.weight,
+                                                      0)
           else
-            unless passed_indexes.includes(criteria_format.index)
-              criteria =
-                GradedCriterium.new(graded_rubric_id: graded_rubric.id,
-                                    index: criteria_format.index,
-                                    description: criteria_format.description,
-                                    status: Constants::GRADED_CRITERIA_STATUS_NOTGRADED,
-                                    comment: '',
-                                    is_required: criteria_format.is_required,
-                                    criteria_type: criteria_format.criteria_type,
-                                    weight: criteria_format.weight,
-                                    point: 0)
+            unless passed_indexes.include?(criteria_format.index)
+              GradedCriterium.create_from_graded_rubric(graded_rubric.id,
+                                                        criteria_format.index,
+                                                        criteria_format.description,
+                                                        Constants::GRADED_CRITERIA_STATUS_NOTGRADED,
+                                                        '',
+                                                        criteria_format.is_required,
+                                                        criteria_format.criteria_type,
+                                                        criteria_format.weight,
+                                                        0)
             end
           end
-
-          begin
-            criteria.save
-          rescue StandardError
-            puts 'Error when save graded_criteria at create_graded_rubric'
-            logger.fatal 'Error when save graded_criteria at create_graded_rubric'
-          end
         end
-      rescue StandardError
-        logger.fatal 'Error when save load criteria formats'
+      rescue StandardError => error
+        logger.fatal error.inspect
       end
+    end
+  end
 
+  def update_point(added_point)
+
+    # Todo find prev attempt and re-calculate point
+
+    if attempt == 1
+      self.point = added_point
+    else
+      prev = SubmissionGrade.where(student_id: student_id,
+                                   assignment_id: assignment_id,
+                                   attempt: attempt - 1).first
+      self.point = prev.point + added_point
     end
   end
 end
