@@ -1,0 +1,9 @@
+<strong>Assign mentor</strong>
+<%= semantic_form_for submission_grade do |form| %>
+  <%= form.inputs do %>
+    <%= form.input :mentor %>
+  <% end %>
+  <%= form.actions do %>
+    <%= form.action :submit, :label => "Assign mentor" %>
+  <% end %>
+<% end %>

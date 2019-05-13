@@ -3,14 +3,9 @@ class User < ApplicationRecord
   include Constants
 
   # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable, :registerable and :omniauthable
-  # devise :database_authenticatable,
-  #        :recoverable, :rememberable, :validatable
   devise :database_authenticatable, :rememberable
   devise :omniauthable, omniauth_providers: [:google_oauth2]
-         # devise: :omniauthable, :omniauthable, omniauth_providers => [:google_oauth2]
-  # attr_accessible :email, :password, :password_confirmation,
-  #                 :remember_me
+
   has_many :enrollments
   has_many :course_instances, through: :enrollments
   has_many :submission_grades, foreign_key: :student_id

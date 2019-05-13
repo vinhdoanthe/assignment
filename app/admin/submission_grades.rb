@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ActiveAdmin.register SubmissionGrade do
   menu priority: 1
   config.per_page = [10, 50, 100]
@@ -11,19 +13,17 @@ ActiveAdmin.register SubmissionGrade do
   filter :mentor_email, as: :string, filters: [:contains]
   filter :assigned_at
   filter :graded_at
-  # filter :assignment_grade_type, as: :select
 
   # Scopes (default filters) for index page
-  scope('All latest') { |scope| scope.where(is_latest: true) }
-  scope('Submitted') { |scope| scope.where(status: Constants::SUBMISSION_GRADE_STATUS_SUBMITTED, is_latest: true) }
-  scope('Assigned') { |scope| scope.where(status: Constants::SUBMISSION_GRADE_STATUS_ASSIGNED, is_latest: true) }
-  # scope('Need interview') { |scope| scope.where(is_latest: true, grade_type: Constants::ASSIGNMENT_GRADE_TYPE_INTERVIEW) }
+  scope('All latest') {|scope| scope.where(is_latest: true)}
+  scope('Submitted') {|scope| scope.where(status: Constants::SUBMISSION_GRADE_STATUS_SUBMITTED, is_latest: true)}
+  scope('Assigned') {|scope| scope.where(status: Constants::SUBMISSION_GRADE_STATUS_ASSIGNED, is_latest: true)}
   scope :all
 
   controller do
-    # belongs_to :user, class_name: 'User', foreign_key: 'student_id', optional: true
-    # belongs_to :user, class_name: 'User', foreign_key: 'mentor_id', optional: true
     belongs_to :assignments, optional: true
+
+    def assign_mentor; end
   end
 
   index do
@@ -40,7 +40,14 @@ ActiveAdmin.register SubmissionGrade do
     column :point
     column :graded_at
     column :grade_type
-    actions
+
+    actions defaults: false do |resource|
+      item 'View', admin_submission_grade_path(resource)
+      text_node ' | '
+      item 'Assign mentor', assign_mentor_admin_submission_grade_path(resource)
+      text_node ' | '
+      item 'Edit', edit_admin_submission_grade_path(resource)
+    end
   end
 
   show title: :display_name do
@@ -72,5 +79,20 @@ ActiveAdmin.register SubmissionGrade do
       row :graded_rubric
     end
   end
-  permit_params :assignment_id, :student_id, :status, :attempt, :is_latest, :mentor_id, :assigned_at, :point, :graded_at
+  permit_params :assignment_id, :student_id,
+                :status, :attempt, :is_latest,
+                :mentor_id, :assigned_at, :point, :graded_at
+
+  member_action :assign_mentor, method: %i[get post] do
+    if request.post?
+
+    else
+      render :'admin/submission_grades/assign_mentor',
+             locals: {submission_grade: resource}
+    end
+  end
+
+  action_item :assign_mentor, only: :show do
+    link_to 'Assign mentor', assign_mentor_admin_submission_grade_path(self)
+  end
 end
