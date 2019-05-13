@@ -1,4 +1,7 @@
+# frozen_string_literal: true
+
 Rails.application.routes.draw do
+  # devise_for :admin_users, {class_name: 'User'}.merge(ActiveAdmin::Devise.config)
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
 
@@ -27,7 +30,7 @@ Rails.application.routes.draw do
   # resources :admins
   resources :submission_grades
   resources :enrollments
-  devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
+  devise_for :users, controllers: {omniauth_callbacks: 'users/omniauth_callbacks'}
 
   resources :graded_rubrics
 
@@ -36,7 +39,7 @@ Rails.application.routes.draw do
   resources :course_instances
   resources :programs
   resources :courses
-  root to: "home#index"
+  root to: 'home#index'
 
   get 'get_assignments_by_course_instance/:course_instance_id', to: 'assignments#get_assignments_by_course_instance'
   get 'my_courses', to: 'course_instances#my_courses'
