@@ -27,7 +27,7 @@ Rails.application.routes.draw do
   # resources :admins
   resources :submission_grades
   resources :enrollments
-  devise_for :users
+  devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
 
   resources :graded_rubrics
 

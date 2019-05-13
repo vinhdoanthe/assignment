@@ -15,7 +15,7 @@ class Assignment < ApplicationRecord
                               Constants::ASSIGNMENT_GRADE_TYPE_INTERVIEW]
 
   def display_name
-    "#{self.course_instance.nil? ? '' : self.course_instance.code} - #{self.name}"
+    "#{course_instance.nil? ? '' : course_instance.code} - #{name}"
   end
 
   def status_of_learner(user_id)

@@ -4,4 +4,5 @@ module ApplicationHelper
   include CourseInstancesHelper
   include CriteriaFormatsHelper
   include GradedCriteriaHelper
+  include GradedRubricsHelper
 end

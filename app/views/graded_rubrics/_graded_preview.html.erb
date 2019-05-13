@@ -1,3 +1,4 @@
+<b>Preview grades</b>
 <%= semantic_form_for graded_rubric do |form| %>
 
   <!--  Display errors if have any-->
@@ -35,6 +36,7 @@
 
   <!--  Submit area-->
   <%= form.actions do %>
-    <%= form.action :submit, :label => "Submit grade", :button_html => { 'data-confirm'.to_sym => "You are submitting #{graded_rubric.display_name}.\n Total point is #{pre_calculate_point(graded_rubric)}"} %>
+    <%= form.action :submit, :label => "Submit grade", :confirm => "
+  You are submitting grade for #{graded_rubric.display_name} '/n' Total point is #{}" %>
   <% end %>
 <% end %>

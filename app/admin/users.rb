@@ -1,4 +1,21 @@
 ActiveAdmin.register User do
+  active_admin_import validate: true,
+                      template_object: ActiveAdminImport::Model.new(
+                          force_encoding: :auto
+                      )
+                      # before_batch_import: proc { |import|
+                      #   import.file #current file used
+                      #   import.resource #ActiveRecord class to import to
+                      #   import.options # options
+                      #   import.result # result before bulk iteration
+                      #   import.headers # CSV headers
+                      #   import.csv_lines #lines to import
+                      #   import.model #template_object instance
+                      # },
+                      # after_batch_import: proc{ |import|
+                      #   #the same
+                      # }
+
   form do |form|
     title form.object.new_record? ? 'Add new user' : 'Edit user'
     form.semantic_errors

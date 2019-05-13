@@ -5,6 +5,7 @@ ruby '2.5.1'
 
 gem 'bootstrap', '~> 4.3.1'
 gem 'devise'
+gem "omniauth-google-oauth2"
 gem 'jquery-rails'
 gem "smart_listing"
 # gem 'best_in_place', '~> 3.0.1'
@@ -19,6 +20,7 @@ gem 'draper'
 gem 'pundit'
 gem 'activeadmin'
 gem 'config'
+gem "active_admin_import"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.3'

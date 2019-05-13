@@ -27,6 +27,14 @@ class SubmissionGrade < ApplicationRecord
     "#{assignment.display_name} - Attempt #{attempt}"
   end
 
+  def grade_type=(grade_type)
+    # Do nothing
+  end
+
+  def grade_type
+    assignment.grade_type
+  end
+
   def self.update_latest(student_id, assignment_id, attempt)
     begin
       prev_latest = SubmissionGrade.where(student_id: student_id,
@@ -96,9 +104,6 @@ class SubmissionGrade < ApplicationRecord
   end
 
   def update_point(added_point)
-
-    # Todo find prev attempt and re-calculate point
-
     if attempt == 1
       self.point = added_point
     else
