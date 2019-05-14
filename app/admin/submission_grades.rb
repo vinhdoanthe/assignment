@@ -7,10 +7,12 @@ ActiveAdmin.register SubmissionGrade do
   # Filters for index page
   filter :status, as: :select
   filter :is_latest, as: :check_boxes
-  filter :assignment
-  filter :student_email, as: :string, filters: [:contains]
+  filter :assignment, as: :searchable_select
+  # filter :student_email, as: :string, filters: [:contains]
+  filter :student, as: :searchable_select
+  filter :mentor, as: :searchable_select
   filter :created_at
-  filter :mentor_email, as: :string, filters: [:contains]
+  # filter :mentor_email, as: :string, filters: [:contains]
   filter :assigned_at
   filter :graded_at
 
@@ -84,6 +86,7 @@ ActiveAdmin.register SubmissionGrade do
     if request.post?
       submission_grade.mentor_id = params[:submission_grade][:mentor_id]
       submission_grade.status = submission_grade.mentor.nil? ? Constants::SUBMISSION_GRADE_STATUS_SUBMITTED : Constants::SUBMISSION_GRADE_STATUS_ASSIGNED
+      submission_grade.assigned_at = Time.now
       submission_grade.save
       redirect_to admin_submission_grade_path(submission_grade)
     else
@@ -102,6 +105,7 @@ ActiveAdmin.register SubmissionGrade do
       mentor = User.find(inputs[:user])
       submission_grade.mentor_id = mentor.id
       submission_grade.status = submission_grade.mentor.nil? ? Constants::SUBMISSION_GRADE_STATUS_SUBMITTED : Constants::SUBMISSION_GRADE_STATUS_ASSIGNED
+      submission_grade.assigned_at = Time.now
       submission_grade.save
     end
     redirect_to admin_submission_grades_path

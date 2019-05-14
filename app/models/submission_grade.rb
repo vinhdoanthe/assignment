@@ -53,6 +53,63 @@ class SubmissionGrade < ApplicationRecord
     end
   end
 
+  filterrific(
+      default_filter_params: {sorted_by: "created_at_desc"},
+      available_filters: [
+          :sorted_by,
+          :search_query,
+          :with_status,
+          :with_created_at_gte,
+      ],
+  )
+
+  scope :sorted_by, ->(sort_option) do
+    direction = /desc$/.match?(sort_option) ? "desc" : "asc"
+    case sort_option.to_s
+    when /^created_at_/
+      order("submission_grades.created_at #{direction}")
+    else
+      raise(ArgumentError, "Invalid sort option: #{sort_option.inspect}")
+    end
+  end
+
+  scope :search_query, ->(query) do
+    # return nil  if query.blank?
+    # terms = query.downcase.split(/\s+/)
+    # terms = terms.map { |e|
+    #   (e.tr("*", "%") + "%").gsub(/%+/, "%")
+    # }
+    # num_or_conds = 2
+    # where(
+    #     terms.map { |_term|
+    #       "(LOWER(students.first_name) LIKE ? OR LOWER(students.last_name) LIKE ?)"
+    #     }.join(" AND "),
+    #     *terms.map { |e| [e] * num_or_conds }.flatten,
+    #     )
+  end
+
+  scope :with_status, ->(status) do
+    where(status: [*status])
+  end
+
+  scope :with_created_at_gte, ->(ref_date) do
+
+  end
+
+  def self.options_for_sorted_by
+    [
+        ["Submitted date (newest first)", "created_at_desc"],
+        ["Submitted date (oldest first)", "created_at_asc"],
+    ]
+  end
+
+  def self.options_for_select
+    {Constants::SUBMISSION_GRADE_STATUS_SUBMITTED => Constants::SUBMISSION_GRADE_STATUS_SUBMITTED,
+     Constants::SUBMISSION_GRADE_STATUS_ASSIGNED => Constants::SUBMISSION_GRADE_STATUS_ASSIGNED,
+     Constants::SUBMISSION_GRADE_STATUS_PASSED => Constants::SUBMISSION_GRADE_STATUS_PASSED,
+     Constants::SUBMISSION_GRADE_STATUS_NOTPASSED => Constants::SUBMISSION_GRADE_STATUS_NOTPASSED}
+  end
+
   def self.create_graded_rubric(submission_id)
     submission_grade = SubmissionGrade.find(submission_id)
     rubric = submission_grade.assignment.rubric

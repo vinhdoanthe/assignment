@@ -52,6 +52,7 @@ class GradedRubricsController < ApplicationController
   end
 
   def update
+    # validate_grade_all_required_criteria!
     @graded_rubric.update_attributes(graded_rubric_params)
     @graded_rubric.calculate_point!
     submission_grade = @graded_rubric.submission_grade
@@ -101,4 +102,23 @@ class GradedRubricsController < ApplicationController
                                           graded_criteriums_attributes:
                                               %i[id status comment point])
   end
+  #
+  # def validate_grade_all_required_criteria!
+  #   graded_criteriums = params[:graded_rubric][:graded_criteriums_attributes]
+  #   index = 0
+  #   until graded_criteriums["#{index}"].nil?
+  #     if graded_criteriums["#{index}"][:status]== Constants::GRADED_CRITERIA_STATUS_NOTGRADED
+  #       flash[:notice] = 'Please grade all criteria'
+  #       render :edit
+  #     end
+  #     index += 1
+  #   end
+  #   # graded_criteriums.each do |criterium|
+  #   #   if criterium[:status] == Constants::GRADED_CRITERIA_STATUS_NOTGRADED
+  #   #     flash[:notice] = 'Please grade all criteria'
+  #   #     render :edit
+  #   #   end
+  #   # end
+  # end
+
 end

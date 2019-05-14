@@ -1,48 +1,50 @@
-<div class="container">
-  <div class="row">
-    <% unless submissions.empty? %>
-      <%#= submissions.length %>
-      <table class="table table-striped table-hover">
-        <tr>
-          <th>Status</th>
-          <th>Course instance</th>
-          <th>Assignment</th>
-          <th>Submission</th>
-          <th>Attempts</th>
-          <th>Grade file</th>
-          <th>Point</th>
-          <th></th>
-        </tr>
-        <% submissions.each do |submission| %>
-          <tr>
-            <td><%= submission.status %></td>
-            <td><%= submission.assignment.course_instance.code %></td>
-            <td><%= submission.assignment.name %></td>
-            <td><%= (submission.submission_file.attached?) ? link_to("Submission", rails_blob_path(submission.submission_file, disposition: "attachment")) : '' %></td>
-            <td><%= submission.attempt %></td>
-            <td></td>
-            <td><%= (submission.status == Constants::SUBMISSION_GRADE_STATUS_SUBMITTED || submission.status == Constants::SUBMISSION_GRADE_STATUS_ASSIGNED) ? 'N/A' : submission.point %></td>
-            <td>
-              <% if current_user.mentor? %>
-                <%= link_to "View", submission_grade_path(submission) %> |
-                <% if submission.graded_rubric.nil? %>
-                  <%= link_to "Grade", grade_submission_path(:submission_id => submission.id) %>
-                <% else %>
-                  <%= link_to "Grade", edit_graded_rubric_path(submission.graded_rubric) %>
-                <% end %>
-              <% elsif current_user.admin? %>
+<div class="" id="filterrific_results">
 
-              <% elsif current_user.learner? %>
-
-              <% else %>
-
-              <% end %>
-            </td>
-          </tr>
-        <% end %>
-      </table>
-    <% else %>
-      <p>You have no assigned submissions</p>
-    <% end %>
+  <div>
+    <%= simple_format page_entries_info submissions %>
   </div>
+
+  <table class="table table-stripped table-hover">
+    <tr>
+      <th>Status</th>
+      <th>Assignment</th>
+      <th>Submission</th>
+      <th>Attempts</th>
+      <th>Submitted at</th>
+      <th>Assigned at</th>
+      <th colspan="2">Point</th>
+    </tr>
+    <% submissions.each do |submission| %>
+      <tr>
+        <td><%= submission.status %></td>
+        <td><%= submission.assignment.display_name %></td>
+        <td><%= (submission.submission_file.attached?) ? link_to("Click to download", rails_blob_path(submission.submission_file, disposition: "attachment")) : '' %></td>
+        <td><%= submission.attempt %></td>
+        <td><%= submission.created_at.strftime('%d/%m/%Y') %></td>
+        <td><%= submission.assigned_at.nil? ? '' : submission.assigned_at.strftime('%d/%m/%Y') %></td>
+        <td><%= (submission.status == Constants::SUBMISSION_GRADE_STATUS_ASSIGNED) ? 'N/A' : submission.point %></td>
+        <td>
+          <% if current_user.mentor? %>
+            <%= link_to "View", submission_grade_path(submission) %>
+            <% if submission.status == Constants::SUBMISSION_GRADE_STATUS_ASSIGNED %>
+              |
+              <% if submission.graded_rubric.nil? %>
+                <%= link_to "Grade", grade_submission_path(:submission_id => submission.id) %>
+              <% else %>
+                <%= link_to "Grade", edit_graded_rubric_path(submission.graded_rubric) %>
+              <% end %>
+            <% end %>
+          <% elsif current_user.admin? %>
+
+          <% elsif current_user.learner? %>
+
+          <% else %>
+
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </table>
 </div>
+
+<%= will_paginate submissions %>

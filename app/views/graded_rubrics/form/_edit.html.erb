@@ -1,4 +1,6 @@
-<%= semantic_form_for graded_rubric do |form| %>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.serializeJSON/2.9.0/jquery.serializejson.js"></script>
+
+<%= semantic_form_for graded_rubric, :html => {:id => 'grade_form'} do |form| %>
 
   <!--  Display errors if have any-->
   <% if graded_rubric.errors.any? %>
@@ -35,6 +37,7 @@
 
   <!--  Submit area-->
   <%= form.actions do %>
-    <%= form.action :submit, :label => "Submit grade", :button_html => { 'data-confirm'.to_sym => "You are submitting #{graded_rubric.display_name}.\n Total point is #{pre_calculate_point(graded_rubric)}"} %>
+    <%#= form.action :submit, :label => "Submit grade", :button_html => { :required => true, :id => 'submit_grade_button', 'data-confirm'.to_sym => "You are submitting #{graded_rubric.display_name}.\n Total point is #{pre_calculate_point(graded_rubric)}"} %>
+    <%= form.action :submit, :label => "Submit grade", :button_html => {:id => 'submit_grade_button'} %>
   <% end %>
 <% end %>

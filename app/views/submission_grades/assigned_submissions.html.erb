@@ -1,2 +1,33 @@
-<h2>Your assigned submissions</h2>
-<%= render partial: 'shared/submissions', :locals => {:submissions => @assigned_submissions} %>
+<h2>Your grades</h2>
+
+<%= form_for_filterrific @filterrific do |f| %>
+  <div class="container">
+    <div class="row">
+
+      <div class="form-group">
+        Status:
+        <%= f.select(
+                :with_status,
+                @filterrific.select_options[:with_status],
+                {include_blank: '- Any -'}
+            ) %>
+      </div>
+      <div class="form-group">
+        Sorted by:
+        <%= f.select(:sorted_by, @filterrific.select_options[:sorted_by]) %>
+      </div>
+      <div class="form-group">
+        <%= link_to(
+                'Reset filters',
+                reset_filterrific_url,
+            ) %>
+      </div>
+      <%= render_filterrific_spinner %>
+    </div>
+<% end %>
+</div>
+
+<%= render(
+        partial: 'shared/submissions',
+        locals: {:submissions => @assigned_submissions}
+    ) %>

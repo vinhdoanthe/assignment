@@ -1,3 +1,0 @@
-class SubmissionGradesController < ApplicationController
-  
-end
