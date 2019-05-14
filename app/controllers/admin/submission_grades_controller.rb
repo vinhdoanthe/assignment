@@ -1,0 +1,3 @@
+class SubmissionGradesController < ApplicationController
+  
+end

@@ -1,7 +1,7 @@
 <strong>Assign mentor</strong>
-<%= semantic_form_for submission_grade do |form| %>
+<%= semantic_form_for submission_grade, url: assign_mentor_admin_submission_grade_path, :html => {:method => :post} do |form| %>
   <%= form.inputs do %>
-    <%= form.input :mentor %>
+    <%= form.input :mentor, as: :select, collection: User.where(role: Constants::USER_ROLE_MENTOR) %>
   <% end %>
   <%= form.actions do %>
     <%= form.action :submit, :label => "Assign mentor" %>

@@ -65,10 +65,6 @@ class SubmissionGrade < ApplicationRecord
 
       graded_rubric.save
 
-      puts "Passed criteriums #{passed_criteriums.inspect}"
-      puts "passed_indexes.inspect #{passed_indexes.inspect}"
-      puts "graded_rubric.inspect #{graded_rubric.inspect}"
-
       begin
         criteria_formats = rubric.criteria_formats
 

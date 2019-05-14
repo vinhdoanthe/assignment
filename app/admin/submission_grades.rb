@@ -22,8 +22,6 @@ ActiveAdmin.register SubmissionGrade do
 
   controller do
     belongs_to :assignments, optional: true
-
-    def assign_mentor; end
   end
 
   index do
@@ -45,8 +43,6 @@ ActiveAdmin.register SubmissionGrade do
       item 'View', admin_submission_grade_path(resource)
       text_node ' | '
       item 'Assign mentor', assign_mentor_admin_submission_grade_path(resource)
-      text_node ' | '
-      item 'Edit', edit_admin_submission_grade_path(resource)
     end
   end
 
@@ -84,15 +80,30 @@ ActiveAdmin.register SubmissionGrade do
                 :mentor_id, :assigned_at, :point, :graded_at
 
   member_action :assign_mentor, method: %i[get post] do
+    submission_grade = SubmissionGrade.find(params[:id])
     if request.post?
-
+      submission_grade.mentor_id = params[:submission_grade][:mentor_id]
+      submission_grade.status = submission_grade.mentor.nil? ? Constants::SUBMISSION_GRADE_STATUS_SUBMITTED : Constants::SUBMISSION_GRADE_STATUS_ASSIGNED
+      submission_grade.save
+      redirect_to admin_submission_grade_path(submission_grade)
     else
       render :'admin/submission_grades/assign_mentor',
-             locals: {submission_grade: resource}
+             locals: {submission_grade: submission_grade}
     end
   end
 
   action_item :assign_mentor, only: :show do
-    link_to 'Assign mentor', assign_mentor_admin_submission_grade_path(self)
+    submission_grade = SubmissionGrade.find(params[:id])
+    link_to 'Assign mentor', assign_mentor_admin_submission_grade_path(submission_grade)
+  end
+
+  batch_action :assign_mentor, form: -> {{user: User.where(role: Constants::USER_ROLE_MENTOR).pluck(:email, :id)}} do |ids, inputs|
+    batch_action_collection.find(ids).each do |submission_grade|
+      mentor = User.find(inputs[:user])
+      submission_grade.mentor_id = mentor.id
+      submission_grade.status = submission_grade.mentor.nil? ? Constants::SUBMISSION_GRADE_STATUS_SUBMITTED : Constants::SUBMISSION_GRADE_STATUS_ASSIGNED
+      submission_grade.save
+    end
+    redirect_to admin_submission_grades_path
   end
 end
