@@ -15,11 +15,11 @@ class SubmissionGradesTest < ApplicationSystemTestCase
     click_on "New Submission Grade"
 
     fill_in "Assignment", with: @submission_grade.assignment_id
-    fill_in "Attempt count", with: @submission_grade.attempt_count
+    fill_in "Attempt count", with: @submission_grade.is_latest
     fill_in "Grade status", with: @submission_grade.grade_status
     fill_in "Graded file", with: @submission_grade.graded_file_id
     fill_in "Graded rubric", with: @submission_grade.graded_rubric_id
-    check "Latest" if @submission_grade.latest
+    check "Latest" if @submission_grade.is_latest
     fill_in "Mentor", with: @submission_grade.mentor_id
     fill_in "Point", with: @submission_grade.point
     fill_in "Student", with: @submission_grade.student_id
@@ -36,11 +36,11 @@ class SubmissionGradesTest < ApplicationSystemTestCase
     click_on "Edit", match: :first
 
     fill_in "Assignment", with: @submission_grade.assignment_id
-    fill_in "Attempt count", with: @submission_grade.attempt_count
+    fill_in "Attempt count", with: @submission_grade.is_latest
     fill_in "Grade status", with: @submission_grade.grade_status
     fill_in "Graded file", with: @submission_grade.graded_file_id
     fill_in "Graded rubric", with: @submission_grade.graded_rubric_id
-    check "Latest" if @submission_grade.latest
+    check "Latest" if @submission_grade.is_latest
     fill_in "Mentor", with: @submission_grade.mentor_id
     fill_in "Point", with: @submission_grade.point
     fill_in "Student", with: @submission_grade.student_id

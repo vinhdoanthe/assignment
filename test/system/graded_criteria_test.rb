@@ -17,7 +17,6 @@ class GradedCriteriaTest < ApplicationSystemTestCase
     fill_in "Comment", with: @graded_criterium.comment
     fill_in "Description", with: @graded_criterium.description
     fill_in "Graded rubric", with: @graded_criterium.graded_rubric_id
-    check "Is passed" if @graded_criterium.is_passed
     fill_in "Point", with: @graded_criterium.point
     check "Required" if @graded_criterium.required
     click_on "Create Graded criterium"
@@ -33,7 +32,6 @@ class GradedCriteriaTest < ApplicationSystemTestCase
     fill_in "Comment", with: @graded_criterium.comment
     fill_in "Description", with: @graded_criterium.description
     fill_in "Graded rubric", with: @graded_criterium.graded_rubric_id
-    check "Is passed" if @graded_criterium.is_passed
     fill_in "Point", with: @graded_criterium.point
     check "Required" if @graded_criterium.required
     click_on "Update Graded criterium"

@@ -1,20 +1,45 @@
+# frozen_string_literal: true
+
 Rails.application.routes.draw do
+  # devise_for :admin_users, {class_name: 'User'}.merge(ActiveAdmin::Devise.config)
+  devise_for :admin_users, ActiveAdmin::Devise.config
+  ActiveAdmin.routes(self)
+
+  namespace :admin do
+    resources :courses do
+      resources :course_instances
+    end
+    resources :programs do
+      resources :course_instances
+    end
+    resources :course_instances do
+      resources :assignments
+      resources :enrollments
+    end
+    resources :assignments do
+      resources :rubrics
+    end
+    resources :submission_grades do
+      resources :graded_rubrics
+    end
+  end
+
   resources :graded_criteria
   resources :criteria_formats
-  mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
-  resources :admins
-  resources :submission_grades do
-    post 'assign_mentor', :on => :collection
-  end
+  # mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
+  # resources :admins
+  resources :submission_grades
   resources :enrollments
-  devise_for :users
+  devise_for :users, controllers: {omniauth_callbacks: 'users/omniauth_callbacks'}
+
   resources :graded_rubrics
+
   resources :rubrics
   resources :assignments
   resources :course_instances
   resources :programs
   resources :courses
-  root to: "home#index"
+  root to: 'home#index'
 
   get 'get_assignments_by_course_instance/:course_instance_id', to: 'assignments#get_assignments_by_course_instance'
   get 'my_courses', to: 'course_instances#my_courses'

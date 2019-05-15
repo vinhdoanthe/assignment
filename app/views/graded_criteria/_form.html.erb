@@ -1,47 +1,18 @@
-<%= form_with(model: graded_criterium, local: true) do |form| %>
+<%= semantic_form_for graded_criterium do |criteria| %>
   <% if graded_criterium.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(graded_criterium.errors.count, "error") %> prohibited this graded_criterium from being saved:</h2>
+      <h2><%= pluralize(graded_criterium.errors.count, "error") %> prohibited this graded_criterium from being
+        saved:</h2>
 
       <ul>
-      <% graded_criterium.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
+        <% graded_criterium.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
       </ul>
     </div>
   <% end %>
-
-  <div class="field">
-    <%= form.label :graded_rubric_id %>
-    <%= form.text_field :graded_rubric_id %>
-  </div>
-
-  <div class="field">
-    <%= form.label :description %>
-    <%= form.text_area :description %>
-  </div>
-
-  <div class="field">
-    <%= form.label :point %>
-    <%= form.text_field :point %>
-  </div>
-
-  <div class="field">
-    <%= form.label :required %>
-    <%= form.check_box :required %>
-  </div>
-
-  <div class="field">
-    <%= form.label :is_passed %>
-    <%= form.check_box :is_passed %>
-  </div>
-
-  <div class="field">
-    <%= form.label :comment %>
-    <%= form.text_area :comment %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
-  </div>
+  <%= "Criteria #{criteria.object.index}" %>
+  <%= criteria.object.description %>
+  <%= criteria.input :status, :as => :select, :default => nil %>
+  <%= criteria.input :comment, as: :text, :input_html => {:rows => 5} %>
 <% end %>

@@ -16,5 +16,9 @@
 //= require jquery3
 //= require jquery-ui
 //= require popper
+//= require bootstrap
 //= require bootstrap-sprockets
+//= require filterrific/filterrific-jquery
+//= require rails.validations
+// = require select2
 //= require_tree .

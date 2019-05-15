@@ -10,7 +10,7 @@
     <th>Submission status</th>
     <th>Submission file</th>
     <th>Attempt count</th>
-    <th>Latest</th>
+    <th>is_latest</th>
     <th>Mentor</th>
 <!--    <th>Grade status</th>-->
     <th>Graded rubric</th>
@@ -32,8 +32,8 @@
         <% else %>
         <% end %>
       </td>
-      <td><%= submission_grade.attempt_count %></td>
-      <td><%= submission_grade.latest %></td>
+      <td><%= submission_grade.is_latest %></td>
+      <td><%= submission_grade.is_latest %></td>
       <td><%= submission_grade.mentor.nil? ? "" : submission_grade.mentor.email %></td>
 <!--      <td><%#= submission_grade.grade_status %></td>-->
       <td><%= submission_grade.graded_rubric %></td>

@@ -8,4 +8,8 @@ class Program < ApplicationRecord
 
   has_many :course_instances, inverse_of: :program
   enumerize :status, in: [Constants::PROGRAM_STATUS_ACTIVE, Constants::PROGRAM_STATUS_INACTIVE]
+
+  def display_name
+    code.to_s
+  end
 end

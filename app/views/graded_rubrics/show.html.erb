@@ -1,18 +1,8 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>Rubric:</strong>
-  <%= @graded_rubric.rubric %>
-</p>
-
-<!--<p>-->
-<!--  <strong>Type:</strong>-->
-  <%#= @graded_rubric.type %>
-<!--</p>-->
-
-<p>
-  <strong>Status:</strong>
-  <%= @graded_rubric.status %>
+  <strong>Comment:</strong>
+  <%= @graded_rubric.comment %>
 </p>
 
 <p>
@@ -20,5 +10,4 @@
   <%= @graded_rubric.point %>
 </p>
 
-<!--<%#= link_to 'Edit', edit_graded_rubric_path(@graded_rubric) %> |-->
 <%= link_to 'Back', root_path %>

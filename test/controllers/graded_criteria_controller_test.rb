@@ -17,7 +17,7 @@ class GradedCriteriaControllerTest < ActionDispatch::IntegrationTest
 
   test "should create graded_criterium" do
     assert_difference('GradedCriterium.count') do
-      post graded_criteria_url, params: { graded_criterium: { comment: @graded_criterium.comment, description: @graded_criterium.description, graded_rubric_id: @graded_criterium.graded_rubric_id, is_passed: @graded_criterium.is_passed, point: @graded_criterium.point, required: @graded_criterium.required } }
+      post graded_criteria_url, params: { graded_criterium: { comment: @graded_criterium.comment, description: @graded_criterium.description, graded_rubric_id: @graded_criterium.graded_rubric_id, status: @graded_criterium.status, point: @graded_criterium.point, required: @graded_criterium.required } }
     end
 
     assert_redirected_to graded_criterium_url(GradedCriterium.last)
@@ -34,7 +34,7 @@ class GradedCriteriaControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update graded_criterium" do
-    patch graded_criterium_url(@graded_criterium), params: { graded_criterium: { comment: @graded_criterium.comment, description: @graded_criterium.description, graded_rubric_id: @graded_criterium.graded_rubric_id, is_passed: @graded_criterium.is_passed, point: @graded_criterium.point, required: @graded_criterium.required } }
+    patch graded_criterium_url(@graded_criterium), params: { graded_criterium: { comment: @graded_criterium.comment, description: @graded_criterium.description, graded_rubric_id: @graded_criterium.graded_rubric_id, status: @graded_criterium.status, point: @graded_criterium.point, required: @graded_criterium.required } }
     assert_redirected_to graded_criterium_url(@graded_criterium)
   end
 

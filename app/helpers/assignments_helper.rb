@@ -17,6 +17,6 @@ module AssignmentsHelper
   end
 
   def get_submission(assignment_id)
-    SubmissionGrade.where(:assignment_id => assignment_id, :student_id => current_user.id, :latest => true).first
+    SubmissionGrade.where(:assignment_id => assignment_id, :student_id => current_user.id, :is_latest => true).first
   end
 end

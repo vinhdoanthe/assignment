@@ -5,16 +5,22 @@ ruby '2.5.1'
 
 gem 'bootstrap', '~> 4.3.1'
 gem 'devise'
+gem "omniauth-google-oauth2"
 gem 'jquery-rails'
-gem "smart_listing"
-# gem 'best_in_place', '~> 3.0.1'
 gem 'jquery-ui-rails'
-gem 'rails_admin', '~> 1.3'
 gem 'paper_trail'
-gem "rails_admin_import", "~> 2.2"
 gem 'enumerize'
-gem 'rails_admin_selectable'
 gem 'cancancan'
+# gem 'draper'
+# gem 'pundit'
+gem 'activeadmin'
+gem 'config'
+gem 'active_admin_import'
+gem 'activeadmin-searchable_select'
+gem 'filterrific'
+gem 'will_paginate'
+gem 'client_side_validations'
+gem "figaro"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.3'
