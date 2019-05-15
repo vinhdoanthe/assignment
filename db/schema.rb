@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_13_085521) do
+ActiveRecord::Schema.define(version: 2019_05_15_115416) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
@@ -155,6 +155,7 @@ ActiveRecord::Schema.define(version: 2019_05_13_085521) do
     t.datetime "updated_at", null: false
     t.datetime "assigned_at"
     t.datetime "graded_at"
+    t.integer "attempt"
     t.index ["assignment_id"], name: "index_submission_grades_on_assignment_id"
     t.index ["mentor_id"], name: "index_submission_grades_on_mentor_id"
     t.index ["student_id"], name: "index_submission_grades_on_student_id"
