@@ -33,8 +33,6 @@ class RefactorModels < ActiveRecord::Migration[5.2]
     rename_column :criteria_formats, :required, :is_required
 
     # SubmissionGrade model
-    rename_column :submission_grades, :is_latest, :attempt
-    rename_column :submission_grades, :is_latest, :is_latest
     remove_column :submission_grades, :graded_rubric_id
     add_column :submission_grades, :assigned_at, :datetime
     add_column :submission_grades, :graded_at, :datetime

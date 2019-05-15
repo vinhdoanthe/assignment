@@ -148,7 +148,6 @@ ActiveRecord::Schema.define(version: 2019_05_13_085521) do
     t.integer "assignment_id"
     t.integer "student_id"
     t.string "status"
-    t.integer "attempt"
     t.boolean "is_latest"
     t.integer "mentor_id"
     t.decimal "point"
