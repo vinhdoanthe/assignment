@@ -114,6 +114,7 @@ class SubmissionGradesController < ApplicationController
           SubmissionGrade.update_latest(@submission_grade.student_id, @submission_grade.assignment_id, @submission_grade.attempt - 1)
         end
         SubmissionGrade.create_graded_rubric(@submission_grade.id)
+        SubmissionGradeMailer.submitted_email(current_user, @submission_grade).deliver
       end
     else
       render js: "alert('You do not have permission to perform this action');"
