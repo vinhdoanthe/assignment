@@ -8,12 +8,19 @@
 * act_as_paranoid for soft deleted (to-do)
 * enumerize for enum types in model & sql
 * cancancan for authorization (to-do)
+## Settings that needs configure on production enviroment
+* sidekiq
+* redis
+* action mailer
+* whenever
+* config
+* figaro
 
 ## To do features
 * Show progress in uploading files
 * Send email
 * Cron job for checking expired submissions/grades
-* #####Add field "type" to criteria_format: point, pass_failed, interval,...
+* #### Add field "type" to criteria_format: point, pass_failed, interval,...
 * Bulk assign mentor 
   * https://stackoverflow.com/questions/11525459/customize-rails-admin-delete-action-for-a-specific-model
   * https://www.endpoint.com/blog/2012/03/15/railsadmin-custom-action-case-study

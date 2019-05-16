@@ -13,7 +13,6 @@ class SubmissionGradesController < ApplicationController
   end
 
   def assigned_submissions
-    # @assigned_submissions = SubmissionGrade.where(mentor_id: current_user.id, status: SUBMISSION_GRADE_STATUS_ASSIGNED, is_latest: true).or(SubmissionGrade.where(mentor_id: current_user.id, status: SUBMISSION_GRADE_STATUS_SUBMITTED, is_latest: true))
     @filterrific = initialize_filterrific(
         SubmissionGrade,
         params[:filterrific],
@@ -55,7 +54,7 @@ class SubmissionGradesController < ApplicationController
     @submission_grade.point = params[:submission_grade][:point]
     if params[:submission_grade][:point].present?
       if @submission_grade.point < 8
-        @submission_grade.status = Constants::SUBMISSION_GRADE_STATUS_NOTPASSED
+        @submission_grade.status = Constants::SUBMISSION_GRADE_STATUS_NOT_PASSED
       else
         @submission_grade.status = Constants::SUBMISSION_GRADE_STATUS_PASSED
       end
@@ -86,7 +85,7 @@ class SubmissionGradesController < ApplicationController
       latest_submission = SubmissionGrade.where(:assignment_id => params[:assignment], :is_latest => true).first
       if latest_submission.nil?
         @submission_grade.assignment = Assignment.find(params[:assignment])
-      elsif latest_submission.status == Constants::SUBMISSION_GRADE_STATUS_NOTPASSED
+      elsif latest_submission.status == Constants::SUBMISSION_GRADE_STATUS_NOT_PASSED
         @submission_grade.assignment = Assignment.find(params[:assignment])
       else
         redirect_to active_assignments_path
@@ -114,7 +113,7 @@ class SubmissionGradesController < ApplicationController
           SubmissionGrade.update_latest(@submission_grade.student_id, @submission_grade.assignment_id, @submission_grade.attempt - 1)
         end
         SubmissionGrade.create_graded_rubric(@submission_grade.id)
-        SubmissionGradeMailer.submitted_email(current_user, @submission_grade).deliver
+        SubmissionGradeMailer.submitted_email(current_user, @submission_grade).deliver_later
       end
     else
       render js: "alert('You do not have permission to perform this action');"

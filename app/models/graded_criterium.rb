@@ -19,7 +19,7 @@ class GradedCriterium < ApplicationRecord
 
   enumerize :status, in: [Constants::GRADED_CRITERIA_STATUS_NOTGRADED,
                           Constants::GRADED_CRITERIA_STATUS_PASSED,
-                          Constants::GRADED_CRITERIA_STATUS_FAILED]
+                          Constants::GRADED_CRITERIA_STATUS_FAILED], skip_validations: lambda {|criterium| criterium.new_record?}
 
   def display_name
     "#{graded_rubric.display_name} - Criteria #{index}"

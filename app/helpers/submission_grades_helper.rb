@@ -11,7 +11,7 @@ module SubmissionGradesHelper
     # Step 2: check previous submission
     last_submission_grade = SubmissionGrade.where(assignment_id: assignment_id, student_id: user_id, is_latest: true).first
     if last_submission_grade.nil? ||
-       (last_submission_grade.status == Constants::SUBMISSION_GRADE_STATUS_NOTPASSED &&
+       (last_submission_grade.status == Constants::SUBMISSION_GRADE_STATUS_NOT_PASSED &&
            (Assignment.find(assignment_id).max_attempt.zero? ? true : last_submission_grade.attempt < Assignment.find(assignment_id).max_attempt))
       true
     else

@@ -57,7 +57,7 @@ class GradedRubricsController < ApplicationController
     @graded_rubric.calculate_point!
     submission_grade = @graded_rubric.submission_grade
     if @graded_rubric.get_status == Constants::GRADED_RUBRIC_STATUS_FAILED
-      submission_grade.status = Constants::SUBMISSION_GRADE_STATUS_NOTPASSED
+      submission_grade.status = Constants::SUBMISSION_GRADE_STATUS_NOT_PASSED
     else
       submission_grade.status = Constants::SUBMISSION_GRADE_STATUS_PASSED
     end

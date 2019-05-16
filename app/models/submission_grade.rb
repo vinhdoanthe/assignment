@@ -20,8 +20,9 @@ class SubmissionGrade < ApplicationRecord
 
   enumerize :status, in: [Constants::SUBMISSION_GRADE_STATUS_SUBMITTED,
                           Constants::SUBMISSION_GRADE_STATUS_ASSIGNED,
+                          Constants::SUBMISSION_GRADE_STATUS_TAKEN_BACK,
                           Constants::SUBMISSION_GRADE_STATUS_PASSED,
-                          Constants::SUBMISSION_GRADE_STATUS_NOTPASSED]
+                          Constants::SUBMISSION_GRADE_STATUS_NOT_PASSED]
 
   def display_name
     "#{assignment.display_name} - Attempt #{attempt}"
@@ -93,8 +94,9 @@ class SubmissionGrade < ApplicationRecord
   def self.options_for_select
     { Constants::SUBMISSION_GRADE_STATUS_SUBMITTED => Constants::SUBMISSION_GRADE_STATUS_SUBMITTED,
       Constants::SUBMISSION_GRADE_STATUS_ASSIGNED => Constants::SUBMISSION_GRADE_STATUS_ASSIGNED,
+      Constants::SUBMISSION_GRADE_STATUS_TAKEN_BACK => Constants::SUBMISSION_GRADE_STATUS_TAKEN_BACK,
       Constants::SUBMISSION_GRADE_STATUS_PASSED => Constants::SUBMISSION_GRADE_STATUS_PASSED,
-      Constants::SUBMISSION_GRADE_STATUS_NOTPASSED => Constants::SUBMISSION_GRADE_STATUS_NOTPASSED }
+      Constants::SUBMISSION_GRADE_STATUS_NOT_PASSED => Constants::SUBMISSION_GRADE_STATUS_NOT_PASSED }
   end
 
   def self.create_graded_rubric(submission_id)
@@ -151,6 +153,29 @@ class SubmissionGrade < ApplicationRecord
                                    assignment_id: assignment_id,
                                    attempt: attempt - 1).first
       self.point = prev.point + added_point
+    end
+  end
+
+  def self.send_email_test
+    # SubmissionGradeMailer.submitted_email(User.where(email: 'doanthevinh1991@gmail.com').first, SubmissionGrade.first).deliver_now
+  end
+
+  def self.take_back
+    to_taken_submissions = where('status = ? AND is_latest = ? AND assigned_at < ?',
+                                 Constants::SUBMISSION_GRADE_STATUS_ASSIGNED,
+                                 true,
+                                 Time.now - Settings[:submission][:taken_back_after])
+    where('status = ? AND is_latest = ? AND assigned_at < ?',
+          Constants::SUBMISSION_GRADE_STATUS_ASSIGNED,
+          true,
+          Time.now - Settings[:submission][:taken_back_after])
+      .update_all(status: Constants::SUBMISSION_GRADE_STATUS_TAKEN_BACK,
+                  mentor_id: nil)
+
+    puts to_taken_submissions.inspect.to_s
+    to_taken_submissions.each do |submission|
+      # user = User.find(submission.student_id)
+      # SubmissionGradeMailer.submitted_email(user, submission).deliver_later
     end
   end
 end
