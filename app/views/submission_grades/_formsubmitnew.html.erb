@@ -1,0 +1,48 @@
+<%= simple_form_for submission_grade do |form| %>
+
+  <!--  Area for showing error if have any-->
+  <% if submission_grade.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(submission_grade.errors.count, "error") %> prohibited this submission_grade from being
+        saved:</h2>
+
+      <ul>
+        <% submission_grade.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <!--  Hidden area-->
+  <div hidden>
+    <%= form.input :assignment_id %>
+    <%= form.input :student_id %>
+    <%= form.input :status %>
+    <%= form.input :is_latest %>
+    <%= form.input :point %>
+  </div>
+
+  <!--  Input area-->
+  <table>
+    <tbody>
+    <tr>
+      <th>Assignment code</th>
+      <td><%= submission_grade.assignment.display_name %></td>
+    </tr>
+    <tr>
+      <th>Your Email</th>
+      <td><%= current_user.email %></td>
+    </tr>
+    <tr>
+      <th>Attach file (zip/rar)</th>
+      <td><%= form.file_field :submission_file, as: :file, label: false, required: true %></td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div class="actions">
+    <%= link_to "Cancel", active_assignments_path, class: 'btn btn-light' %>
+    <%= form.button :submit, "Submit solution" %>
+  </div>
+<% end %>

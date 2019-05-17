@@ -1,0 +1,36 @@
+<%= simple_form_for graded_rubric, url: :preview_rubric, method: :post do |form| %>
+    <!-- Grading Criteria -->
+    <table class="table table-bordered table-hover">
+      <thead>
+      <tr>
+        <th colspan="1">#</th>
+        <th colspan="1">Weight</th>
+        <th colspan="5">Description</th>
+        <th colspan="1">Point</th>
+        <th colspan="4">Comment</th>
+      </tr>
+      </thead>
+      <tbody>
+      <%= form.simple_fields_for :graded_criteriums do |criteria| %>
+        <tr>
+          <th colspan="1"><%= criteria.object.index %></th>
+          <td colspan="1"><span><%= criteria.object.weight %></span></td>
+          <td colspan="5">
+            <span><%= criteria.object.description %></span>
+          </td>
+          <td colspan="1">
+            <% if criteria.object.criteria_type == Constants::CRITERIA_TYPE_PASS_FAIL %>
+              <%= criteria.input :status, :label => false, :as => :select, :presence => true %>
+            <% else %>
+              <%= criteria.input :point, collection: 1...(Settings[:criteria][:point_max_point] + 1) %>
+            <% end %>
+          </td>
+          <td colspan="4"><%= criteria.input :comment, as: :text, :label => false, :input_html => {:rows => 3} %></td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+
+    <%= form.input :comment, :input_html => {:rows => 3} %>
+    <%= form.button :submit, 'Grade!', class: 'btn-block' %>
+<% end %>

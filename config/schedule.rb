@@ -24,13 +24,7 @@
 # set :environment, :development
 env :PATH, ENV['PATH']
 
-every 2.minutes do
-  # rake 'submission_grade:taken_back', environment: 'development'
-  runner 'SubmissionGrade.send_email_test',
-         environment: 'development', output: 'log/cron.log'
-end
-
-every 5.minutes do
+every 1.hours do
   runner 'SubmissionGrade.take_back',
          environment: 'development', output: 'log/cron.log'
 end

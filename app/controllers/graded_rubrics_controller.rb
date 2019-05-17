@@ -1,58 +1,25 @@
 # frozen_string_literal: true
 
 class GradedRubricsController < ApplicationController
-  before_action :set_graded_rubric, only: %i[show edit update grade destroy]
+  before_action :set_graded_rubric, only: %i[show grade load_rubric preview]
 
-  # GET /graded_rubrics
-  # GET /graded_rubrics.json
-  def index
-    @graded_rubrics = GradedRubric.all
+  def load_rubric
   end
 
-  # GET /graded_rubrics/1
-  # GET /graded_rubrics/1.json
-  def show;
+
+  def preview_get
+    redirect_to load_rubric_path
   end
 
-  # GET /graded_rubrics/new
-  def new
-    @graded_rubric = GradedRubric.new
+  def preview
+    @graded_rubric.assign_attributes(graded_rubric_params)
+    render :preview
   end
 
-  # GET /graded_rubrics/1/edit
-  def edit;
-  end
-
-  # POST /graded_rubrics
-  # POST /graded_rubrics.json
-  def create
-    @graded_rubric = GradedRubric.new(graded_rubric_params)
-
-    respond_to do |format|
-      if @graded_rubric.save
-        format.html {redirect_to @graded_rubric, notice: 'Graded rubric was successfully created.'}
-        format.json {render :show, status: :created, location: @graded_rubric}
-      else
-        format.html {render :new}
-        format.json {render json: @graded_rubric.errors, status: :unprocessable_entity}
-      end
-    end
+  def show
   end
 
   def grade
-    respond_to do |format|
-      if @graded_rubric.update(graded_rubric_params)
-        format.html {redirect_to @graded_rubric, notice: 'Graded rubric was successfully updated.'}
-        format.json {render :show, status: :ok, location: @graded_rubric}
-      else
-        format.html {render :edit}
-        format.json {render json: @graded_rubric.errors, status: :unprocessable_entity}
-      end
-    end
-  end
-
-  def update
-    # validate_grade_all_required_criteria!
     @graded_rubric.update_attributes(graded_rubric_params)
     @graded_rubric.calculate_point!
     submission_grade = @graded_rubric.submission_grade
@@ -63,29 +30,15 @@ class GradedRubricsController < ApplicationController
     end
     submission_grade.update_point(@graded_rubric.point)
 
-    respond_to do |format|
-      if @graded_rubric.save
-        if submission_grade.save
-          format.html {redirect_to @graded_rubric, notice: 'Graded rubric was successfully updated.'}
-          format.json {render :show, status: :ok, location: @graded_rubric}
-        else
-          format.html {render :edit}
-          format.json {render json: @graded_rubric.errors, status: :unprocessable_entity}
-        end
+    if @graded_rubric.save
+      if submission_grade.save
+        redirect_to @graded_rubric.submission_grade,
+                    notice: 'Graded successfully!'
       else
-        format.html {render :edit}
-        format.json {render json: @graded_rubric.errors, status: :unprocessable_entity}
+        render :load_rubric
       end
-    end
-  end
-
-  # DELETE /graded_rubrics/1
-  # DELETE /graded_rubrics/1.json
-  def destroy
-    @graded_rubric.destroy
-    respond_to do |format|
-      format.html {redirect_to graded_rubrics_url, notice: 'Graded rubric was successfully destroyed.'}
-      format.json {head :no_content}
+    else
+      render :load_rubric
     end
   end
 
@@ -102,23 +55,4 @@ class GradedRubricsController < ApplicationController
                                           graded_criteriums_attributes:
                                               %i[id status comment point])
   end
-  #
-  # def validate_grade_all_required_criteria!
-  #   graded_criteriums = params[:graded_rubric][:graded_criteriums_attributes]
-  #   index = 0
-  #   until graded_criteriums["#{index}"].nil?
-  #     if graded_criteriums["#{index}"][:status]== Constants::GRADED_CRITERIA_STATUS_NOTGRADED
-  #       flash[:notice] = 'Please grade all criteria'
-  #       render :edit
-  #     end
-  #     index += 1
-  #   end
-  #   # graded_criteriums.each do |criterium|
-  #   #   if criterium[:status] == Constants::GRADED_CRITERIA_STATUS_NOTGRADED
-  #   #     flash[:notice] = 'Please grade all criteria'
-  #   #     render :edit
-  #   #   end
-  #   # end
-  # end
-
 end

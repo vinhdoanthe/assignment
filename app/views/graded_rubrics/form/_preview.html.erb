@@ -1,0 +1,47 @@
+<%= simple_form_for graded_rubric, url: :grade_rubric, method: :post do |form| %>
+
+  <!--Area form showing confirm-->
+  <ul>
+    <% graded_rubric.graded_criteriums.each do |criterium| %>
+      <% if criterium.criteria_type == Constants::CRITERIA_TYPE_PASS_FAIL %>
+        <li><strong>Criteria <%= criterium.index %>:</strong> <%= criterium.status %> </li>
+      <% else %>
+        <li><strong>Criteria <%= criterium.index %>:</strong> <%= criterium.point %> </li>
+      <% end %>
+    <% end %>
+  </ul>
+
+
+  <p>
+    <strong>Total point for this grade:</strong>  <%= pre_calculate_point(graded_rubric) %>
+  </p>
+
+  <!--  Hidden area-->
+  <div hidden>
+    <%= form.simple_fields_for :graded_criteriums do |criteria| %>
+      <tr>
+        <th colspan="1"><%= criteria.object.index %></th>
+        <td colspan="1"><span><%= criteria.object.weight %></span></td>
+        <td colspan="5">
+          <span><%= criteria.object.description %></span>
+        </td>
+        <td colspan="1">
+          <% if criteria.object.criteria_type == Constants::CRITERIA_TYPE_PASS_FAIL %>
+            <%= criteria.input :status %>
+          <% else %>
+            <%= criteria.input :point %>
+          <% end %>
+        </td>
+        <td colspan="4"><%= criteria.input :comment, as: :text %></td>
+      </tr>
+    <% end %>
+    <%= form.input :comment %>
+  </div>
+
+  <!--  Confirmation area-->
+  <div>
+    <%= link_to "Cancel", :back, class: 'btn  btn-light' %>
+    <%= form.button :submit, "Confirm" %>
+
+  </div>
+<% end %>

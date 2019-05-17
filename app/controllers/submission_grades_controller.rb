@@ -3,10 +3,19 @@
 class SubmissionGradesController < ApplicationController
   include Constants
   include SubmissionGradesHelper
-  before_action :set_submission_grade, :authorized_permission!, only: %i[show edit update destroy]
+  before_action :set_submission_grade, only: %i[show edit update destroy]
+  before_action :authorized_permission!, only: %i[show edit update destroy]
   before_action :authorized_admin!, only: %i[edit destroy index]
   before_action :authorized_granted!, only: [:assigned_submissions]
   after_action :attach_file, only: %i[create update]
+
+  def report_invalid
+    # TODO: Is going to implement
+  end
+
+  def create_solution
+    # TODO: Is going to implement
+  end
 
   def index
     @submission_grades = SubmissionGrade.where(is_latest: true)
@@ -48,37 +57,10 @@ class SubmissionGradesController < ApplicationController
     end
   end
 
-  def update_grade
-    @submission_grade = SubmissionGrade.find(params[:submission_id])
-    authorized_permission!
-    @submission_grade.point = params[:submission_grade][:point]
-    if params[:submission_grade][:point].present?
-      if @submission_grade.point < 8
-        @submission_grade.status = Constants::SUBMISSION_GRADE_STATUS_NOT_PASSED
-      else
-        @submission_grade.status = Constants::SUBMISSION_GRADE_STATUS_PASSED
-      end
-    else
-      ## Do nothing here (maybe Todo for authorization)
-    end
-    respond_to do |format|
-      if @submission_grade.save
-        format.html {redirect_to @submission_grade, notice: 'Submission grade was successfully created.'}
-        format.json {render :show, status: :created, location: @submission_grade}
-      else
-        format.html {render :new}
-        format.json {render json: @submission_grade.errors, status: :unprocessable_entity}
-      end
-    end
-  end
-
-# GET /submission_grades/1
-# GET /submission_grades/1.json
   def show;
   end
 
-# GET /submission_grades/new
-  def new
+  def new_solution
     @submission_grade = SubmissionGrade.new
     init_submission_grade
     if params[:assignment].present?
@@ -104,7 +86,6 @@ class SubmissionGradesController < ApplicationController
         if @submission_grade.save
           format.html {redirect_to active_assignments_path, notice: 'Submission grade was successfully created.'}
           format.json {render :show, status: :created, location: @submission_grade}
-          # redirect_to active_assignments_path
         else
           format.html {render :new}
           format.json {render json: @submission_grade.errors, status: :unprocessable_entity}

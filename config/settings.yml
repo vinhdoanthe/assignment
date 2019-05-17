@@ -1,6 +1,6 @@
 submission:
   point_factor: 10
-  taken_back_after: 172
+  taken_back_after: 172800
   due_after: 86400
 criteria:
   pass_fail_point: 1

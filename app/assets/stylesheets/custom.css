@@ -1,0 +1,12 @@
+.simple_form input[type='submit'] {
+    /*round-clip: 0;*/
+    align-content: center;
+    padding: 1em;
+    position: relative;
+    background-color: darkblue;
+    border-radius: 5px;
+}
+
+.footer-margin {
+    height: 100px;
+}

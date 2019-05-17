@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module GradedRubricsHelper
   def pre_calculate_point(graded_rubric)
     point = 0
@@ -19,8 +21,7 @@ module GradedRubricsHelper
         end
       end
     end
-
-    point *= Settings[:submission][:point_factor]
-    point
+    point * Settings[:submission][:point_factor]
   end
+
 end

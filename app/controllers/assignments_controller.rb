@@ -4,18 +4,6 @@ class AssignmentsController < ApplicationController
 
   before_action :set_assignment, only: [:show, :edit, :update, :destroy]
 
-  def get_assignments_by_course_instance
-    if params[:course_instance_id].present?
-      @assignments = Assignment.where(:course_instance_id => params[:course_instance_id])
-    else
-      @assignments = Assignment.where(:status => Constants::ASSIGNMENT_STATUS_ACTIVE)
-    end
-    # if request.xhr?
-    respond_to do |format|
-      format.json {render :json => @assignments} # end
-    end
-  end
-
   def active_assignments
     if validate_access_active_assignments?(current_user.id)
       active_enrollments = Enrollment.where(:user_id => current_user.id, :status => Constants::ENROLLMENT_STATUS_ACTIVE)

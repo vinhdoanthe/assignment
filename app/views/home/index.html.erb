@@ -1,12 +1,3 @@
 <div>
-  <% if current_user.learner? %>
-    <!--Learner home page-->
-    <li><%= link_to "My courses", my_courses_path %></li>
-    <li><%= link_to "My assignments", active_assignments_path %></li>
-  <% elsif current_user.mentor? %>
-    <!--Mentor home page-->
-    <%= link_to "Assigned submissions", assigned_submissions_path %>
-  <% else %>
-<!--  Some thing to-do here-->
-  <% end %>
+  <p>Blank Homepage</p>
 </div>

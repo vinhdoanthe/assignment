@@ -26,25 +26,18 @@ Rails.application.routes.draw do
   end
 
   # Routes for submit and grade students' solution
-  resources :submission_grades, only: %i[show list]
+  resources :submission_grades, only: %i[show index]
   resources :graded_rubrics, only: %i[show]
-
-  # resources :graded_criteria
-  # resources :enrollments
-  # resources :criteria_formats
-  # resources :rubrics
-  # resources :assignments
-  # resources :course_instances
-  # resources :programs
-  # resources :courses
 
   # Custom routes
   root to: 'home#index'
-  get 'get_assignments_by_course_instance/:course_instance_id', to: 'assignments#get_assignments_by_course_instance'
-  get 'my_courses', to: 'course_instances#my_courses'
-  get 'list_assignments_of_course', to: 'course_instances#list_assignments_of_course'
   get 'active_assignments', to: 'assignments#active_assignments'
   get 'assigned_submissions', to: 'submission_grades#assigned_submissions'
-  get 'grade_submission', to: 'submission_grades#grade'
-  post 'grade_submission', to: 'submission_grades#update_grade'
+  get 'submit_solution', to: 'submission_grades#new_solution', as: :new_solution
+  post 'submission_grades', to: 'submission_grades#create', as: :submit_solution
+  post 'submission_grades/:id', to: 'submission_grades#report_invalid', as: :report_invalid_submission
+  get 'graded_rubrics/:id/load_rubric', to: 'graded_rubrics#load_rubric', as: :load_rubric
+  get 'graded_rubric/:id/preview', to: 'graded_rubrics#preview_get', as: :get_preview_rubric
+  post 'graded_rubric/:id/preview', to: 'graded_rubrics#preview', as: :preview_rubric
+  post 'graded_rubric/:id', to: 'graded_rubrics#grade', as: :grade_rubric
 end
