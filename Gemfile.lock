@@ -98,17 +98,12 @@ GEM
       regexp_parser (~> 1.2)
       uglifier
       xpath (~> 3.2)
-    character_set (1.2.0)
     childprocess (1.0.1)
       rake (< 13.0)
     chromedriver-helper (2.1.1)
       archive-zip (~> 0.10)
       nokogiri (~> 1.8)
     chronic (0.10.2)
-    client_side_validations (15.0.0)
-      jquery-rails (~> 4.3)
-      js_regex (~> 3.1)
-      rails (>= 5.0.0.1, < 6.1)
     coffee-rails (4.2.2)
       coffee-script (>= 2.2.0)
       railties (>= 4.0.0)
@@ -193,10 +188,6 @@ GEM
       thor (>= 0.14, < 2.0)
     jquery-ui-rails (6.0.1)
       railties (>= 3.2.16)
-    js_regex (3.1.1)
-      character_set (~> 1.1)
-      regexp_parser (~> 1.1)
-      regexp_property_values (~> 0.3)
     jwt (2.1.0)
     kaminari (1.1.1)
       activesupport (>= 4.1.0)
@@ -297,7 +288,6 @@ GEM
     rchardet (1.8.0)
     redis (4.1.1)
     regexp_parser (1.4.0)
-    regexp_property_values (0.3.5)
     request_store (1.4.1)
       rack (>= 1.4)
     responders (2.4.1)
@@ -394,7 +384,6 @@ DEPENDENCIES
   cancancan
   capybara (>= 2.15)
   chromedriver-helper
-  client_side_validations
   coffee-rails (~> 4.2)
   config
   devise

@@ -19,7 +19,6 @@ gem 'active_admin_import'
 gem 'activeadmin-searchable_select'
 gem 'filterrific'
 gem 'will_paginate'
-# gem 'client_side_validations'
 gem "figaro"
 gem 'simple_form'
 gem 'sidekiq'
