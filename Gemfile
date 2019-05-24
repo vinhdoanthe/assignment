@@ -25,7 +25,6 @@ gem 'whenever', require: false
 gem 'client_side_validations'
 gem 'client_side_validations-simple_form'
 
-
 # Capistrano for deployment
 gem 'capistrano', '~> 3.7', '>= 3.7.1'
 gem 'capistrano-rails', '~> 1.2'
