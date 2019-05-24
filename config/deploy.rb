@@ -11,6 +11,14 @@ set :deploy_to, '/home/deploy/assignment'
 append :linked_files, 'config/database.yml', 'config/secrets.yml', 'config/application.yml', 'config/settings.yml', 'config/sidekiq.yml', 'config/storage.yml'
 append :linked_dirs, 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system', 'public/uploads'
 
+# Whenever setup
+set :whenever_environment, fetch(:stage)
+set :whenever_identifier, "#{fetch(:application)}_#{fetch(:stage)}"
+set :whenever_variables, -> do
+  "'environment=#{fetch :whenever_environment}" \
+  "&rbenv_root=#{fetch :rbenv_path}'"
+end
+
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 
