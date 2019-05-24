@@ -67,6 +67,7 @@ gem 'bootsnap', '>= 1.1.0', require: false
 group :production do
   gem 'pg'
   gem 'capistrano-sidekiq'
+  gem "google-cloud-storage", "~> 1.8", require: false
 end
 
 group :development, :test do

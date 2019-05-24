@@ -8,7 +8,7 @@ set :repo_url, 'git@github.com:vinhdoanthe/assignment.git'
 
 set :deploy_to, '/home/deploy/assignment'
 
-append :linked_files, 'config/database.yml', 'config/secrets.yml', 'config/application.yml', 'config/settings.yml', 'config/sidekiq.yml', 'config/storage.yml'
+append :linked_files, 'config/database.yml', 'config/secrets.yml', 'config/application.yml', 'config/settings.yml', 'config/sidekiq.yml', 'config/storage.yml', 'config/gcs.json'
 append :linked_dirs, 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system', 'public/uploads'
 
 # Whenever setup
