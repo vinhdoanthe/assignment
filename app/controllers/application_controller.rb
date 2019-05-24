@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
   def authenticate_active_admin_user!
     authenticate_user!
     unless current_user.admin?
-      flash[:alert] = "Unauthorized Access!"
+      flash[:danger] = "Unauthorized Access!"
       redirect_to root_path
     end
   end
@@ -25,7 +25,7 @@ class ApplicationController < ActionController::Base
 
   def require_admin!
     unless current_user.admin?
-      flash[:notice] = "You do not have permission to take this action"
+      flash[:danger] = "You do not have permission to take this action"
       redirect_to root_path
     end
   end

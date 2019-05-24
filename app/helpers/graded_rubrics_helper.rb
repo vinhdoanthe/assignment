@@ -21,7 +21,7 @@ module GradedRubricsHelper
         end
       end
     end
-    point * Settings[:submission][:point_factor]
+    (point * Settings[:submission][:point_factor]).round(1)
   end
 
 end

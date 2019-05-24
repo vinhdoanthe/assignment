@@ -1,44 +1,52 @@
-<%= form_with(model: graded_rubric, local: true) do |form| %>
-  <% if graded_rubric.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(graded_rubric.errors.count, "error") %> prohibited this graded_rubric from being saved:</h2>
+<h4>Grading <%= graded_rubric.submission_grade.assignment.display_name %></h4>
 
-      <ul>
-        <% graded_rubric.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="row col-12">
-    <table class="table">
-      <thead>
+<%= simple_form_for graded_rubric, url: preview_rubric_path, validate: true, method: :post do |form| %>
+  <%= form.input :submission_grade_id, as: :hidden, value: graded_rubric.submission_grade_id %>
+  <!-- Grading Criteria -->
+  <table class="table table-bordered table-hover">
+    <thead>
+    <tr>
+      <th>#</th>
+      <th>Weight</th>
+      <th>Criteria</th>
+      <th>Outcome</th>
+      <th>Meet the specification</th>
+      <th>Point</th>
+      <th>Comment</th>
+    </tr>
+    </thead>
+    <tbody>
+    <%= form.simple_fields_for :graded_criteriums do |criteria| %>
       <tr>
-        <th>#</th>
-        <th>Description</th>
-        <th>Graded/Point</th>
-        <th>Comment</th>
+        <th><%= criteria.object.index %></th>
+        <%= criteria.input :index, as: :hidden, value: criteria.object.index %>
+        <td><span><%= criteria.object.weight %></span></td>
+        <%= criteria.input :weight, as: :hidden, value: criteria.object.weight %>
+        <%= criteria.input :mandatory, as: :hidden, value: criteria.object.mandatory %>
+        <td>
+          <span><%= criteria.object.criteria_description %></span>
+          <%= criteria.input :criteria_description, as: :hidden, value: criteria.object.criteria_description %>
+        </td>
+        <td><span><%= criteria.object.outcome %></span></td>
+        <%= criteria.input :outcome, as: :hidden, value: criteria.object.outcome %>
+        <td><span><%= criteria.object.meet_the_specification %></span></td>
+        <%= criteria.input :meet_the_specification, as: :hidden, value: criteria.object.meet_the_specification %>
+        <%= criteria.input :criteria_type, as: :hidden, value: criteria.object.criteria_type %>
+        <td>
+          <% if criteria.object.criteria_type == Constants::CRITERIA_TYPE_PASS_FAIL %>
+            <%= criteria.input :status, :label => false, :as => :select, validate: {:presence => true} %>
+          <% else %>
+            <%= criteria.input :point, collection: 0...(Settings[:criteria][:point_max_point] + 1),
+                               validate: {:presence => true} %>
+          <% end %>
+        </td>
+        <td><%= criteria.input :comment, as: :text, :label => false, :input_html => {:rows => 3},
+                               validate: {:presence => true} %></td>
       </tr>
-      </thead>
-      <tbody>
-      <%= form.fields_for :graded_criteriums, graded_rubric.graded_criteriums do |criterium_form| %>
-        <tr>
-          <th><%= criterium_form.text_field :index, :disabled => true %></th>
-          <td><%= criterium_form.text_area :description, :disabled => true %></td>
-          <td><%= criterium_form.select :status %></td>
-          <td><%= criterium_form.text_area :comment %></td>
-        </tr>
-      <% end %>
-      </tbody>
-    </table>
-    <div class="row col-12">
-      <%= form.label :comment %>
-      <%= form.text_area :comment %>
-    </div>
+    <% end %>
+    </tbody>
+  </table>
 
-  </div>
-  <div class="actions">
-    <%= form.submit "Grade", :class => 'btn btn-primary' %>
-  </div>
+  <%= form.input :comment, :input_html => {:rows => 3}, validate: {:presence => true} %>
+  <%= form.button :submit, 'Grade!', class: 'btn-block' %>
 <% end %>

@@ -1,7 +1,8 @@
 ActiveAdmin.register CriteriaFormat do
-  # controller do
-  belongs_to :rubric
-  # end
 
-  permit_params :index, :description, :weight, :is_required, :criteria_type
+  belongs_to :rubric
+
+  permit_params :index, :criteria_description,
+                :outcome, :meet_the_specification,
+                :weight, :mandatory, :criteria_type
 end

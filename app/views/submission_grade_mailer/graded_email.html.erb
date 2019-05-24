@@ -1,0 +1,32 @@
+<h3>Result for <%= @grade_record.assignment.display_name %></h3>
+
+<table class="table table-stripped table-hover table-bordered">
+  <thead>
+  <tr>
+    <th>#</th>
+    <th>Criteria</th>
+    <th>Meet the specification</th>
+    <th>Mandatory</th>
+    <th>(Point/Pass_Fail)</th>
+    <th>Comment</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @grade_record.graded_criteriums.each do |criteria| %>
+    <tr>
+      <th><%= criteria.index %></th>
+      <td><span><%= criteria.criteria_description %></span></td>
+      <td><span><%= criteria.meet_the_specification %></span></td>
+      <td><span><%= criteria.mandatory %></span></td>
+      <% if criteria.criteria_type == Constants::CRITERIA_TYPE_PASS_FAIL %>
+        <td><%= criteria.status %></td>
+      <% else %>
+        <td><%= criteria.point %></td>
+      <% end %>
+      <td><span><%= criteria.comment %></span></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+<p><strong>Comment: </strong><span><%= @grade_record.graded_rubric.comment %></span></p>
+<p><strong>Status: </strong><span><%= @grade_record.status %></span></p>

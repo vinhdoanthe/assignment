@@ -27,7 +27,7 @@ ActiveAdmin.register GradedRubric do
         column :description
         column :criteria_type
         column :weight
-        column :is_required
+        column :mandatory
         column :status
         column :point
         column :comment

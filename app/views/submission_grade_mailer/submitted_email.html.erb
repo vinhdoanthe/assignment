@@ -4,8 +4,11 @@
   <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'/>
 </head>
 <body>
-<h1>Hi <%= @user.full_name %></h1>
+<strong>Dear <%= @user.full_name %>,</strong>
 <p>
-  Your assignment solution was submitted successfully!</p>
+  <span>Your assignment solution was submitted successfully! You can view your
+    submission <%= link_to 'here', submission_grade_url(@submission_grade) %>.</span>
+</p>
+<p>Regards,</p>
 </body>
 </html>

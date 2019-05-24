@@ -17,7 +17,7 @@ class AssignmentsController < ApplicationController
         @active_assignments += instance.assignments
       end
     else
-      flash[:notice] = 'You do not have permission to take this action!'
+      flash[:danger] = 'You do not have permission to take this action!'
       redirect_to root_path
     end
   end
@@ -38,7 +38,6 @@ class AssignmentsController < ApplicationController
     @assignment = Assignment.new
     @assignment.status = 'active'
     if params[:course_instance_id].present?
-      # flash[:notice] = params[:course_instances_id]
       @assignment.course_instance_id = params[:course_instance_id]
     end
   end

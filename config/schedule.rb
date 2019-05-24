@@ -24,7 +24,13 @@
 # set :environment, :development
 env :PATH, ENV['PATH']
 
-every 1.hours do
+# every 1.hours do
+#   runner 'SubmissionGrade.take_back',
+#          environment: 'development', output: 'log/cron.log'
+# end
+
+
+every 5.minutes do
   runner 'SubmissionGrade.take_back',
          environment: 'development', output: 'log/cron.log'
 end

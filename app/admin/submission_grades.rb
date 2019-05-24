@@ -17,15 +17,15 @@ ActiveAdmin.register SubmissionGrade do
   filter :graded_at
 
   # Scopes (default filters) for index page
-  scope('Taken back') { |scope|  scope.where(status: Constants::SUBMISSION_GRADE_STATUS_TAKEN_BACK)}
+  scope('Taken back') {|scope| scope.where(status: Constants::SUBMISSION_GRADE_STATUS_TAKEN_BACK)}
   scope('Due') do |scope|
     scope.where('status = ? AND is_latest = ? AND assigned_at < ?',
                 Constants::SUBMISSION_GRADE_STATUS_ASSIGNED,
                 true,
                 Time.now - Settings[:submission][:due_after])
   end
-  scope('Assigned') { |scope| scope.where(status: Constants::SUBMISSION_GRADE_STATUS_ASSIGNED, is_latest: true) }
-  scope('Submitted') { |scope| scope.where(status: Constants::SUBMISSION_GRADE_STATUS_SUBMITTED, is_latest: true) }
+  scope('Assigned') {|scope| scope.where(status: Constants::SUBMISSION_GRADE_STATUS_ASSIGNED, is_latest: true)}
+  scope('Submitted') {|scope| scope.where(status: Constants::SUBMISSION_GRADE_STATUS_SUBMITTED, is_latest: true)}
   scope :all
 
   controller do
@@ -94,10 +94,12 @@ ActiveAdmin.register SubmissionGrade do
       submission_grade.status = submission_grade.mentor.nil? ? Constants::SUBMISSION_GRADE_STATUS_SUBMITTED : Constants::SUBMISSION_GRADE_STATUS_ASSIGNED
       submission_grade.assigned_at = Time.now
       submission_grade.save
+      SubmissionGradeMailer.assigned_mentor_email(submission_grade.mentor_id,
+                                                  submission_grade).deliver_later
       redirect_to admin_submission_grade_path(submission_grade)
     else
       render :'admin/submission_grades/assign_mentor',
-             locals: { submission_grade: submission_grade }
+             locals: {submission_grade: submission_grade}
     end
   end
 
@@ -106,13 +108,15 @@ ActiveAdmin.register SubmissionGrade do
     link_to 'Assign mentor', assign_mentor_admin_submission_grade_path(submission_grade)
   end
 
-  batch_action :assign_mentor, form: -> { { user: User.where(role: Constants::USER_ROLE_MENTOR).pluck(:email, :id) } } do |ids, inputs|
+  batch_action :assign_mentor, form: -> {{user: User.where(role: Constants::USER_ROLE_MENTOR).pluck(:email, :id)}} do |ids, inputs|
     batch_action_collection.find(ids).each do |submission_grade|
       mentor = User.find(inputs[:user])
       submission_grade.mentor_id = mentor.id
       submission_grade.status = submission_grade.mentor.nil? ? Constants::SUBMISSION_GRADE_STATUS_SUBMITTED : Constants::SUBMISSION_GRADE_STATUS_ASSIGNED
       submission_grade.assigned_at = Time.now
       submission_grade.save
+      SubmissionGradeMailer.assigned_mentor_email(submission_grade.mentor_id,
+                                                  submission_grade).deliver_later
     end
     redirect_to admin_submission_grades_path
   end

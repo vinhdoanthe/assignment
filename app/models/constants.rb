@@ -1,17 +1,7 @@
 # frozen_string_literal: true
 
 module Constants
-  # submission grade statuses
-  # module SubmissionGrade
-  #   module Status
-  #     OPEN = 'open'
-  #     SUBMITTED = 'submitted'
-  #     ASSIGNED = 'assigned'
-  #     TAKEN_BACK = 'taken back'
-  #     PASSED = 'passed'
-  #     NOT_PASSED = 'not passed'submitted_email
-  #   end
-  # end
+
   SUBMISSION_GRADE_STATUS_OPEN = 'open'
   SUBMISSION_GRADE_STATUS_SUBMITTED = 'submitted'
   SUBMISSION_GRADE_STATUS_ASSIGNED = 'assigned'
@@ -75,4 +65,6 @@ module Constants
   # GRADED_RUBRIC_STATUS_NOTGRADED = 'not graded'
   GRADED_RUBRIC_STATUS_PASSED = 'passed'
   GRADED_RUBRIC_STATUS_FAILED = 'failed'
+
+  KHAO_THI_EMAIL = 'funix-daotao@funix.edu.vn'
 end

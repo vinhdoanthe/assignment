@@ -32,9 +32,7 @@
             <%= link_to "View", submission_grade_path(submission) %>
             <% if submission.status == Constants::SUBMISSION_GRADE_STATUS_ASSIGNED %>
               |
-              <% unless submission.graded_rubric.nil? %>
-                <%= link_to "Grade", load_rubric_path(submission.graded_rubric) %>
-              <% end %>
+                <%= link_to "Grade", new_graded_rubric_path(assignment_id: submission.assignment_id, student_id: submission.student_id, submission_grade_id: submission.id) %>
             <% end %>
           <% end %>
         </td>

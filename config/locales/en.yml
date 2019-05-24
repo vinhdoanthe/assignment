@@ -31,3 +31,6 @@
 
 en:
   hello: "Hello world"
+  submission:
+    latest_being_processed: "You submitted solution for this assignment.  Your submission is being processed"
+    latest_passed: "You passed this assignment"

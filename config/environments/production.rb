@@ -95,6 +95,8 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   # ActionMailer
+  # Rails.application.routes.default_url_options[:host] = 'http://assignment.funix.edu.vn'
+
   config.action_mailer.perform_deliveries = true
   config.action_mailer.delivery_method = :smtp
   # SMTP settings for gmail

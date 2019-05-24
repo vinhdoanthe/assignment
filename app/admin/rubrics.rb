@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 ActiveAdmin.register Rubric do
-
   controller do
     belongs_to :assignment, optional: true
   end
@@ -13,10 +12,12 @@ ActiveAdmin.register Rubric do
     panel 'Criteria' do
       table_for rubric.criteria_formats do
         column :index
-        column :description
+        column :criteria_description
+        column :outcome
+        column :meet_the_specification
         column :criteria_type
         column :weight
-        column :is_required
+        column :mandatory
       end
     end
   end
@@ -35,10 +36,12 @@ ActiveAdmin.register Rubric do
 
         criteria_form.inputs do
           criteria_form.input :index
-          criteria_form.input :description
+          criteria_form.input :criteria_description
+          criteria_form.input :outcome
+          criteria_form.input :meet_the_specification
           criteria_form.input :criteria_type
           criteria_form.input :weight
-          criteria_form.input :is_required
+          criteria_form.input :mandatory
         end
       end
     end
@@ -46,5 +49,7 @@ ActiveAdmin.register Rubric do
   end
 
   permit_params :assignment_id,
-                criteria_formats_attributes: %i[id index description criteria_type is_required weight _destroy]
+                criteria_formats_attributes: %i[id index criteria_description
+                                                outcome meet_the_specification
+                                                criteria_type mandatory weight _destroy]
 end
