@@ -1,7 +1,0 @@
-submission:
-  point_factor: 10
-  taken_back_after: 172800
-  due_after: 86400
-criteria:
-  pass_fail_point: 1
-  point_max_point: 5
