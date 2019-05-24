@@ -9,6 +9,7 @@ require 'capistrano/rails'
 require 'capistrano/passenger'
 require 'capistrano/rbenv'
 require 'capistrano/sidekiq'
+require "whenever/capistrano"
 
 set :rbenv_type, :user
 set :rbenv_ruby, '2.5.1'
