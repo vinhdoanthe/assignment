@@ -1,91 +1,73 @@
 # frozen_string_literal: true
 
 class GradedRubricsController < ApplicationController
-  before_action :set_graded_rubric, only: %i[show edit update grade destroy]
+  before_action :set_graded_rubric, only: %i[show]
 
-  # GET /graded_rubrics
-  # GET /graded_rubrics.json
-  def index
-    @graded_rubrics = GradedRubric.all
+  def new
+    if params[:assignment_id].present? && params[:student_id].present? && params[:submission_grade_id]
+      assignment_id = params[:assignment_id]
+      student_id = params[:student_id]
+      submission_grade_id = params[:submission_grade_id]
+      submission_grades = SubmissionGrade.select(['id']).where(assignment_id: assignment_id,
+                                                               student_id: student_id)
+      graded_rubric = GradedRubric.select(['id']).where(submission_grade_id: submission_grades)
+      graded_criteriums = GradedCriterium.where(graded_rubric_id: graded_rubric)
+      @can_not_be_regrade_criteriums = graded_criteriums.reject(&:can_be_regrade?)
+      can_not_be_regrade_index = @can_not_be_regrade_criteriums.map {|criterium| criterium.index}
+      rubrics = Rubric.select(['id']).where(assignment_id: assignment_id)
+      criteria_formats = CriteriaFormat.where(rubric_id: rubrics)
+      @to_be_grade_criteria_formats = criteria_formats.reject {|criteria| can_not_be_regrade_index.include?(criteria.index)}
+      puts "graded_criteriums #{graded_criteriums.inspect}"
+      puts "criteria_formats #{criteria_formats.inspect}"
+      puts "to_be_grade_criteria_formats #{@to_be_grade_criteria_formats.inspect}"
+
+      @graded_rubric = GradedRubric.new(submission_grade_id: submission_grade_id)
+      # Build graded_criteriums
+      @to_be_grade_criteria_formats.each do |criteria|
+        @graded_rubric.graded_criteriums.build(index: criteria.index,
+                                               criteria_description: criteria.criteria_description,
+                                               outcome: criteria.outcome,
+                                               meet_the_specification: criteria.meet_the_specification,
+                                               mandatory: criteria.mandatory,
+                                               criteria_type: criteria.criteria_type,
+                                               weight: criteria.weight)
+      end
+    else
+      redirect_to root_path
+    end
   end
 
-  # GET /graded_rubrics/1
-  # GET /graded_rubrics/1.json
+  def preview_get
+    redirect_to root_path
+  end
+
+  def preview
+    @graded_rubric = GradedRubric.new(graded_rubric_params)
+    render :preview
+  end
+
   def show;
   end
 
-  # GET /graded_rubrics/new
-  def new
-    @graded_rubric = GradedRubric.new
-  end
-
-  # GET /graded_rubrics/1/edit
-  def edit;
-  end
-
-  # POST /graded_rubrics
-  # POST /graded_rubrics.json
-  def create
-    @graded_rubric = GradedRubric.new(graded_rubric_params)
-
-    respond_to do |format|
-      if @graded_rubric.save
-        format.html {redirect_to @graded_rubric, notice: 'Graded rubric was successfully created.'}
-        format.json {render :show, status: :created, location: @graded_rubric}
-      else
-        format.html {render :new}
-        format.json {render json: @graded_rubric.errors, status: :unprocessable_entity}
-      end
-    end
-  end
-
   def grade
-    respond_to do |format|
-      if @graded_rubric.update(graded_rubric_params)
-        format.html {redirect_to @graded_rubric, notice: 'Graded rubric was successfully updated.'}
-        format.json {render :show, status: :ok, location: @graded_rubric}
-      else
-        format.html {render :edit}
-        format.json {render json: @graded_rubric.errors, status: :unprocessable_entity}
-      end
-    end
-  end
-
-  def update
-    # validate_grade_all_required_criteria!
-    @graded_rubric.update_attributes(graded_rubric_params)
+    @graded_rubric = GradedRubric.new(graded_rubric_params)
     @graded_rubric.calculate_point!
     submission_grade = @graded_rubric.submission_grade
-    if @graded_rubric.get_status == Constants::GRADED_RUBRIC_STATUS_FAILED
-      submission_grade.status = Constants::SUBMISSION_GRADE_STATUS_NOTPASSED
+    if @graded_rubric.status == Constants::GRADED_RUBRIC_STATUS_FAILED
+      submission_grade.status = Constants::SUBMISSION_GRADE_STATUS_NOT_PASSED
     else
       submission_grade.status = Constants::SUBMISSION_GRADE_STATUS_PASSED
     end
     submission_grade.update_point(@graded_rubric.point)
+    submission_grade.graded_at = Time.now
 
-    respond_to do |format|
-      if @graded_rubric.save
-        if submission_grade.save
-          format.html {redirect_to @graded_rubric, notice: 'Graded rubric was successfully updated.'}
-          format.json {render :show, status: :ok, location: @graded_rubric}
-        else
-          format.html {render :edit}
-          format.json {render json: @graded_rubric.errors, status: :unprocessable_entity}
-        end
-      else
-        format.html {render :edit}
-        format.json {render json: @graded_rubric.errors, status: :unprocessable_entity}
+    if @graded_rubric.save
+      if submission_grade.save
+        SubmissionGradeMailer.graded_email(submission_grade.id).deliver_later
+        redirect_to @graded_rubric.submission_grade,
+                    notice: 'Graded successfully!'
+
       end
-    end
-  end
-
-  # DELETE /graded_rubrics/1
-  # DELETE /graded_rubrics/1.json
-  def destroy
-    @graded_rubric.destroy
-    respond_to do |format|
-      format.html {redirect_to graded_rubrics_url, notice: 'Graded rubric was successfully destroyed.'}
-      format.json {head :no_content}
     end
   end
 
@@ -98,27 +80,11 @@ class GradedRubricsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def graded_rubric_params
-    params.require(:graded_rubric).permit(:comment,
+    params.require(:graded_rubric).permit(:submission_grade_id,
+                                          :comment,
                                           graded_criteriums_attributes:
-                                              %i[id status comment point])
+                                              %i[id index weight mandatory
+                                                 criteria_description outcome meet_the_specification
+                                                 criteria_type status point comment])
   end
-  #
-  # def validate_grade_all_required_criteria!
-  #   graded_criteriums = params[:graded_rubric][:graded_criteriums_attributes]
-  #   index = 0
-  #   until graded_criteriums["#{index}"].nil?
-  #     if graded_criteriums["#{index}"][:status]== Constants::GRADED_CRITERIA_STATUS_NOTGRADED
-  #       flash[:notice] = 'Please grade all criteria'
-  #       render :edit
-  #     end
-  #     index += 1
-  #   end
-  #   # graded_criteriums.each do |criterium|
-  #   #   if criterium[:status] == Constants::GRADED_CRITERIA_STATUS_NOTGRADED
-  #   #     flash[:notice] = 'Please grade all criteria'
-  #   #     render :edit
-  #   #   end
-  #   # end
-  # end
-
 end

@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'/>
+</head>
+<body>
+<strong>Dear <%= @mentor.email %>,</strong>
+<p>
+  <span>You've been assigned to grade an student's assignment. <br>
+    Go to <%= link_to 'here', submission_grade_url(@submission_grade) %> to view this solution.</span>
+</p>
+<p>Regards,</p>
+</body>
+</html>

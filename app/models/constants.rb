@@ -1,10 +1,13 @@
+# frozen_string_literal: true
+
 module Constants
-  # submission grade statuses
+
   SUBMISSION_GRADE_STATUS_OPEN = 'open'
   SUBMISSION_GRADE_STATUS_SUBMITTED = 'submitted'
   SUBMISSION_GRADE_STATUS_ASSIGNED = 'assigned'
+  SUBMISSION_GRADE_STATUS_TAKEN_BACK = 'taken back'
   SUBMISSION_GRADE_STATUS_PASSED = 'passed'
-  SUBMISSION_GRADE_STATUS_NOTPASSED = 'not passed'
+  SUBMISSION_GRADE_STATUS_NOT_PASSED = 'not passed'
 
   # course instance statuses
   COURSE_INSTANCE_STATUS_DEVELOPING = 'developing'
@@ -56,10 +59,12 @@ module Constants
   GRADED_CRITERIA_STATUS_PASSED = 'passed'
   GRADED_CRITERIA_STATUS_FAILED = 'failed'
 
-  CRITERIA_MAX_POINT = 5
+  # CRITERIA_MAX_POINT = 5
 
   # graded rubric statuses
   # GRADED_RUBRIC_STATUS_NOTGRADED = 'not graded'
   GRADED_RUBRIC_STATUS_PASSED = 'passed'
   GRADED_RUBRIC_STATUS_FAILED = 'failed'
+
+  KHAO_THI_EMAIL = 'funix-daotao@funix.edu.vn'
 end

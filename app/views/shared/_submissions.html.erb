@@ -4,7 +4,8 @@
     <%= simple_format page_entries_info submissions %>
   </div>
 
-  <table class="table table-stripped table-hover">
+  <table class="table table-stripped table-hover table-bordered">
+    <thead>
     <tr>
       <th>Status</th>
       <th>Assignment</th>
@@ -14,36 +15,30 @@
       <th>Assigned at</th>
       <th colspan="2">Point</th>
     </tr>
+    </thead>
+    <tbody>
     <% submissions.each do |submission| %>
       <tr>
         <td><%= submission.status %></td>
         <td><%= submission.assignment.display_name %></td>
-        <td><%= (submission.submission_file.attached?) ? link_to("Click to download", rails_blob_path(submission.submission_file, disposition: "attachment")) : '' %></td>
+        <td><%= (submission.submission_file.attached?) ? link_to("Download", rails_blob_path(submission.submission_file, disposition: "attachment")) : '' %></td>
         <td><%= submission.attempt %></td>
         <td><%= submission.created_at.strftime('%d/%m/%Y') %></td>
         <td><%= submission.assigned_at.nil? ? '' : submission.assigned_at.strftime('%d/%m/%Y') %></td>
-        <td><%= (submission.status == Constants::SUBMISSION_GRADE_STATUS_ASSIGNED) ? 'N/A' : submission.point %></td>
+        <td><%= (submission.status == Constants::SUBMISSION_GRADE_STATUS_PASSED ||
+            submission.status == Constants::SUBMISSION_GRADE_STATUS_NOT_PASSED) ? submission.point : 'N/A' %></td>
         <td>
-          <% if current_user.mentor? %>
+          <% if current_user.mentor? || current_user.admin? %>
             <%= link_to "View", submission_grade_path(submission) %>
             <% if submission.status == Constants::SUBMISSION_GRADE_STATUS_ASSIGNED %>
               |
-              <% if submission.graded_rubric.nil? %>
-                <%= link_to "Grade", grade_submission_path(:submission_id => submission.id) %>
-              <% else %>
-                <%= link_to "Grade", edit_graded_rubric_path(submission.graded_rubric) %>
-              <% end %>
+                <%= link_to "Grade", new_graded_rubric_path(assignment_id: submission.assignment_id, student_id: submission.student_id, submission_grade_id: submission.id) %>
             <% end %>
-          <% elsif current_user.admin? %>
-
-          <% elsif current_user.learner? %>
-
-          <% else %>
-
           <% end %>
         </td>
       </tr>
     <% end %>
+    </tbody>
   </table>
 </div>
 

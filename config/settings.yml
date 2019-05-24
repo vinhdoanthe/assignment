@@ -1,3 +1,7 @@
-criteria_pass_fail_point_default: 1
-criteria_point_max_point_default: 5
-submission_point_factor: 10
+submission:
+  point_factor: 10
+  taken_back_after: 172800
+  due_after: 86400
+criteria:
+  pass_fail_point: 1
+  point_max_point: 5

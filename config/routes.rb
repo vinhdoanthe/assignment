@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  # devise_for :admin_users, {class_name: 'User'}.merge(ActiveAdmin::Devise.config)
   devise_for :admin_users, ActiveAdmin::Devise.config
+  devise_for :users, controllers: {omniauth_callbacks: 'users/omniauth_callbacks'}
   ActiveAdmin.routes(self)
 
+  # Routes for ActiveAdmin
   namespace :admin do
     resources :courses do
       resources :course_instances
@@ -24,28 +25,21 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :graded_criteria
-  resources :criteria_formats
-  # mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
-  # resources :admins
-  resources :submission_grades
-  resources :enrollments
-  devise_for :users, controllers: {omniauth_callbacks: 'users/omniauth_callbacks'}
+  # Routes for submit and grade students' solution
+  resources :submission_grades, only: %i[show index]
+  resources :graded_rubrics, only: %i[new show]
+  # resources :after_grade
 
-  resources :graded_rubrics
-
-  resources :rubrics
-  resources :assignments
-  resources :course_instances
-  resources :programs
-  resources :courses
+  # Custom routes
   root to: 'home#index'
-
-  get 'get_assignments_by_course_instance/:course_instance_id', to: 'assignments#get_assignments_by_course_instance'
-  get 'my_courses', to: 'course_instances#my_courses'
-  get 'list_assignments_of_course', to: 'course_instances#list_assignments_of_course'
   get 'active_assignments', to: 'assignments#active_assignments'
   get 'assigned_submissions', to: 'submission_grades#assigned_submissions'
-  get 'grade_submission', to: 'submission_grades#grade'
-  post 'grade_submission', to: 'submission_grades#update_grade'
+  get 'submit_solution', to: 'submission_grades#new_solution', as: :new_solution
+  post 'submission_grades', to: 'submission_grades#create', as: :submit_solution
+  post 'submission_grades/:id', to: 'submission_grades#report_invalid', as: :report_invalid_submission
+  # get 'graded_rubrics/new', to: 'graded_rubrics#new', as: :new_grade
+  # get 'graded_rubrics/:id/load_rubric', to: 'graded_rubrics#load_rubric', as: :load_rubric
+  get 'graded_rubrics/preview', to: 'graded_rubrics#preview_get', as: :get_preview_rubric
+  post 'graded_rubrics/preview', to: 'graded_rubrics#preview', as: :preview_rubric
+  post 'graded_rubrics', to: 'graded_rubrics#grade', as: :grade_rubric
 end

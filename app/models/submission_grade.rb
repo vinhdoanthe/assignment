@@ -20,8 +20,9 @@ class SubmissionGrade < ApplicationRecord
 
   enumerize :status, in: [Constants::SUBMISSION_GRADE_STATUS_SUBMITTED,
                           Constants::SUBMISSION_GRADE_STATUS_ASSIGNED,
+                          Constants::SUBMISSION_GRADE_STATUS_TAKEN_BACK,
                           Constants::SUBMISSION_GRADE_STATUS_PASSED,
-                          Constants::SUBMISSION_GRADE_STATUS_NOTPASSED]
+                          Constants::SUBMISSION_GRADE_STATUS_NOT_PASSED]
 
   def display_name
     "#{assignment.display_name} - Attempt #{attempt}"
@@ -33,6 +34,51 @@ class SubmissionGrade < ApplicationRecord
 
   def grade_type
     assignment.grade_type
+  end
+
+  filterrific(
+      default_filter_params: {sorted_by: 'created_at_desc'},
+      available_filters: %i[
+      sorted_by
+      search_query
+      with_status
+      with_created_at_gte
+    ]
+  )
+
+  scope :sorted_by, lambda {|sort_option|
+    direction = /desc$/.match?(sort_option) ? 'desc' : 'asc'
+    case sort_option.to_s
+    when /^created_at_/
+      order("submission_grades.created_at #{direction}")
+    else
+      raise(ArgumentError, "Invalid sort option: #{sort_option.inspect}")
+    end
+  }
+
+  scope :search_query, lambda {|query|
+  }
+
+  scope :with_status, lambda {|status|
+    where(status: [*status])
+  }
+
+  scope :with_created_at_gte, lambda {|ref_date|
+  }
+
+  def self.options_for_sorted_by
+    [
+        ['Submitted date (newest first)', 'created_at_desc'],
+        ['Submitted date (oldest first)', 'created_at_asc']
+    ]
+  end
+
+  def self.options_for_select
+    {Constants::SUBMISSION_GRADE_STATUS_SUBMITTED => Constants::SUBMISSION_GRADE_STATUS_SUBMITTED,
+     Constants::SUBMISSION_GRADE_STATUS_ASSIGNED => Constants::SUBMISSION_GRADE_STATUS_ASSIGNED,
+     Constants::SUBMISSION_GRADE_STATUS_TAKEN_BACK => Constants::SUBMISSION_GRADE_STATUS_TAKEN_BACK,
+     Constants::SUBMISSION_GRADE_STATUS_PASSED => Constants::SUBMISSION_GRADE_STATUS_PASSED,
+     Constants::SUBMISSION_GRADE_STATUS_NOT_PASSED => Constants::SUBMISSION_GRADE_STATUS_NOT_PASSED}
   end
 
   def self.update_latest(student_id, assignment_id, attempt)
@@ -53,109 +99,6 @@ class SubmissionGrade < ApplicationRecord
     end
   end
 
-  filterrific(
-      default_filter_params: {sorted_by: "created_at_desc"},
-      available_filters: [
-          :sorted_by,
-          :search_query,
-          :with_status,
-          :with_created_at_gte,
-      ],
-  )
-
-  scope :sorted_by, ->(sort_option) do
-    direction = /desc$/.match?(sort_option) ? "desc" : "asc"
-    case sort_option.to_s
-    when /^created_at_/
-      order("submission_grades.created_at #{direction}")
-    else
-      raise(ArgumentError, "Invalid sort option: #{sort_option.inspect}")
-    end
-  end
-
-  scope :search_query, ->(query) do
-    # return nil  if query.blank?
-    # terms = query.downcase.split(/\s+/)
-    # terms = terms.map { |e|
-    #   (e.tr("*", "%") + "%").gsub(/%+/, "%")
-    # }
-    # num_or_conds = 2
-    # where(
-    #     terms.map { |_term|
-    #       "(LOWER(students.first_name) LIKE ? OR LOWER(students.last_name) LIKE ?)"
-    #     }.join(" AND "),
-    #     *terms.map { |e| [e] * num_or_conds }.flatten,
-    #     )
-  end
-
-  scope :with_status, ->(status) do
-    where(status: [*status])
-  end
-
-  scope :with_created_at_gte, ->(ref_date) do
-
-  end
-
-  def self.options_for_sorted_by
-    [
-        ["Submitted date (newest first)", "created_at_desc"],
-        ["Submitted date (oldest first)", "created_at_asc"],
-    ]
-  end
-
-  def self.options_for_select
-    {Constants::SUBMISSION_GRADE_STATUS_SUBMITTED => Constants::SUBMISSION_GRADE_STATUS_SUBMITTED,
-     Constants::SUBMISSION_GRADE_STATUS_ASSIGNED => Constants::SUBMISSION_GRADE_STATUS_ASSIGNED,
-     Constants::SUBMISSION_GRADE_STATUS_PASSED => Constants::SUBMISSION_GRADE_STATUS_PASSED,
-     Constants::SUBMISSION_GRADE_STATUS_NOTPASSED => Constants::SUBMISSION_GRADE_STATUS_NOTPASSED}
-  end
-
-  def self.create_graded_rubric(submission_id)
-    submission_grade = SubmissionGrade.find(submission_id)
-    rubric = submission_grade.assignment.rubric
-    unless rubric.nil?
-      passed_criteriums = submission_grade.attempt == 1 ? [] : Assignment.get_passed_criteria(submission_grade.assignment_id, submission_grade.student_id)
-      passed_indexes = passed_criteriums.empty? ? [] : passed_criteriums.map(&:index)
-
-      graded_rubric = GradedRubric.new(comment: '', point: 0)
-      graded_rubric.submission_grade_id = submission_id
-
-      graded_rubric.save
-
-      begin
-        criteria_formats = rubric.criteria_formats
-
-        criteria_formats.each do |criteria_format|
-          if passed_indexes.empty?
-            GradedCriterium.create_from_graded_rubric(graded_rubric.id,
-                                                      criteria_format.index,
-                                                      criteria_format.description,
-                                                      Constants::GRADED_CRITERIA_STATUS_NOTGRADED,
-                                                      '',
-                                                      criteria_format.is_required,
-                                                      criteria_format.criteria_type,
-                                                      criteria_format.weight,
-                                                      0)
-          else
-            unless passed_indexes.include?(criteria_format.index)
-              GradedCriterium.create_from_graded_rubric(graded_rubric.id,
-                                                        criteria_format.index,
-                                                        criteria_format.description,
-                                                        Constants::GRADED_CRITERIA_STATUS_NOTGRADED,
-                                                        '',
-                                                        criteria_format.is_required,
-                                                        criteria_format.criteria_type,
-                                                        criteria_format.weight,
-                                                        0)
-            end
-          end
-        end
-      rescue StandardError => error
-        logger.fatal error.inspect
-      end
-    end
-  end
-
   def update_point(added_point)
     if attempt == 1
       self.point = added_point
@@ -164,6 +107,21 @@ class SubmissionGrade < ApplicationRecord
                                    assignment_id: assignment_id,
                                    attempt: attempt - 1).first
       self.point = prev.point + added_point
+    end
+  end
+
+  def self.take_back
+    to_taken_submissions = where('status = ? AND is_latest = ? AND assigned_at < ?',
+                                 Constants::SUBMISSION_GRADE_STATUS_ASSIGNED,
+                                 true,
+                                 Time.now - Settings[:submission][:taken_back_after])
+
+    puts to_taken_submissions.inspect.to_s
+    to_taken_submissions.each do |submission|
+      SubmissionGradeMailer.taken_back_email(submission.mentor_id, submission).deliver_later
+      submission.update(status: Constants::SUBMISSION_GRADE_STATUS_TAKEN_BACK,
+                        mentor_id: nil)
+      # TODO
     end
   end
 end

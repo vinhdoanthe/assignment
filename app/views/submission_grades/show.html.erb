@@ -1,5 +1,5 @@
 <p id="notice"><%= notice %></p>
-
+<%= link_to "Back", active_assignments_path %>
 <div>
   <table class='table'>
     <tr>
@@ -7,7 +7,7 @@
       <td> <%= @submission_grade.assignment.name %></td>
     </tr>
     <tr>
-      <th>Course instance:</th>
+      <th>Course:</th>
       <td><%= @submission_grade.assignment.course_instance.code %></td>
     </tr>
     <tr>
@@ -19,16 +19,16 @@
       <td><%= @submission_grade.status %></td>
     </tr>
     <tr>
-      <th>Submission file:</th>
+      <th>Solution file:</th>
       <td>
         <% if @submission_grade.submission_file.attached? %>
-          <%= link_to "Submission File", rails_blob_path(@submission_grade.submission_file, disposition: "attachment") %>
+          <%= link_to "Download", rails_blob_path(@submission_grade.submission_file, disposition: "attachment") %>
         <% else %>
         <% end %>
       </td>
     </tr>
     <tr>
-      <th>Attempt count:</th>
+      <th>Attempt:</th>
       <td><%= @submission_grade.attempt %></td>
     </tr>
     <tr>
@@ -46,20 +46,10 @@
     </tr>
   </table>
 </div>
-<div class="actions">
-  <% if current_user.learner? %>
-    <%= link_to "Back", active_assignments_path %>
-  <% elsif current_user.mentor? %>
-    <%# if @submission_grade.student_id == @submission_grade.mentor_id %>
-    <%= link_to "Back", assigned_submissions_path %>
-    <% if @submission_grade.status == Constants::SUBMISSION_GRADE_STATUS_SUBMITTED || @submission_grade.status == Constants::SUBMISSION_GRADE_STATUS_ASSIGNED %>
-      <%= link_to "Grade", @submission_grade.graded_rubric.nil? ?
-                               grade_submission_path(:submission_id => @submission_grade.id)
-                               : edit_graded_rubric_path(@submission_grade.graded_rubric),
-                  class: 'btn btn-outline-primary btn-lg' %>
-    <% end %>
-  <% else %>
-
+<% if current_user.mentor? || current_user.admin? %>
+  <% if @submission_grade.status == Constants::SUBMISSION_GRADE_STATUS_ASSIGNED %>
+    <%= link_to '<button type="button">Grade!</button>'.html_safe, new_graded_rubric_path(assignment_id: @submission_grade.assignment_id,
+                                                                                          student_id: @submission_grade.student_id,
+                                                                                          submission_grade_id: @submission_grade.id) %>
   <% end %>
-</div>
-
+<% end %>

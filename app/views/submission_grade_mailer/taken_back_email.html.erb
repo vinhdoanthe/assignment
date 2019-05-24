@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'/>
+</head>
+<body>
+<strong>Dear <%= @mentor.full_name %>,</strong>
+<p>
+  <span>We've taken assignment <%= @submission_grade.display_name %>
+    of <%= @submission_grade.student.email %> from you because you do not graded in 48 hours. <br>
+    This is automated process. If you have any question, please contact <a href="mailto:funix-daotao@funix.edu.vn">funix-daotao@funix.edu.vn</a></span>
+</p>
+<p>Regards,</p>
+</body>
+</html>

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module GradedRubricsHelper
   def pre_calculate_point(graded_rubric)
     point = 0
@@ -6,21 +8,20 @@ module GradedRubricsHelper
       if criterium.criteria_type == Constants::CRITERIA_TYPE_PASS_FAIL
         if criterium.status == Constants::GRADED_CRITERIA_STATUS_PASSED
           if graded_rubric.submission_grade.attempt == 1
-            point += (Settings.criteria_pass_fail_point_default * criterium.weight) / graded_rubric.submission_grade.assignment.rubric.total_weight
+            point += (Settings[:criteria][:pass_fail_point] * criterium.weight) / graded_rubric.submission_grade.assignment.rubric.total_weight
           else
-            point += (Settings.criteria_pass_fail_point_default * criterium.weight / 2) / graded_rubric.submission_grade.assignment.rubric.total_weight
+            point += (Settings[:criteria][:pass_fail_point] * criterium.weight / 2) / graded_rubric.submission_grade.assignment.rubric.total_weight
           end
         end
       elsif criterium.criteria_type == Constants::CRITERIA_TYPE_POINT
         if graded_rubric.submission_grade.attempt == 1
-          point += ((criterium.point / Settings.criteria_point_max_point_default) * criterium.weight) / graded_rubric.submission_grade.assignment.rubric.total_weight
+          point += ((criterium.point / Settings[:criteria][:point_max_point]) * criterium.weight) / graded_rubric.submission_grade.assignment.rubric.total_weight
         else
-          point += ((criterium.point / Settings.criteria_point_max_point_default) * criterium.weight / 2) / graded_rubric.submission_grade.assignment.rubric.total_weight
+          point += ((criterium.point / Settings[:criteria][:point_max_point]) * criterium.weight / 2) / graded_rubric.submission_grade.assignment.rubric.total_weight
         end
       end
     end
-
-    point *= Settings.submission_point_factor
-    point
+    (point * Settings[:submission][:point_factor]).round(1)
   end
+
 end

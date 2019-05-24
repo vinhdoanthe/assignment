@@ -19,6 +19,14 @@ gem 'active_admin_import'
 gem 'activeadmin-searchable_select'
 gem 'filterrific'
 gem 'will_paginate'
+gem "figaro"
+gem 'simple_form'
+gem 'sidekiq'
+gem 'whenever', require: false
+gem 'client_side_validations'
+gem 'client_side_validations-simple_form'
+gem 'wicked'
+gem 'activerecord-session_store'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.3'

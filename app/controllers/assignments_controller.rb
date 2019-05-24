@@ -4,18 +4,6 @@ class AssignmentsController < ApplicationController
 
   before_action :set_assignment, only: [:show, :edit, :update, :destroy]
 
-  def get_assignments_by_course_instance
-    if params[:course_instance_id].present?
-      @assignments = Assignment.where(:course_instance_id => params[:course_instance_id])
-    else
-      @assignments = Assignment.where(:status => Constants::ASSIGNMENT_STATUS_ACTIVE)
-    end
-    # if request.xhr?
-    respond_to do |format|
-      format.json {render :json => @assignments} # end
-    end
-  end
-
   def active_assignments
     if validate_access_active_assignments?(current_user.id)
       active_enrollments = Enrollment.where(:user_id => current_user.id, :status => Constants::ENROLLMENT_STATUS_ACTIVE)
@@ -29,7 +17,7 @@ class AssignmentsController < ApplicationController
         @active_assignments += instance.assignments
       end
     else
-      flash[:notice] = 'You do not have permission to take this action!'
+      flash[:danger] = 'You do not have permission to take this action!'
       redirect_to root_path
     end
   end
@@ -50,7 +38,6 @@ class AssignmentsController < ApplicationController
     @assignment = Assignment.new
     @assignment.status = 'active'
     if params[:course_instance_id].present?
-      # flash[:notice] = params[:course_instances_id]
       @assignment.course_instance_id = params[:course_instance_id]
     end
   end

@@ -7,7 +7,7 @@ class Assignment < ApplicationRecord
 
   belongs_to :course_instance
   has_one :rubric, inverse_of: :assignment
-  has_many :criteria_formats, through: :rubric, inverse_of: :assignments
+  has_many :criteria_formats, through: :rubric
 
   enumerize :status, in: [Constants::ASSIGNMENT_STATUS_ACTIVE,
                           Constants::ASSIGNMENT_STATUS_INACTIVE]

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_13_085521) do
+ActiveRecord::Schema.define(version: 2019_05_22_172014) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
@@ -82,13 +82,15 @@ ActiveRecord::Schema.define(version: 2019_05_13_085521) do
 
   create_table "criteria_formats", force: :cascade do |t|
     t.integer "rubric_id"
-    t.text "description"
-    t.boolean "is_required"
+    t.text "criteria_description"
+    t.boolean "mandatory"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "index", default: 0, null: false
     t.integer "weight", default: 0
     t.string "criteria_type"
+    t.string "outcome"
+    t.text "meet_the_specification"
     t.index ["rubric_id"], name: "index_criteria_formats_on_rubric_id"
   end
 
@@ -107,9 +109,9 @@ ActiveRecord::Schema.define(version: 2019_05_13_085521) do
 
   create_table "graded_criteria", force: :cascade do |t|
     t.integer "graded_rubric_id"
-    t.text "description"
+    t.text "criteria_description"
     t.decimal "point"
-    t.boolean "is_required"
+    t.boolean "mandatory"
     t.string "status"
     t.text "comment"
     t.datetime "created_at", null: false
@@ -117,6 +119,8 @@ ActiveRecord::Schema.define(version: 2019_05_13_085521) do
     t.integer "index", default: 0, null: false
     t.string "criteria_type"
     t.decimal "weight"
+    t.string "outcome"
+    t.text "meet_the_specification"
     t.index ["graded_rubric_id"], name: "index_graded_criteria_on_graded_rubric_id"
   end
 
@@ -144,11 +148,19 @@ ActiveRecord::Schema.define(version: 2019_05_13_085521) do
     t.index ["assignment_id"], name: "index_rubrics_on_assignment_id"
   end
 
+  create_table "sessions", force: :cascade do |t|
+    t.string "session_id", null: false
+    t.text "data"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["session_id"], name: "index_sessions_on_session_id", unique: true
+    t.index ["updated_at"], name: "index_sessions_on_updated_at"
+  end
+
   create_table "submission_grades", force: :cascade do |t|
     t.integer "assignment_id"
     t.integer "student_id"
     t.string "status"
-    t.integer "attempt"
     t.boolean "is_latest"
     t.integer "mentor_id"
     t.decimal "point"
@@ -156,6 +168,7 @@ ActiveRecord::Schema.define(version: 2019_05_13_085521) do
     t.datetime "updated_at", null: false
     t.datetime "assigned_at"
     t.datetime "graded_at"
+    t.integer "attempt"
     t.index ["assignment_id"], name: "index_submission_grades_on_assignment_id"
     t.index ["mentor_id"], name: "index_submission_grades_on_mentor_id"
     t.index ["student_id"], name: "index_submission_grades_on_student_id"
