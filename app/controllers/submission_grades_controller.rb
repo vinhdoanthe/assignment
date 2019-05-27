@@ -83,7 +83,7 @@ class SubmissionGradesController < ApplicationController
       @submission_grade.attempt = find_attempt(@submission_grade.assignment_id, current_user.id)
       respond_to do |format|
         if @submission_grade.save
-          format.html { redirect_to active_assignments_path, notice: 'Submission grade was successfully created.' }
+          format.html { redirect_to active_assignments_path, success: 'Submission grade was successfully created.' }
           format.json { render :show, status: :created, location: @submission_grade }
         else
           format.html { render :new }

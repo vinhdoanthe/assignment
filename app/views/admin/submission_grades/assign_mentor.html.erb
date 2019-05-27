@@ -6,7 +6,7 @@
 </script>
 <%= semantic_form_for submission_grade, url: assign_mentor_admin_submission_grade_path, :html => {:method => :post} do |form| %>
   <%= form.inputs do %>
-    <%= form.input :mentor, as: :select, :input_html => { :class => 'sjs-example-basic-single' }, collection: User.where(role: Constants::USER_ROLE_MENTOR) %>
+    <%= form.input :mentor, as: :radio, :input_html => {:class => 'sjs-example-basic-single'}, collection: list_mentors(submission_grade.assignment.course_instance_id) %>
   <% end %>
   <%= form.actions do %>
     <%= form.action :submit, :label => "Assign mentor" %>

@@ -19,4 +19,17 @@ module CourseInstancesHelper
       end
     end
   end
+
+  def list_mentors(course_instance_id)
+    mentors = User.select(:id, :email, :role).joins("LEFT JOIN enrollments ON users.id = enrollments.user_id AND enrollments.course_instance_id = #{course_instance_id}").where(role: Constants::USER_ROLE_MENTOR)
+    # mentors_id = User.select(:id).joins("LEFT JOIN enrollments ON users.id = enrollments.user_id AND enrollments.course_instance_id = #{course_instance_id}").where(role: Constants::USER_ROLE_MENTOR)
+    # puts "SubmissionGrade.where(mentor_id: mentors).group(:mentor_id).count #{SubmissionGrade.where(mentor_id: mentors_id).group(:mentor_id).count}"
+    # mentors.map{|mentor| mentor.merge(mentors_id.find{|mentor_id| mentor_id[:mentor_id] == mentor[:id]})}
+    # mentors_with_count = []
+    # mentors.each do |mentor|
+    #   m
+    # end
+    # puts "Mentors #{mentors.inspect}"
+    mentors
+  end
 end

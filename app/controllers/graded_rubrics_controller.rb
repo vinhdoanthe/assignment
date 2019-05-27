@@ -65,7 +65,7 @@ class GradedRubricsController < ApplicationController
       if submission_grade.save
         SubmissionGradeMailer.graded_email(submission_grade.id).deliver_later
         redirect_to @graded_rubric.submission_grade,
-                    notice: 'Graded successfully!'
+                    success: 'Graded successfully!'
 
       end
     end
