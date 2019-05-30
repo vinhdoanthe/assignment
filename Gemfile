@@ -65,7 +65,7 @@ gem 'jbuilder', '~> 2.5'
 gem 'bootsnap', '>= 1.1.0', require: false
 
 group :production do
-  gem 'pg'
+  gem 'mysql2'
   gem 'capistrano-sidekiq'
   gem "google-cloud-storage", "~> 1.8", require: false
 end
