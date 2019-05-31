@@ -26,7 +26,8 @@ class SubmissionGradeMailer < ApplicationMailer
     @grade_record = SubmissionGrade.find(grade_record_id)
     @mentor = User.find(@grade_record.mentor_id)
     @learner = User.find(@grade_record.student_id)
-    mail(to: "#{@learner.email}, #{@mentor.email}, #{Constants::KHAO_THI_EMAIL}",
+    @partner = Partner.find(@grade_record.assignment.course_instance.partner_id)
+    mail(to: "#{@learner.email}, #{@mentor.email}, #{@partner.email}, #{Constants::KHAO_THI_EMAIL}",
          subject: 'Assignment Grade Result')
   end
 end

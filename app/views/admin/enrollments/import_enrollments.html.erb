@@ -1,0 +1,6 @@
+<h3>Import Enrollments</h3>
+
+<%= form_tag(import_enrollments_path, :multipart => true) do %>
+  <%= file_field_tag(:file,  required: true) %>
+  <%= submit_tag('Import', 'data-disable-with' => "Please wait..") %>
+<% end %>

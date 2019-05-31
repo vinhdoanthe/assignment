@@ -10,6 +10,8 @@ class CourseInstance < ApplicationRecord
 
   belongs_to :program, inverse_of: :course_instances
   belongs_to :course, inverse_of: :course_instances
+  belongs_to :partner, inverse_of: :course_instances
+
   has_many :assignments
   has_many :enrollments
 

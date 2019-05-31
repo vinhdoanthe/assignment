@@ -34,3 +34,5 @@ en:
   submission:
     latest_being_processed: "You submitted solution for this assignment.  Your submission is being processed"
     latest_passed: "You passed this assignment"
+  user:
+    notexisted: "Your email does not exist on system. Please use your FUNiX email to login or contact to your Hannah for more information"
