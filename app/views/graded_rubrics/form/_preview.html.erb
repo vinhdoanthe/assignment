@@ -1,19 +1,32 @@
 <%= simple_form_for graded_rubric, url: :grade_rubric, method: :post do |form| %>
 
   <!--Area form showing confirm-->
-  <ul>
-    <% graded_rubric.graded_criteriums.each do |criterium| %>
-      <% if criterium.criteria_type == Constants::CRITERIA_TYPE_PASS_FAIL %>
-        <li><strong>Criteria <%= criterium.index %>:</strong> <%= criterium.status %> </li>
-      <% else %>
-        <li><strong>Criteria <%= criterium.index %>:</strong> <%= criterium.point %> </li>
+  <div>
+    <ul>
+      <% graded_rubric.graded_criteriums.each do |criterium| %>
+        <li><strong>Criteria <%= criterium.index %></strong>
+          <% if criterium.mandatory %>
+            <strong>(Mandatory) :</strong>
+          <% else %>
+            <strong> :</strong>
+          <% end %>
+          <% if criterium.criteria_type == Constants::CRITERIA_TYPE_PASS_FAIL %>
+            <%= criterium.status %>
+          <% else %>
+            <%= criterium.point %>
+          <% end %>
+        </li>
       <% end %>
-    <% end %>
-  </ul>
+    </ul>
+  </div>
 
   <p>
-    <strong>Total point for this grade: </strong>  <%= pre_calculate_point(graded_rubric) %>
+    <strong>Total point of this grade: </strong>  <%= pre_calculate_point(graded_rubric) %>
   </p>
+  <p>
+    <strong>Status of this grade: </strong> <%= pre_calculate_status(graded_rubric) %>
+  </p>
+  <hr>
 
   <!--    Hidden area-->
   <div hidden>

@@ -1,6 +1,6 @@
 <h3>Result for <%= @grade_record.assignment.display_name %></h3>
 
-<table class="table table-stripped table-hover table-bordered">
+<table class="table table-bordered">
   <thead>
   <tr>
     <th>#</th>
@@ -17,7 +17,7 @@
       <th><%= criteria.index %></th>
       <td><span><%= criteria.criteria_description %></span></td>
       <td><span><%= criteria.meet_the_specification %></span></td>
-      <td><span><%= criteria.mandatory %></span></td>
+      <td><span><%= criteria.mandatory ? 'yes' : 'no' %></span></td>
       <% if criteria.criteria_type == Constants::CRITERIA_TYPE_PASS_FAIL %>
         <td><%= criteria.status %></td>
       <% else %>
@@ -30,4 +30,7 @@
 </table>
 <p><strong>Comment: </strong><span><%= @grade_record.graded_rubric.comment %></span></p>
 <p><strong>Status: </strong><span><%= @grade_record.status %></span></p>
-<p>You need to re-work and re-submit solution for Criteria <% %></p>
+<% if @grade_record.status == Constants::SUBMISSION_GRADE_STATUS_NOT_PASSED %>
+  <p>You need to re-work on criteria <strong><%= @grade_record.list_failed_criteria %></strong> and re-submit your
+    updated solution</p>
+<% end %>

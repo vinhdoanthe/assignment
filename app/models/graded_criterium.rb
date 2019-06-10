@@ -37,4 +37,16 @@ class GradedCriterium < ApplicationRecord
     end
     can_be
   end
+
+  def get_status
+    temp_status = status
+    if criteria_type == Constants::CRITERIA_TYPE_POINT
+      temp_status = if point.zero?
+                      Constants::GRADED_CRITERIA_STATUS_FAILED
+                    else
+                      Constants::GRADED_CRITERIA_STATUS_PASSED
+                    end
+    end
+    temp_status
+  end
 end

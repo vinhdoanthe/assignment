@@ -5,11 +5,10 @@
     <tr>
       <th>#</th>
       <th>Weight</th>
-      <th>Criteria</th>
-      <th>Outcome</th>
-      <th>Meet the specification</th>
+      <th style="width: 30%;">Meet the specification</th>
       <th>Point</th>
-      <th>Comment</th>
+      <th style="width: 20%;">Comment</th>
+      <th>Mandatory</th>
     </tr>
     </thead>
     <tbody>
@@ -17,10 +16,6 @@
       <tr>
         <th><%= criteria.index %></th>
         <td><span><%= criteria.weight %></span></td>
-        <td>
-          <span><%= criteria.criteria_description %></span>
-        </td>
-        <td><span><%= criteria.outcome %></span></td>
         <td><span><%= criteria.meet_the_specification %></span></td>
         <td>
           <% if criteria.criteria_type == Constants::CRITERIA_TYPE_PASS_FAIL %>
@@ -30,6 +25,9 @@
           <% end %>
         </td>
         <td><span><%= criteria.comment %></span></td>
+        <td>
+          <span><%= criteria.mandatory ? 'yes' : 'no' %></span>
+        </td>
       </tr>
     <% end %>
     </tbody>

@@ -36,19 +36,19 @@ class SubmissionGrade < ApplicationRecord
     assignment.grade_type
   end
 
-  scope :filtered_by_mentor_id, lambda { |mentor_id|
+  scope :filtered_by_mentor_id, lambda {|mentor_id|
     where(mentor_id: mentor_id)
   }
 
   filterrific(
-    default_filter_params: { sorted_by: 'created_at_desc' },
-    available_filters: %i[
+      default_filter_params: {sorted_by: 'created_at_desc'},
+      available_filters: %i[
       sorted_by
       with_status
     ]
   )
 
-  scope :sorted_by, lambda { |sort_option|
+  scope :sorted_by, lambda {|sort_option|
     direction = /desc$/.match?(sort_option) ? 'desc' : 'asc'
     case sort_option.to_s
     when /^created_at_/
@@ -58,23 +58,23 @@ class SubmissionGrade < ApplicationRecord
     end
   }
 
-  scope :with_status, lambda { |status|
+  scope :with_status, lambda {|status|
     where(status: [*status])
   }
 
   def self.options_for_sorted_by
     [
-      ['Submitted date (newest first)', 'created_at_desc'],
-      ['Submitted date (oldest first)', 'created_at_asc']
+        ['Submitted date (newest first)', 'created_at_desc'],
+        ['Submitted date (oldest first)', 'created_at_asc']
     ]
   end
 
   def self.options_for_select
-    { Constants::SUBMISSION_GRADE_STATUS_SUBMITTED => Constants::SUBMISSION_GRADE_STATUS_SUBMITTED,
-      Constants::SUBMISSION_GRADE_STATUS_ASSIGNED => Constants::SUBMISSION_GRADE_STATUS_ASSIGNED,
-      Constants::SUBMISSION_GRADE_STATUS_TAKEN_BACK => Constants::SUBMISSION_GRADE_STATUS_TAKEN_BACK,
-      Constants::SUBMISSION_GRADE_STATUS_PASSED => Constants::SUBMISSION_GRADE_STATUS_PASSED,
-      Constants::SUBMISSION_GRADE_STATUS_NOT_PASSED => Constants::SUBMISSION_GRADE_STATUS_NOT_PASSED }
+    {Constants::SUBMISSION_GRADE_STATUS_SUBMITTED => Constants::SUBMISSION_GRADE_STATUS_SUBMITTED,
+     Constants::SUBMISSION_GRADE_STATUS_ASSIGNED => Constants::SUBMISSION_GRADE_STATUS_ASSIGNED,
+     Constants::SUBMISSION_GRADE_STATUS_TAKEN_BACK => Constants::SUBMISSION_GRADE_STATUS_TAKEN_BACK,
+     Constants::SUBMISSION_GRADE_STATUS_PASSED => Constants::SUBMISSION_GRADE_STATUS_PASSED,
+     Constants::SUBMISSION_GRADE_STATUS_NOT_PASSED => Constants::SUBMISSION_GRADE_STATUS_NOT_PASSED}
   end
 
   def self.update_latest(student_id, assignment_id, attempt)
@@ -119,5 +119,15 @@ class SubmissionGrade < ApplicationRecord
                         mentor_id: nil)
       # TODO
     end
+  end
+
+  def list_failed_criteria
+    list_str = ''
+    graded_criteriums.each do |criterium|
+      if criterium.get_status == Constants::GRADED_CRITERIA_STATUS_FAILED
+        list_str = list_str + ' ' + criterium.index.to_s + ','
+      end
+    end
+    list_str
   end
 end

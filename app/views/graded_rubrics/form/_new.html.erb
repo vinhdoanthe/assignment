@@ -9,10 +9,10 @@
       <th>#</th>
       <th>Weight</th>
       <th>Criteria</th>
-      <th>Outcome</th>
-      <th>Meet the specification</th>
+      <th style="width: 30%;">Meet the specification</th>
       <th>Point</th>
-      <th>Comment</th>
+      <th style="width: 20%;">Comment</th>
+      <th>Mandatory</th>
     </tr>
     </thead>
     <tbody>
@@ -27,14 +27,12 @@
           <span><%= criteria.object.criteria_description %></span>
           <%= criteria.input :criteria_description, as: :hidden, value: criteria.object.criteria_description %>
         </td>
-        <td><span><%= criteria.object.outcome %></span></td>
-        <%= criteria.input :outcome, as: :hidden, value: criteria.object.outcome %>
         <td><span><%= criteria.object.meet_the_specification %></span></td>
         <%= criteria.input :meet_the_specification, as: :hidden, value: criteria.object.meet_the_specification %>
         <%= criteria.input :criteria_type, as: :hidden, value: criteria.object.criteria_type %>
         <td>
           <% if criteria.object.criteria_type == Constants::CRITERIA_TYPE_PASS_FAIL %>
-            <%= criteria.input :status, :label => false, :as => :select, validate: {:presence => true} %>
+            <%= criteria.input :status, :as => :select, validate: {:presence => true} %>
           <% else %>
             <%= criteria.input :point, collection: 0...(Settings[:criteria][:point_max_point] + 1),
                                validate: {:presence => true} %>
@@ -42,6 +40,8 @@
         </td>
         <td><%= criteria.input :comment, as: :text, :label => false, :input_html => {:rows => 3},
                                validate: {:presence => true} %></td>
+        <td><span><%= criteria.object.mandatory ? 'yes' : 'no' %></span></td>
+        <%= criteria.input :mandatory, as: :hidden, value: criteria.object.mandatory %>
       </tr>
     <% end %>
     </tbody>
