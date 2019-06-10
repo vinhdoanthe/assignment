@@ -1,5 +1,5 @@
 <p id="notice"><%= notice %></p>
-<%= link_to "Back", active_assignments_path %>
+<%= link_to "Back", current_user.learner? ? active_assignments_path : assigned_submissions_path %>
 <div>
   <table class='table'>
     <tr>
@@ -42,7 +42,7 @@
     </tr>
     <tr>
       <th>Point:</th>
-      <td><%= (@submission_grade.status == Constants::SUBMISSION_GRADE_STATUS_ASSIGNED or @submission_grade.status == Constants::SUBMISSION_GRADE_STATUS_SUBMITTED) ? 'N/A' : @submission_grade.point %></td>
+      <td><%= (@submission_grade.status == Constants::SUBMISSION_GRADE_STATUS_ASSIGNED or @submission_grade.status == Constants::SUBMISSION_GRADE_STATUS_SUBMITTED) ? 'N/A' : number_with_precision(@submission_grade.point, :precision => 1) %></td>
     </tr>
   </table>
 </div>

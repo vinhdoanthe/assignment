@@ -1,8 +1,4 @@
 ActiveAdmin.register User do
-  active_admin_import validate: true,
-                      template_object: ActiveAdminImport::Model.new(
-                          force_encoding: :auto
-                      )
 
   form do |form|
     title form.object.new_record? ? 'Add new user' : 'Edit user'

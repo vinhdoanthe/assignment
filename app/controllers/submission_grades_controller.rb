@@ -23,18 +23,18 @@ class SubmissionGradesController < ApplicationController
 
   def assigned_submissions
     @filterrific = initialize_filterrific(
-      SubmissionGrade,
+      SubmissionGrade.filtered_by_mentor_id(current_user.id),
       params[:filterrific],
       select_options: {
         sorted_by: SubmissionGrade.options_for_sorted_by,
         with_status: SubmissionGrade.options_for_select
       },
-      persistence_id: 'shared_key',
+      persistence_id: 'submission_grades_assigned_submissions',
       default_filter_params: {},
       available_filters: %i[sorted_by with_status],
       sanitize_params: true
     ) || return
-    @assigned_submissions = @filterrific.find.page(params[:page])
+    @assigned_submissions = @filterrific.find.page(params[:page]).per_page(20)
     respond_to do |format|
       format.html
       format.js
