@@ -1,8 +1,14 @@
 # frozen_string_literal: true
 
 module GradedRubricsHelper
+
+
   def pre_calculate_point(graded_rubric)
+    logger = Rails.logger
     point = 0
+
+    logger.info 'Settings[:submission][:point_factor]'
+    logger.info Settings[:submission][:point_factor]
 
     graded_rubric.graded_criteriums.each do |criterium|
       if criterium.criteria_type == Constants::CRITERIA_TYPE_PASS_FAIL
@@ -14,7 +20,13 @@ module GradedRubricsHelper
       end
     end
 
+    logger.info 'Point before multiply with factor'
+    logger.info point
+
     point *= Settings[:submission][:point_factor]
+
+    logger.info 'Point after multiply with factor'
+    logger.info point
 
     if graded_rubric.submission_grade.attempt != 1
       point /= 2
