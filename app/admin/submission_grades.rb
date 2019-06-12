@@ -3,6 +3,7 @@
 ActiveAdmin.register SubmissionGrade do
   menu priority: 1
   config.per_page = [10, 50, 100]
+  sidebar :versionate, partial: 'layouts/version', only: :show
 
   # Filters for index page
   filter :status, as: :select
@@ -30,6 +31,13 @@ ActiveAdmin.register SubmissionGrade do
 
   controller do
     belongs_to :assignments, optional: true
+    def show
+      @submission_grade = SubmissionGrade.includes(versions: :item).find(params[:id])
+      @versions = @submission_grade.versions
+      @submission_grade = @submission_grade.versions[params[:version].to_i].reify if params[:version]
+      @page_title = @submission_grade.display_name
+      show!
+    end
   end
 
   index do
@@ -54,7 +62,7 @@ ActiveAdmin.register SubmissionGrade do
     end
   end
 
-  show title: :display_name do
+  show do
     h3 'Detail'
     attributes_table do
       row :assignment
@@ -101,6 +109,17 @@ ActiveAdmin.register SubmissionGrade do
       render :'admin/submission_grades/assign_mentor',
              locals: {submission_grade: submission_grade}
     end
+  end
+
+  member_action :history do
+    @submission_grade = SubmissionGrade.find(params[:id])
+    @versions = PaperTrail::Version.where(item_type: 'SubmissionGrade', item_id: @submission_grade.id)
+    render 'layouts/history'
+  end
+
+  action_item :history, only: :show do
+    submission_grade = SubmissionGrade.find(params[:id])
+    link_to 'View history', history_admin_submission_grade_path(submission_grade)
   end
 
   action_item :assign_mentor, only: :show do

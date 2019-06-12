@@ -6,6 +6,7 @@ class Rubric < ApplicationRecord
 
   belongs_to :assignment
   has_many :criteria_formats, dependent: :destroy, inverse_of: :rubric
+  has_paper_trail on: %i[create update destroy]
 
   accepts_nested_attributes_for :criteria_formats, allow_destroy: true
 
