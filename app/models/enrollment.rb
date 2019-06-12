@@ -86,10 +86,6 @@ class Enrollment < ApplicationRecord
 
     error
   end
-  #
-  # def self.create_list_import_errors(list_errors)
-  #   # TODO
-  # end
 
   def self.open_spreadsheet(file)
     case File.extname(file.original_filename)
