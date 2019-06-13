@@ -5,7 +5,7 @@ module GradedRubricsHelper
 
   def pre_calculate_point(graded_rubric)
     logger = Rails.logger
-    point = 0
+    point = 0.to_f
 
     logger.info 'Settings[:submission][:point_factor]'
     logger.info Settings[:submission][:point_factor]
@@ -14,6 +14,10 @@ module GradedRubricsHelper
       if criterium.criteria_type == Constants::CRITERIA_TYPE_PASS_FAIL
         if criterium.status == Constants::GRADED_CRITERIA_STATUS_PASSED
           point += (Settings[:criteria][:pass_fail_point] * criterium.weight) / graded_rubric.submission_grade.assignment.rubric.total_weight
+          logger.info 'Settings[:criteria][:pass_fail_point]'
+          logger.info Settings[:criteria][:pass_fail_point]
+          logger.info '(Settings[:criteria][:pass_fail_point] * criterium.weight) / graded_rubric.submission_grade.assignment.rubric.total_weight'
+          logger.info (Settings[:criteria][:pass_fail_point] * criterium.weight) / graded_rubric.submission_grade.assignment.rubric.total_weight
           logger.info 'graded_rubric.submission_grade.assignment.rubric.total_weight'
           logger.info graded_rubric.submission_grade.assignment.rubric.total_weight
           logger.info 'criterium.weight'
