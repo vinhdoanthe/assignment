@@ -37,7 +37,7 @@ class GradedRubric < ApplicationRecord
           self.point += (Settings[:criteria][:pass_fail_point] * criterium.weight).to_f / (graded_rubric.submission_grade.assignment.rubric.total_weight).to_f
         end
       elsif criterium.criteria_type == Constants::CRITERIA_TYPE_POINT
-        self.point += ((criterium.point / Settings[:criteria][:point_max_point]) * criterium.weight).to_f / (graded_rubric.submission_grade.assignment.rubric.total_weight).to_f
+        self.point += ((criterium.point.to_f / (Settings[:criteria][:point_max_point]).to_f) * criterium.weight).to_f / (graded_rubric.submission_grade.assignment.rubric.total_weight).to_f
       end
     end
 
