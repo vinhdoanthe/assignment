@@ -29,23 +29,25 @@ class GradedRubric < ApplicationRecord
   end
 
   def calculate_point!
-    self.point = 0.to_f
+    temp_point = 0.to_f
+    # self.point = 0.to_f
     logger = Rails.logger
     graded_criteriums.each do |criterium|
       if criterium.criteria_type == Constants::CRITERIA_TYPE_PASS_FAIL
         if criterium.status == Constants::GRADED_CRITERIA_STATUS_PASSED
-          self.point += (Settings[:criteria][:pass_fail_point] * criterium.weight).to_f / (submission_grade.assignment.rubric.total_weight).to_f
-          logger.info 'self.point'
-          logger.info self.point
+          temp_point += (Settings[:criteria][:pass_fail_point] * criterium.weight).to_f / (submission_grade.assignment.rubric.total_weight).to_f
+          logger.info 'temp_point'
+          logger.info temp_point
         end
       elsif criterium.criteria_type == Constants::CRITERIA_TYPE_POINT
-        self.point += ((criterium.point.to_f / (Settings[:criteria][:point_max_point]).to_f) * criterium.weight).to_f / (submission_grade.assignment.rubric.total_weight).to_f
-        logger.info 'self.point'
-        logger.info self.point
+        temp_point += ((criterium.point.to_f / (Settings[:criteria][:point_max_point]).to_f) * criterium.weight).to_f / (submission_grade.assignment.rubric.total_weight).to_f
+        logger.info 'temp_point'
+        logger.info temp_point
       end
     end
 
-    self.point *= Settings[:submission][:point_factor]
-    self.point /= 2 if submission_grade.attempt != 1
+    temp_point *= Settings[:submission][:point_factor]
+    temp_point /= 2 if submission_grade.attempt != 1
+    self.point = temp_point
   end
 end
