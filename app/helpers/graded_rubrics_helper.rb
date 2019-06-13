@@ -1,44 +1,20 @@
 # frozen_string_literal: true
 
 module GradedRubricsHelper
-
-
   def pre_calculate_point(graded_rubric)
-    logger = Rails.logger
     point = 0.to_f
-
-    logger.info 'Settings[:submission][:point_factor]'
-    logger.info Settings[:submission][:point_factor]
 
     graded_rubric.graded_criteriums.each do |criterium|
       if criterium.criteria_type == Constants::CRITERIA_TYPE_PASS_FAIL
         if criterium.status == Constants::GRADED_CRITERIA_STATUS_PASSED
           point += (Settings[:criteria][:pass_fail_point] * criterium.weight).to_f / (graded_rubric.submission_grade.assignment.rubric.total_weight).to_f
-          logger.info 'Settings[:criteria][:pass_fail_point]'
-          logger.info Settings[:criteria][:pass_fail_point]
-          logger.info '(Settings[:criteria][:pass_fail_point] * criterium.weight) / graded_rubric.submission_grade.assignment.rubric.total_weight'
-          logger.info (Settings[:criteria][:pass_fail_point] * criterium.weight).to_f / (graded_rubric.submission_grade.assignment.rubric.total_weight).to_f
-          logger.info 'graded_rubric.submission_grade.assignment.rubric.total_weight'
-          logger.info graded_rubric.submission_grade.assignment.rubric.total_weight
-          logger.info 'criterium.weight'
-          logger.info criterium.weight
         end
       elsif criterium.criteria_type == Constants::CRITERIA_TYPE_POINT
-        point += ((criterium.point / Settings[:criteria][:point_max_point]) * criterium.weight) / graded_rubric.submission_grade.assignment.rubric.total_weight
-        logger.info 'graded_rubric.submission_grade.assignment.rubric.total_weight'
-        logger.info graded_rubric.submission_grade.assignment.rubric.total_weight
-        logger.info 'criterium.weight'
-        logger.info criterium.weight
+        point += ((criterium.point / Settings[:criteria][:point_max_point]) * criterium.weight).to_f / (graded_rubric.submission_grade.assignment.rubric.total_weight).to_f
       end
     end
 
-    logger.info 'Point before multiply with factor'
-    logger.info point
-
     point *= Settings[:submission][:point_factor]
-
-    logger.info 'Point after multiply with factor'
-    logger.info point
 
     if graded_rubric.submission_grade.attempt != 1
       point /= 2

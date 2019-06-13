@@ -29,26 +29,19 @@ class GradedRubric < ApplicationRecord
   end
 
   def calculate_point!
-    self.point = 0
+    self.point = 0.to_f
 
-    graded_criteriums.each do |criterium|
+    graded_rubric.graded_criteriums.each do |criterium|
       if criterium.criteria_type == Constants::CRITERIA_TYPE_PASS_FAIL
         if criterium.status == Constants::GRADED_CRITERIA_STATUS_PASSED
-          if submission_grade.attempt == 1
-            self.point += (Settings[:criteria][:pass_fail_point] * criterium.weight) / submission_grade.assignment.rubric.total_weight
-          else
-            self.point += (Settings[:criteria][:pass_fail_point] * criterium.weight / 2) / submission_grade.assignment.rubric.total_weight
-          end
+          self.point += (Settings[:criteria][:pass_fail_point] * criterium.weight).to_f / (graded_rubric.submission_grade.assignment.rubric.total_weight).to_f
         end
       elsif criterium.criteria_type == Constants::CRITERIA_TYPE_POINT
-        if submission_grade.attempt == 1
-          self.point += ((criterium.point / Settings[:criteria][:point_max_point]) * criterium.weight) / submission_grade.assignment.rubric.total_weight
-        else
-          self.point += ((criterium.point / Settings[:criteria][:point_max_point]) * criterium.weight / 2) / submission_grade.assignment.rubric.total_weight
-        end
+        self.point += ((criterium.point / Settings[:criteria][:point_max_point]) * criterium.weight).to_f / (graded_rubric.submission_grade.assignment.rubric.total_weight).to_f
       end
     end
 
     self.point *= Settings[:submission][:point_factor]
+    self.point /= 2 if graded_rubric.submission_grade.attempt != 1
   end
 end
