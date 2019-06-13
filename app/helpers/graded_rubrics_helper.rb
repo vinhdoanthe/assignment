@@ -13,11 +13,11 @@ module GradedRubricsHelper
     graded_rubric.graded_criteriums.each do |criterium|
       if criterium.criteria_type == Constants::CRITERIA_TYPE_PASS_FAIL
         if criterium.status == Constants::GRADED_CRITERIA_STATUS_PASSED
-          point += (Settings[:criteria][:pass_fail_point] * criterium.weight) / graded_rubric.submission_grade.assignment.rubric.total_weight
+          point += (Settings[:criteria][:pass_fail_point] * criterium.weight).to_f / (graded_rubric.submission_grade.assignment.rubric.total_weight).to_f
           logger.info 'Settings[:criteria][:pass_fail_point]'
           logger.info Settings[:criteria][:pass_fail_point]
           logger.info '(Settings[:criteria][:pass_fail_point] * criterium.weight) / graded_rubric.submission_grade.assignment.rubric.total_weight'
-          logger.info (Settings[:criteria][:pass_fail_point] * criterium.weight) / graded_rubric.submission_grade.assignment.rubric.total_weight
+          logger.info (Settings[:criteria][:pass_fail_point] * criterium.weight).to_f / (graded_rubric.submission_grade.assignment.rubric.total_weight).to_f
           logger.info 'graded_rubric.submission_grade.assignment.rubric.total_weight'
           logger.info graded_rubric.submission_grade.assignment.rubric.total_weight
           logger.info 'criterium.weight'
