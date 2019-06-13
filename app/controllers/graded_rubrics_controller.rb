@@ -52,6 +52,9 @@ class GradedRubricsController < ApplicationController
   def grade
     @graded_rubric = GradedRubric.new(graded_rubric_params)
     @graded_rubric.calculate_point!
+    logger = Rails.logger
+    logger.info '@graded_rubric.point'
+    logger.info @graded_rubric.point
     submission_grade = @graded_rubric.submission_grade
     if @graded_rubric.status == Constants::GRADED_RUBRIC_STATUS_FAILED
       submission_grade.status = Constants::SUBMISSION_GRADE_STATUS_NOT_PASSED
