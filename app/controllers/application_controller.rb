@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ApplicationController < ActionController::Base
   helper ApplicationHelper
 
@@ -9,10 +11,14 @@ class ApplicationController < ActionController::Base
 
   def authenticate_active_admin_user!
     authenticate_user!
-    unless current_user.admin?
-      flash[:danger] = "Unauthorized Access!"
+    unless current_user.admin? || current_user.hannah?
+      flash[:danger] = 'Unauthorized Access!'
       redirect_to root_path
     end
+  end
+
+  def access_denied(exception)
+    redirect_to root_path, alert: exception.message
   end
 
   protected
@@ -25,7 +31,7 @@ class ApplicationController < ActionController::Base
 
   def require_admin!
     unless current_user.admin?
-      flash[:danger] = "You do not have permission to take this action"
+      flash[:danger] = 'You do not have permission to take this action'
       redirect_to root_path
     end
   end

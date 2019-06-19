@@ -18,6 +18,7 @@ module Constants
   USER_ROLE_ADMIN = 'admin'
   USER_ROLE_MENTOR = 'mentor'
   USER_ROLE_LEARNER = 'learner'
+  USER_ROLE_HANNAH = 'hannah'
 
   # user statuses
   USER_STATUS_ACTIVE = 'active'

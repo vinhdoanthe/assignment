@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Model for Learner, Mentor, Hannah and Admin account
+# Using Google Oauth as authentication method
 class User < ApplicationRecord
   extend Enumerize
   include Constants
@@ -12,8 +14,10 @@ class User < ApplicationRecord
   has_many :course_instances, through: :enrollments
   has_many :submission_grades, foreign_key: :student_id
 
-  enumerize :role, in: [Constants::USER_ROLE_ADMIN, Constants::USER_ROLE_MENTOR, Constants::USER_ROLE_LEARNER]
-  enumerize :status, in: [Constants::USER_STATUS_ACTIVE, Constants::USER_STATUS_INACTIVE]
+  enumerize :role, in: [Constants::USER_ROLE_ADMIN, Constants::USER_ROLE_MENTOR,
+                        Constants::USER_ROLE_LEARNER, Constants::USER_ROLE_HANNAH]
+  enumerize :status, in: [Constants::USER_STATUS_ACTIVE,
+                          Constants::USER_STATUS_INACTIVE]
 
   def self.from_omniauth(access_token)
     data = access_token.info
@@ -35,6 +39,10 @@ class User < ApplicationRecord
 
   def mentor?
     role == Constants::USER_ROLE_MENTOR
+  end
+
+  def hannah?
+    role == Constants::USER_ROLE_HANNAH
   end
 
 end

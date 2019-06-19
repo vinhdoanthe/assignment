@@ -10,7 +10,9 @@ ActiveAdmin.register Enrollment do
 
 
   action_item only: :index do
-    link_to('Import Enrollments', import_enrollments_admin_enrollments_path)
+    if current_user.admin?
+      link_to('Import Enrollments', import_enrollments_admin_enrollments_path)
+    end
   end
 
   permit_params :user_id, :course_instance_id, :status, :start_date, :end_date

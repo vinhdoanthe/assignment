@@ -31,6 +31,7 @@ ActiveAdmin.register SubmissionGrade do
 
   controller do
     belongs_to :assignments, optional: true
+
     def show
       @submission_grade = SubmissionGrade.includes(versions: :item).find(params[:id])
       @versions = @submission_grade.versions
@@ -57,8 +58,11 @@ ActiveAdmin.register SubmissionGrade do
 
     actions defaults: false do |resource|
       item 'View', admin_submission_grade_path(resource)
-      text_node ' | '
-      item 'Assign mentor', assign_mentor_admin_submission_grade_path(resource)
+
+      if current_user.admin?
+        text_node ' | '
+        item 'Assign mentor', assign_mentor_admin_submission_grade_path(resource)
+      end
     end
   end
 
@@ -123,8 +127,10 @@ ActiveAdmin.register SubmissionGrade do
   end
 
   action_item :assign_mentor, only: :show do
-    submission_grade = SubmissionGrade.find(params[:id])
-    link_to 'Assign mentor', assign_mentor_admin_submission_grade_path(submission_grade)
+    if current_user.admin?
+      submission_grade = SubmissionGrade.find(params[:id])
+      link_to 'Assign mentor', assign_mentor_admin_submission_grade_path(submission_grade)
+    end
   end
 
   batch_action :assign_mentor, form: -> {{user: User.where(role: Constants::USER_ROLE_MENTOR).pluck(:email, :id)}} do |ids, inputs|
