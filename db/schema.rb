@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_30_072924) do
+ActiveRecord::Schema.define(version: 2019_06_19_103640) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
@@ -56,6 +56,7 @@ ActiveRecord::Schema.define(version: 2019_05_30_072924) do
     t.datetime "updated_at", null: false
     t.text "description"
     t.string "grade_type"
+    t.string "submit_type"
     t.index ["course_instance_id"], name: "index_assignments_on_course_instance_id"
   end
 

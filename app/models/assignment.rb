@@ -10,6 +10,8 @@ class Assignment < ApplicationRecord
   has_many :criteria_formats, through: :rubric
   has_paper_trail on: %i[create update destroy]
 
+  enumerize :submit_type, in: [Constants::ASSIGNMENT_SUBMIT_TYPE_FILE,
+                               Constants::ASSIGNMENT_SUBMIT_TYPE_NOFILE]
   enumerize :status, in: [Constants::ASSIGNMENT_STATUS_ACTIVE,
                           Constants::ASSIGNMENT_STATUS_INACTIVE]
   enumerize :grade_type, in: [Constants::ASSIGNMENT_GRADE_TYPE_DEFAULT,

@@ -34,15 +34,17 @@
       <th>Your Email</th>
       <td><%= current_user.email %></td>
     </tr>
-    <tr>
-      <th>Attach file (zip/rar)</th>
-      <td><%= form.file_field :submission_file, as: :file, label: false, required: true %></td>
-    </tr>
+    <% if submission_grade.assignment.submit_type != Constants::ASSIGNMENT_SUBMIT_TYPE_NOFILE %>
+      <tr>
+        <th>Attach file (zip/rar)</th>
+        <td><%= form.file_field :submission_file, as: :file, label: false, required: true %></td>
+      </tr>
+    <% end %>
     </tbody>
   </table>
 
   <div class="actions">
     <%= link_to "Cancel", active_assignments_path, class: 'btn btn-light' %>
-    <%= form.button :submit, "Submit solution" %>
+    <%= form.button :submit, submission_grade.assignment.submit_type != Constants::ASSIGNMENT_SUBMIT_TYPE_NOFILE ? "Submit solution" : "Ready to Interview" %>
   </div>
 <% end %>
