@@ -58,10 +58,17 @@ class Enrollment < ApplicationRecord
     list_instances = list_instances.map(&:strip)
 
     # find or create user
-    user = User.find_or_create_by(email: enrollment_row[:email], role: enrollment_row[:role])
+    user = User.find_or_create_by(email: enrollment_row[:email])
     if user.errors.full_messages.any?
       error = {tt: enrollment_row[:tt], note: user.errors.full_messages.to_s}
       return error
+    else
+      ## TODO: need to set role to learner with every record
+      if user.update(role: enrollment_row[:role])
+      else
+        tmp_error = 'Update user failed' + user.email
+        error.append(tmp_error)
+      end
     end
 
     list_instances.each do |instance|
