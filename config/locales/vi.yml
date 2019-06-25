@@ -1,0 +1,10 @@
+vi:
+  hello: "Xin chào"
+  submission:
+    latest_being_processed: "Bạn đã nộp bài này. Bài nộp của bạn đang được xử lý"
+    latest_passed: "Bạn đã đạt bài assignment này"
+  user:
+    notexisted: "Tài khoản email của bạn chưa có trên hệ thống. Vui lòng sử dụng email FUNiX của bạn để đăng nhập, hoặc liên hệ với Hannah"
+  courseinstance:
+    code:
+      duplicated: "Mã instance này đã tồn tại trong hệ thống!"

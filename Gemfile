@@ -22,6 +22,7 @@ gem 'whenever', require: false
 gem 'client_side_validations'
 gem 'client_side_validations-simple_form'
 gem "roo", "~> 2.8.0"
+gem 'rails-i18n'
 
 # Capistrano for deployment
 gem 'capistrano', '~> 3.7', '>= 3.7.1'

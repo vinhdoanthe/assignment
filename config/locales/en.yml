@@ -36,3 +36,6 @@ en:
     latest_passed: "You passed this assignment"
   user:
     notexisted: "Your email does not exist on system. Please use your FUNiX email to login or contact to your Hannah for more information"
+  courseinstance:
+    code:
+      duplicated: "CourseInstance code duplicated!"

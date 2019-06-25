@@ -1,0 +1,9 @@
+vi:
+  simple_form:
+    "yes": 'Đồng ý'
+    "no": 'Không đồng ý'
+    required:
+      text: 'bắt buộc'
+      mark: '*'
+    error_notification:
+      default_message: "Vui lòng xem thông tin vấn đề ở dưới:"
