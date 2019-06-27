@@ -4,11 +4,11 @@
   <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'/>
 </head>
 <body>
-<strong>Dear <%= @user.full_name %>,</strong>
+<p><%= t('mailer.submission_grade.submitted_email.dear_msg', user_full_name: @user.full_name) %>,</p>
 <p>
-  <span>Your assignment solution was submitted successfully! You can view your
-    submission <%= link_to 'here', submission_grade_url(@submission_grade) %>.</span>
+  <span><%= t('mailer.submission_grade.submitted_email.content',
+              link_to_submission: submission_grade_url(@submission_grade)) %>.</span>
 </p>
-<p>Regards,</p>
+<p><%= t('mailer.submission_grade.submitted_email.regards') %></p>
 </body>
 </html>

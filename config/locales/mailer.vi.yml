@@ -1,0 +1,27 @@
+vi:
+  mailer:
+    submission_grade:
+      submitted_email:
+        subject: "Xác nhận nộp bài %{submission_name}"
+        dear_msg: "Chào %{user_full_name}"
+        content: "Bạn đã nộp bài thành công! Bạn có thể xem bài nộp của mình ở %{link_to_submission}"
+        here: "đây"
+        regards: "Trân trọng"
+      assigned_mentor:
+        subject: "Bạn vừa được giao chấm %{submission_name}"
+        dear_msg: "Xin chào %{mentor_email}"
+        content: "Bạn vừa được giao chấm bài thực hành. Bạn có thể xem bài chấm ở %{link_to_grade}"
+        here: "đây"
+        regards: "Trân trọng"
+      taken_back_email:
+        subject: "Bài %{submission_name} đã bị lấy lại quyền chấm"
+        dear_msg: "Xin chào %{mentor_email}"
+        content_first_par: "Chúng tôi vừa lấy lại quyền chấm bài %{submission_name} của học viên @{learner_email} bởi vì bạn không chấm trong vòng %{taken_back_hour} giờ"
+        content_second_par: "Đây là quá trình tự động. Nếu bạn có bất kỳ câu hỏi, vui lòng liên hệ @{mail_to}"
+        regards: "Trân trọng"
+      graded_email:
+        subject: "Kết quả chấm bài - %{grade_record_name} - %{learner_email} - %{mentor_email}"
+        dear_msg: "Xin chào mọi người"
+        result_header: "Đây là kết quả của bài %{grade_record_name}"
+        need_rework: "Bạn cần làm lại các tiêu chí %{rework_criteria} và nộp lại bài làm"
+        regards: "Trân trọng"

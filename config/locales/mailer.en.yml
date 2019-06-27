@@ -1,0 +1,27 @@
+en:
+  mailer:
+    submission_grade:
+      submitted_email:
+        subject: "Assignment submitted %{submission_name}"
+        dear_msg: "Dear %{user_full_name}"
+        content: "Your assignment solution was submitted successfully! You can view your submission %{link_to_submission}"
+        here: "here"
+        regards: "Regards"
+      assigned_mentor:
+        subject: "You've been assigned to grade %{submission_name}"
+        dear_msg: "Dear %{mentor_email}"
+        content: "You've been assigned to grade an student's assignment. Go to %{link_to_grade} to view this solution"
+        here: "here"
+        regards: "Regards"
+      taken_back_email:
+        subject: "%{submission_name} has been taken back"
+        dear_msg: "Dear %{mentor_email}"
+        content_first_par: "We've taken assignment %{submission_name} of @{learner_email} from you because you do not graded in %{taken_back_hour} hours"
+        content_second_par: "This is automated process. If you have any question, please contact @{mail_to}"
+        regards: "Regards"
+      graded_email:
+        subject: "Assignment Grade Result - %{grade_record_name} - %{learner_email} - %{mentor_email}"
+        dear_msg: "Dear all"
+        result_header: "This is result for %{grade_record_name}"
+        need_rework: "You need to re-work on criteria %{rework_criteria} and re-submit your updated solution"
+        regards: "Regards"

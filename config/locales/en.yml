@@ -62,3 +62,22 @@ en:
       attach_file: "Attach file (zip/rar)"
   notions:
     n_a: "N/A"
+  admin:
+    history:
+      previous_version: "Previous version"
+      go_to_current_version: "Go to current version"
+      current_version: "Current version"
+      created_at: "Created At"
+      user: "User"
+      this_is_version: "This is %{version} version"
+      modify_at: "Modify at"
+      no_version: "This item does not have any registered version"
+      list_history:
+        label: "History"
+        item: "Item"
+        type: "Type"
+        event: "Event"
+        object_changes: "Object Changes"
+        modified_at: "Modified at"
+        user: "User"
+

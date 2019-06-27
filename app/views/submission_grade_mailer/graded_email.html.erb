@@ -1,14 +1,21 @@
-<h3>Result for <%= @grade_record.assignment.display_name %></h3>
+<!DOCTYPE html>
+<html>
+<head>
+  <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'/>
+</head>
+<body>
+<p><%= t('mailer.submission_grade.graded_email.dear_msg') %></p>
+<h3><%= t('mailer.submission_grade.graded_email.result_header', grade_record_name: @grade_record.assignment.display_name) %></h3>
 
 <table class="table table-bordered">
   <thead>
   <tr>
     <th>#</th>
-    <th>Criteria</th>
-    <th>Meet the specification</th>
-    <th>Mandatory</th>
-    <th>(Point/Pass_Fail)</th>
-    <th>Comment</th>
+    <th><%= t('assignment.submission_grade.label.criteria') %></th>
+    <th><%= t('assignment.submission_grade.label.meet_the_specification') %></th>
+    <th><%= t('assignment.submission_grade.label.mandatory') %></th>
+    <th><%= t('assignment.submission_grade.label.point') %></th>
+    <th><%= t('assignment.submission_grade.label.comment') %></th>
   </tr>
   </thead>
   <tbody>
@@ -17,7 +24,9 @@
       <th><%= criteria.index %></th>
       <td><span><%= criteria.criteria_description %></span></td>
       <td><span><%= criteria.meet_the_specification %></span></td>
-      <td><span><%= criteria.mandatory ? 'yes' : 'no' %></span></td>
+      <td>
+        <span><%= criteria.mandatory ? t('assignment.submission_grade.label.mandatory_yes') : t('assignment.submission_grade.label.mandatory_no') %></span>
+      </td>
       <% if criteria.criteria_type == Constants::CRITERIA_TYPE_PASS_FAIL %>
         <td><%= criteria.status %></td>
       <% else %>
@@ -28,9 +37,12 @@
   <% end %>
   </tbody>
 </table>
-<p><strong>Comment: </strong><span><%= @grade_record.graded_rubric.comment %></span></p>
-<p><strong>Status: </strong><span><%= @grade_record.status %></span></p>
+<p><strong><%= t('assignment.submission_grade.label.comment') %>
+  : </strong><span><%= @grade_record.graded_rubric.comment %></span></p>
+<p><strong><%= t('assignment.submission_grade.label.grade_status') %>: </strong><span><%= @grade_record.status %></span>
+</p>
 <% if @grade_record.status == Constants::SUBMISSION_GRADE_STATUS_NOT_PASSED %>
-  <p>You need to re-work on criteria <strong><%= @grade_record.list_failed_criteria %></strong> and re-submit your
-    updated solution</p>
+  <p><%= t('mailer.submission_grade.graded_email.need_rework', rework_criteria: @grade_record.list_failed_criteria) %></p>
 <% end %>
+</body>
+</html>

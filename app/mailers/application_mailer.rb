@@ -4,10 +4,6 @@ class ApplicationMailer < ActionMailer::Base
   layout 'mailer'
 
   def default_url_options
-    if Rails.env.production?
-      {host: 'assignment.funix.edu.vn'}
-    else
-      {host: 'localhost:3000'}
-    end
+    {host: ENV['default_url']}
   end
 end

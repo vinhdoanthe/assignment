@@ -1,14 +1,14 @@
-panel "History" do
+panel t('admin.history.list_history.label') do
     table_for assigns[:versions] do
-        column ("Item") do |v|
+        column (t('admin.history.list_history.item')) do |v|
             if v.item
                 link_to v.item.id, [:admin, v.item]
             end
         end
-        column ("Type") { |v| v.item_type.underscore.humanize }
-        column ("Event") {|v| v.event}
-        column ("Object Changes") {|v| v.object_changes}
-        column ("Modified at") { |v| v.created_at.to_s :long }
-        column ("User") { |v| link_to User.find(v.whodunnit).email, [:admin, User.find(v.whodunnit)] }
+        column (t('admin.history.list_history.type')) { |v| v.item_type.underscore.humanize }
+        column (t('admin.history.list_history.event')) {|v| v.event}
+        column (t('admin.history.list_history.object_changes')) {|v| v.object_changes}
+        column (t('admin.history.list_history.modified_at')) { |v| v.created_at.to_s :long }
+        column (t('admin.history.list_history.user')) { |v| link_to User.find(v.whodunnit).email, [:admin, User.find(v.whodunnit)] }
     end
 end

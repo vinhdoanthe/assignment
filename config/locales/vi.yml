@@ -62,3 +62,21 @@ vi:
       attach_file: "Đính kèm file (rar, zip)"
   notions:
     n_a: "Chưa có"
+  admin:
+    history:
+      previous_version: "Phiên bản trước"
+      go_to_current_version: "Đi đến phiên bản hiện tại"
+      current_version: "Phiên bản hiện tại"
+      created_at: "Thời điểm tạo"
+      user: "Người thay đổi"
+      this_is_version: "Đây là phiên bản số %{version}"
+      modify_at: "Thời điểm thay đổi"
+      no_version: "Không có thay đổi phiên bản nào với item này"
+      list_history:
+        label: "Lịch sử"
+        item: "Item"
+        type: "Loại"
+        event: "Sự kiện"
+        object_changes: "Các thay đổi"
+        modified_at: "Thời điểm thay đổi"
+        user: "Người thay đổi"
