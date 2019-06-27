@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_19_103640) do
+ActiveRecord::Schema.define(version: 2019_06_27_035650) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
@@ -70,6 +70,7 @@ ActiveRecord::Schema.define(version: 2019_06_19_103640) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "partner_id"
+    t.string "locale", default: "vi", null: false
     t.index ["course_id"], name: "index_course_instances_on_course_id"
     t.index ["partner_id"], name: "index_course_instances_on_partner_id"
     t.index ["program_id"], name: "index_course_instances_on_program_id"
@@ -141,6 +142,7 @@ ActiveRecord::Schema.define(version: 2019_06_19_103640) do
     t.string "email", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "is_send_email", default: false, null: false
   end
 
   create_table "programs", force: :cascade do |t|

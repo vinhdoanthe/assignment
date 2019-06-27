@@ -1,36 +1,9 @@
-# Files in the config/locales directory are used for internationalization
-# and are automatically loaded by Rails. If you want to use locales other
-# than English, add the necessary files in this directory.
-#
-# To use the locales, use `I18n.t`:
-#
-#     I18n.t 'hello'
-#
-# In views, this is aliased to just `t`:
-#
-#     <%= t('hello') %>
-#
-# To use a different locale, set it with `I18n.locale`:
-#
-#     I18n.locale = :es
-#
-# This would use the information in config/locales/es.yml.
-#
-# The following keys must be escaped otherwise they will not be retrieved by
-# the default I18n backend:
-#
-# true, false, on, off, yes, no
-#
-# Instead, surround them with single quotes.
-#
-# en:
-#   'true': 'foo'
-#
-# To learn more, please read the Rails Internationalization guide
-# available at http://guides.rubyonrails.org/i18n.html.
-
 en:
+  system_name: "Assignment Processing Center"
   hello: "Hello world"
+  welcome_message: "Welcome to FUNiX Assignment Processing Center"
+  welcome_login: "Please login to start"
+  home_page: 'Home'
   submission:
     latest_being_processed: "You submitted solution for this assignment.  Your submission is being processed"
     latest_passed: "You passed this assignment"
@@ -39,3 +12,53 @@ en:
   courseinstance:
     code:
       duplicated: "CourseInstance code duplicated!"
+  assignment:
+    active:
+      course: "Course"
+      assignment: "Assignment"
+      status: "Status"
+      action: "Action"
+      learner: "Learner's email"
+      solution: "Solution file"
+      attempt: "Attempt"
+      mentor: "Mentor's email"
+      point: "Point"
+    submission_grade:
+      action:
+        grade: "Grade"
+        submit_solution: "Submit solution"
+        view: "View"
+        ready_interview: "Ready for Interview"
+        cancel: "Cancel"
+        back: "Back"
+        sort_by: "Sorted by"
+        reset_filter: "Reset filters"
+        send_grade: "Send grade"
+        confirm: "Confirm"
+      label:
+        mentor_grades: "Your grades"
+        submitted_at: "Submitted at"
+        assigned_at: "Assigned at"
+        point: "Point"
+        your_are_grading: "You are grading"
+        weight: "Weight"
+        criteria: "Criteria"
+        meet_the_specification: "Meet the specification"
+        comment: "Comment"
+        mandatory: "Mandatory"
+        mandatory_yes: "Yes"
+        mandatory_no: "No"
+        total_point: "Total point of this grade"
+        grade_status: "Status of this grade"
+        previous_graded_criteria: "Previous graded criteria"
+      list:
+        submitted_date_newest_first: "Submitted date (newest first)"
+        submitted_date_oldest_first: "Submitted date (oldest first)"
+        history_of_grades: "Grade history"
+    your_assignments: "Your assignments"
+  attachment:
+    action:
+      download: "Download"
+      attach_file: "Attach file (zip/rar)"
+  notions:
+    n_a: "N/A"

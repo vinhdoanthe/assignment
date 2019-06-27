@@ -27,16 +27,16 @@
   <table>
     <tbody>
     <tr>
-      <th>Assignment code</th>
+      <th><%= t('assignment.active.assignment') %></th>
       <td><%= submission_grade.assignment.display_name %></td>
     </tr>
     <tr>
-      <th>Your Email</th>
+      <th><%= t('assignment.active.learner') %></th>
       <td><%= current_user.email %></td>
     </tr>
     <% if submission_grade.assignment.submit_type != Constants::ASSIGNMENT_SUBMIT_TYPE_NOFILE %>
       <tr>
-        <th>Attach file (zip/rar)</th>
+        <th><%= t('attachment.action.attach_file') %></th>
         <td><%= form.file_field :submission_file, as: :file, label: false, required: true %></td>
       </tr>
     <% end %>
@@ -44,7 +44,7 @@
   </table>
 
   <div class="actions">
-    <%= link_to "Cancel", active_assignments_path, class: 'btn btn-light' %>
-    <%= form.button :submit, submission_grade.assignment.submit_type != Constants::ASSIGNMENT_SUBMIT_TYPE_NOFILE ? "Submit solution" : "Ready to Interview" %>
+    <%= link_to t('assignment.submission_grade.action.cancel'), active_assignments_path, class: 'btn btn-light' %>
+    <%= form.button :submit, submission_grade.assignment.submit_type != Constants::ASSIGNMENT_SUBMIT_TYPE_NOFILE ? t('assignment.submission_grade.action.submit_solution') : t('assignment.submission_grade.action.ready_interview') %>
   </div>
 <% end %>

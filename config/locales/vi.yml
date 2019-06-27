@@ -1,5 +1,9 @@
 vi:
+  system_name: "Hệ thống quản lý bài thực hành"
   hello: "Xin chào"
+  home_page: "Trang chủ"
+  welcome_message: "Chào mừng bạn đến với hệ thống quản lý bài thực hành"
+  welcome_login: "Vui lòng đăng nhập để bắt đầu"
   submission:
     latest_being_processed: "Bạn đã nộp bài này. Bài nộp của bạn đang được xử lý"
     latest_passed: "Bạn đã đạt bài assignment này"
@@ -8,3 +12,53 @@ vi:
   courseinstance:
     code:
       duplicated: "Mã instance này đã tồn tại trong hệ thống!"
+  assignment:
+    active:
+      course: "Môn học"
+      assignment: "Bài assignment"
+      status: "Trạng thái"
+      action: "Hành động"
+      learner: "Email học viên"
+      solution: "File nộp của học viên"
+      attempt: "Số lần nộp"
+      mentor: "Email mentor"
+      point: "Điểm"
+    submission_grade:
+      action:
+        grade: "Chấm bài"
+        submit_solution: "Nộp bài"
+        view: "Xem"
+        ready_interview: "Đăng ký vấn đáp"
+        cancel: "Hủy"
+        back: "Quay lại"
+        sort_by: "Sắp xếp theo"
+        reset_filter: "Bỏ lọc"
+        send_grade: "Gửi điểm"
+        confirm: "Xác nhận"
+      label:
+        mentor_grades: "Danh sách bài chấm"
+        submitted_at: "Ngày học viên nộp bài"
+        assigned_at: "Ngày được giao chấm"
+        point: "Điểm"
+        your_are_grading: "Bạn đang chấm bài"
+        weight: "Trọng số"
+        criteria: "Tiêu chí"
+        meet_the_specification: "Mô tả tiêu chí"
+        comment: "Nhận xét"
+        mandatory: "Tiêu chí bắt buộc?"
+        mandatory_yes: "Bắt buộc"
+        mandatory_no: "Không bắt buộc"
+        total_point: "Tổng điểm của bài chấm"
+        grade_status: "Trạng thái của bài"
+        previous_graded_criteria: "Các tiêu chí đã chấm"
+      list:
+        submitted_date_newest_first: "Ngày nộp mới nhất"
+        submitted_date_oldest_first: "Ngày nộp cũ nhất"
+        history_of_grades: "Lịch sử các lần nộp/chấm"
+    your_assignments: "Danh sách các bài thực hành"
+  attachment:
+    action:
+      download: "Tải về"
+      attach_file: "Đính kèm file (rar, zip)"
+  notions:
+    n_a: "Chưa có"

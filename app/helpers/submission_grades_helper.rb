@@ -27,4 +27,19 @@ module SubmissionGradesHelper
       sub_grade.attempt + 1
     end
   end
+
+  def list_graded_rubrics(submission_grade)
+    submission_grades = SubmissionGrade.where(student_id: submission_grade.student_id, assignment_id: submission_grade.assignment_id)
+    graded_rubrics = []
+    if submission_grades.nil?
+      nil
+    else
+      submission_grades.each do |submission|
+        unless submission.graded_rubric.nil?
+          graded_rubrics.append submission.graded_rubric
+        end
+      end
+      graded_rubrics
+    end
+  end
 end

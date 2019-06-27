@@ -64,16 +64,14 @@ class SubmissionGrade < ApplicationRecord
 
   def self.options_for_sorted_by
     [
-        ['Submitted date (newest first)', 'created_at_desc'],
-        ['Submitted date (oldest first)', 'created_at_asc']
+        [I18n.t('assignment.submission_grade.list.submitted_date_newest_first'), 'created_at_desc'],
+        [I18n.t('assignment.submission_grade.list.submitted_date_oldest_first'), 'created_at_asc']
     ]
   end
 
   def self.options_for_select
     {
-        # Constants::SUBMISSION_GRADE_STATUS_SUBMITTED => Constants::SUBMISSION_GRADE_STATUS_SUBMITTED,
         Constants::SUBMISSION_GRADE_STATUS_ASSIGNED => Constants::SUBMISSION_GRADE_STATUS_ASSIGNED,
-        # Constants::SUBMISSION_GRADE_STATUS_TAKEN_BACK => Constants::SUBMISSION_GRADE_STATUS_TAKEN_BACK,
         Constants::SUBMISSION_GRADE_STATUS_PASSED => Constants::SUBMISSION_GRADE_STATUS_PASSED,
         Constants::SUBMISSION_GRADE_STATUS_NOT_PASSED => Constants::SUBMISSION_GRADE_STATUS_NOT_PASSED
     }

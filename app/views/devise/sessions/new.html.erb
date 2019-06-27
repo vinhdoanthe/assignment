@@ -1,11 +1,11 @@
 <div class="jumbotron" style="margin-top: 10%">
-  <h2 class="lead">Welcome to FUNiX Assignment Processing Center</h2>
+  <h2 class="lead"><%= t('welcome_message') %></h2>
   <hr class="my-4">
-  <p>Please login to start.</p>
+  <p><%= t('welcome_login') %></p>
   <%- if devise_mapping.omniauthable? %>
     <%- resource_class.omniauth_providers.each do |provider| %>
       <a href=<%= omniauth_authorize_path(resource_name, provider) %>>
-        <button class="login-button btn btn-primary btn-lg">Login</button>
+        <button class="login-button btn btn-primary btn-lg"><%= t('devise.sessions.login_btn') %></button>
       </a>
     <% end %>
   <% end %>

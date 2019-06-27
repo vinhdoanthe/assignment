@@ -13,6 +13,8 @@ module Constants
   COURSE_INSTANCE_STATUS_DEVELOPING = 'developing'
   COURSE_INSTANCE_STATUS_ACTIVE = 'active'
   COURSE_INSTANCE_STATUS_INACTIVE = 'inactive'
+  COURSE_INSTANCE_LOCALE_VI = 'vi'
+  COURSE_INSTANCE_LOCALE_EN = 'en'
 
   # user roles
   USER_ROLE_ADMIN = 'admin'

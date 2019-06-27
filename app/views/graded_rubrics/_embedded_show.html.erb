@@ -1,0 +1,33 @@
+<h5><%= graded_rubric.submission_grade.display_name %></h5>
+<table class="table table-bordered table-hover">
+  <thead>
+  <tr>
+    <th>#</th>
+    <th><%= t('assignment.submission_grade.label.weight') %></th>
+    <th style="width: 30%;"><%= t('assignment.submission_grade.label.meet_the_specification') %></th>
+    <th><%= t('assignment.submission_grade.label.point') %></th>
+    <th style="width: 20%;"><%= t('assignment.submission_grade.label.comment') %></th>
+    <th><%= t('assignment.submission_grade.label.mandatory') %></th>
+  </tr>
+  </thead>
+  <tbody>
+  <% graded_rubric.graded_criteriums.each do |criteria| %>
+    <tr>
+      <th><%= criteria.index %></th>
+      <td><span><%= criteria.weight %></span></td>
+      <td><span><%= criteria.meet_the_specification %></span></td>
+      <td>
+        <% if criteria.criteria_type == Constants::CRITERIA_TYPE_PASS_FAIL %>
+          <span><%= criteria.status %></span>
+        <% else %>
+          <span><%= criteria.point %></span>
+        <% end %>
+      </td>
+      <td><span><%= criteria.comment %></span></td>
+      <td>
+        <span><%= criteria.mandatory ? t('assignment.submission_grade.label.mandatory_yes') : t('assignment.submission_grade.label.mandatory_no') %></span>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

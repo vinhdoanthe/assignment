@@ -1,0 +1,5 @@
+<div>
+  <% graded_rubrics.each do |graded_rubric| %>
+  <%= render :partial => 'graded_rubrics/embedded_show', locals: {graded_rubric: graded_rubric} %>
+  <% end %>
+</div>

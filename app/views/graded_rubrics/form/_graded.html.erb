@@ -1,14 +1,14 @@
 <% unless can_not_be_regrade_criteriums.size.zero? %>
-  <h4>Previous graded criteria</h4>
+  <h4><%= t('assignment.submission_grade.label.previous_graded_criteria') %></h4>
   <table class="table table-bordered table-hover">
     <thead>
     <tr>
       <th>#</th>
-      <th>Weight</th>
-      <th style="width: 30%;">Meet the specification</th>
-      <th>Point</th>
-      <th style="width: 20%;">Comment</th>
-      <th>Mandatory</th>
+      <th><%= t('assignment.submission_grade.label.weight') %></th>
+      <th style="width: 30%;"><%= t('assignment.submission_grade.label.meet_the_specification') %></th>
+      <th><%= t('assignment.submission_grade.label.point') %></th>
+      <th style="width: 20%;"><%= t('assignment.submission_grade.label.comment') %></th>
+      <th><%= t('assignment.submission_grade.label.mandatory') %></th>
     </tr>
     </thead>
     <tbody>
@@ -26,7 +26,7 @@
         </td>
         <td><span><%= criteria.comment %></span></td>
         <td>
-          <span><%= criteria.mandatory ? 'yes' : 'no' %></span>
+          <span><%= criteria.mandatory ? t('assignment.submission_grade.label.mandatory_yes') : t('assignment.submission_grade.label.mandatory_no') %></span>
         </td>
       </tr>
     <% end %>

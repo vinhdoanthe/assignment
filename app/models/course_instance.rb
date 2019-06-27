@@ -5,7 +5,7 @@ class CourseInstance < ApplicationRecord
   include Constants
 
   validates :code, presence: true, uniqueness: { case_sensitive: false,
-                                                 message: 'courseinstance.code.duplicated'}
+                                                 message: 'courseinstance.code.duplicated' }
   validates :name, presence: true
 
   belongs_to :program, inverse_of: :course_instances
@@ -19,6 +19,8 @@ class CourseInstance < ApplicationRecord
                           Constants::COURSE_INSTANCE_STATUS_DEVELOPING,
                           COURSE_INSTANCE_STATUS_INACTIVE]
 
+  enumerize :locale, in: [Constants::COURSE_INSTANCE_LOCALE_VI,
+                          Constants::COURSE_INSTANCE_LOCALE_EN]
   def display_name
     code.to_s
   end

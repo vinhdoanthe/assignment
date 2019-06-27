@@ -1,4 +1,4 @@
-<%= link_to 'Back', assigned_submissions_path %>
+<%= link_to t('assignment.submission_grade.action.back'), assigned_submissions_path %>
 
 <%= render :partial => 'graded_rubrics/form/graded', locals: {can_not_be_regrade_criteriums: @can_not_be_regrade_criteriums} %>
 <%= render :partial =>  'graded_rubrics/form/new', locals: {graded_rubric: @graded_rubric} %>
