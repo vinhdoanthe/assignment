@@ -1,4 +1,5 @@
 class Assignment < ApplicationRecord
+  acts_as_paranoid
   extend Enumerize
   include Constants
 

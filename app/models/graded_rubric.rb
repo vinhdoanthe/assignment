@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class GradedRubric < ApplicationRecord
+  acts_as_paranoid
   belongs_to :submission_grade
   has_many :graded_criteriums, dependent: :destroy
   accepts_nested_attributes_for :graded_criteriums

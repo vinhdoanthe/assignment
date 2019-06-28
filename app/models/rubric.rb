@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Rubric < ApplicationRecord
+  acts_as_paranoid
   extend Enumerize
   include Constants
 

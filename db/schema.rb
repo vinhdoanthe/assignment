@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_27_035650) do
+ActiveRecord::Schema.define(version: 2019_06_28_093326) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
@@ -57,7 +57,9 @@ ActiveRecord::Schema.define(version: 2019_06_27_035650) do
     t.text "description"
     t.string "grade_type"
     t.string "submit_type"
+    t.datetime "deleted_at"
     t.index ["course_instance_id"], name: "index_assignments_on_course_instance_id"
+    t.index ["deleted_at"], name: "index_assignments_on_deleted_at"
   end
 
   create_table "course_instances", force: :cascade do |t|
@@ -71,7 +73,9 @@ ActiveRecord::Schema.define(version: 2019_06_27_035650) do
     t.datetime "updated_at", null: false
     t.integer "partner_id"
     t.string "locale", default: "vi", null: false
+    t.datetime "deleted_at"
     t.index ["course_id"], name: "index_course_instances_on_course_id"
+    t.index ["deleted_at"], name: "index_course_instances_on_deleted_at"
     t.index ["partner_id"], name: "index_course_instances_on_partner_id"
     t.index ["program_id"], name: "index_course_instances_on_program_id"
   end
@@ -82,6 +86,8 @@ ActiveRecord::Schema.define(version: 2019_06_27_035650) do
     t.string "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_courses_on_deleted_at"
   end
 
   create_table "criteria_formats", force: :cascade do |t|
@@ -95,6 +101,8 @@ ActiveRecord::Schema.define(version: 2019_06_27_035650) do
     t.string "criteria_type"
     t.string "outcome"
     t.text "meet_the_specification"
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_criteria_formats_on_deleted_at"
     t.index ["rubric_id"], name: "index_criteria_formats_on_rubric_id"
   end
 
@@ -106,7 +114,9 @@ ActiveRecord::Schema.define(version: 2019_06_27_035650) do
     t.string "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "deleted_at"
     t.index ["course_instance_id"], name: "index_enrollments_on_course_instance_id"
+    t.index ["deleted_at"], name: "index_enrollments_on_deleted_at"
     t.index ["user_id", "course_instance_id"], name: "index_enrollments_on_user_id_and_course_instance_id", unique: true
     t.index ["user_id"], name: "index_enrollments_on_user_id"
   end
@@ -125,6 +135,8 @@ ActiveRecord::Schema.define(version: 2019_06_27_035650) do
     t.decimal "weight"
     t.string "outcome"
     t.text "meet_the_specification"
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_graded_criteria_on_deleted_at"
     t.index ["graded_rubric_id"], name: "index_graded_criteria_on_graded_rubric_id"
   end
 
@@ -134,6 +146,8 @@ ActiveRecord::Schema.define(version: 2019_06_27_035650) do
     t.datetime "updated_at", null: false
     t.text "comment"
     t.integer "submission_grade_id"
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_graded_rubrics_on_deleted_at"
     t.index ["submission_grade_id"], name: "index_graded_rubrics_on_submission_grade_id"
   end
 
@@ -143,6 +157,8 @@ ActiveRecord::Schema.define(version: 2019_06_27_035650) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "is_send_email", default: false, null: false
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_partners_on_deleted_at"
   end
 
   create_table "programs", force: :cascade do |t|
@@ -151,13 +167,17 @@ ActiveRecord::Schema.define(version: 2019_06_27_035650) do
     t.string "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_programs_on_deleted_at"
   end
 
   create_table "rubrics", force: :cascade do |t|
     t.integer "assignment_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "deleted_at"
     t.index ["assignment_id"], name: "index_rubrics_on_assignment_id"
+    t.index ["deleted_at"], name: "index_rubrics_on_deleted_at"
   end
 
   create_table "sessions", force: :cascade do |t|
@@ -181,7 +201,9 @@ ActiveRecord::Schema.define(version: 2019_06_27_035650) do
     t.datetime "assigned_at"
     t.datetime "graded_at"
     t.integer "attempt"
+    t.datetime "deleted_at"
     t.index ["assignment_id"], name: "index_submission_grades_on_assignment_id"
+    t.index ["deleted_at"], name: "index_submission_grades_on_deleted_at"
     t.index ["mentor_id"], name: "index_submission_grades_on_mentor_id"
     t.index ["student_id"], name: "index_submission_grades_on_student_id"
   end
@@ -197,6 +219,8 @@ ActiveRecord::Schema.define(version: 2019_06_27_035650) do
     t.string "role"
     t.string "status"
     t.string "full_name"
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_users_on_deleted_at"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

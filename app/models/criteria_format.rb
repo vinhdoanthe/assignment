@@ -1,7 +1,7 @@
 class CriteriaFormat < ApplicationRecord
+  acts_as_paranoid
   extend Enumerize
   include Constants
-
   self.table_name = 'criteria_formats'
   belongs_to :rubric
 

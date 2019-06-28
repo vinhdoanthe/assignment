@@ -1,4 +1,5 @@
 class Course < ApplicationRecord
+  acts_as_paranoid
   extend Enumerize
   include Constants
 

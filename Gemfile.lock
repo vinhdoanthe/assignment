@@ -307,6 +307,8 @@ GEM
     paper_trail (10.3.0)
       activerecord (>= 4.2, < 6.1)
       request_store (~> 1.1)
+    paranoia (2.4.2)
+      activerecord (>= 4.0, < 6.1)
     popper_js (1.14.5)
     public_suffix (3.1.0)
     puma (3.12.1)
@@ -486,6 +488,7 @@ DEPENDENCIES
   mysql2
   omniauth-google-oauth2
   paper_trail
+  paranoia (~> 2.2)
   puma (~> 3.11)
   rails (~> 5.2.3)
   rails-i18n

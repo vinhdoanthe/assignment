@@ -1,33 +1,36 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 git_source(:github) {|repo| "https://github.com/#{repo}.git"}
 
 ruby '2.5.1'
 
-gem 'bootstrap', '~> 4.3.1'
-gem 'devise'
-gem "omniauth-google-oauth2"
-gem 'jquery-rails'
-gem 'jquery-ui-rails'
-gem 'paper_trail'
-gem 'enumerize'
-gem 'cancancan'
 gem 'activeadmin'
-gem 'config'
 gem 'activeadmin-searchable_select'
-gem 'filterrific'
-gem 'will_paginate'
-gem "figaro"
-gem 'simple_form'
-gem 'whenever', require: false
+gem 'bootstrap', '~> 4.3.1'
+gem 'cancancan'
 gem 'client_side_validations'
 gem 'client_side_validations-simple_form'
-gem "roo", "~> 2.8.0"
+gem 'config'
+gem 'devise'
+gem 'enumerize'
+gem 'figaro'
+gem 'filterrific'
+gem 'jquery-rails'
+gem 'jquery-ui-rails'
+gem 'omniauth-google-oauth2'
+gem 'paper_trail'
+gem 'paranoia', '~> 2.2'
 gem 'rails-i18n'
+gem 'roo', '~> 2.8.0'
+gem 'simple_form'
+gem 'whenever', require: false
+gem 'will_paginate'
 
 # Capistrano for deployment
 gem 'capistrano', '~> 3.7', '>= 3.7.1'
-gem 'capistrano-rails', '~> 1.2'
 gem 'capistrano-passenger', '~> 0.2.0'
+gem 'capistrano-rails', '~> 1.2'
 gem 'capistrano-rbenv', '~> 2.1'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
@@ -64,24 +67,24 @@ gem 'jbuilder', '~> 2.5'
 gem 'bootsnap', '>= 1.1.0', require: false
 
 group :production do
-  gem 'mysql2'
   gem 'capistrano-sidekiq'
-  gem "google-cloud-storage", "~> 1.8", require: false
+  gem 'google-cloud-storage', '~> 1.8', require: false
+  gem 'mysql2'
 end
 
 group :development, :test do
   # Use sqlite3 as the database for Active Record
-  gem 'sqlite3'
   gem 'sidekiq'
+  gem 'sqlite3'
 
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'byebug', platforms: %i[mri mingw x64_mingw]
 end
 
 group :development do
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
-  gem 'web-console', '>= 3.3.0'
   gem 'listen', '>= 3.0.5', '< 3.2'
+  gem 'web-console', '>= 3.3.0'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
@@ -96,4 +99,4 @@ group :test do
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]

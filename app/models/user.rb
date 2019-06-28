@@ -3,6 +3,7 @@
 # Model for Learner, Mentor, Hannah and Admin account
 # Using Google Oauth as authentication method
 class User < ApplicationRecord
+  acts_as_paranoid
   extend Enumerize
   include Constants
 
