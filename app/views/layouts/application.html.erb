@@ -12,8 +12,8 @@
 <body>
 <% unless current_user.nil? %>
   <%= render 'shared/header' %>
-  <%= render 'shared/messages' %>
 <% end %>
+<%= render 'shared/messages' %>
 <div class="container">
   <%= yield %>
 </div>
