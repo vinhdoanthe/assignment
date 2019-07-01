@@ -3,6 +3,8 @@ vi:
     omniauth_callbacks:
       failure: "Không thể xác thực từ %{kind} do nguyên nhân \"%{reason}\"."
       success: "Xác thực thành công với tài khoản %{kind}."
+    failure:
+      already_authenticated: "Xác thực thành công"
     sessions:
       signed_in: "Đăng nhập thành công."
       signed_out: "Đăng xuất thành công."
