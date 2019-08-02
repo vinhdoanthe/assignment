@@ -5,7 +5,7 @@ class SubmissionGrade < ApplicationRecord
   extend Enumerize
   include Constants
 
-  belongs_to :assignment
+  belongs_to :assignment, -> {with_deleted}
   belongs_to :student, class_name: 'User', foreign_key: 'student_id'
   belongs_to :mentor, class_name: 'User', foreign_key: 'mentor_id', optional: true
   has_one_attached :submission_file
