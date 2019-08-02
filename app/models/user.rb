@@ -13,7 +13,7 @@ class User < ApplicationRecord
 
   has_many :enrollments
   has_many :course_instances, through: :enrollments
-  has_many :submission_grades, foreign_key: :student_id
+  has_many :submission_grades, -> { unscope(where: :deleted_at) }, foreign_key: :student_id
 
   enumerize :role, in: [Constants::USER_ROLE_ADMIN, Constants::USER_ROLE_MENTOR,
                         Constants::USER_ROLE_LEARNER, Constants::USER_ROLE_HANNAH]
