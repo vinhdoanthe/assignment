@@ -29,6 +29,17 @@ ActiveAdmin.register SubmissionGrade do
   scope('Submitted') {|scope| scope.where(status: Constants::SUBMISSION_GRADE_STATUS_SUBMITTED, is_latest: true)}
   scope :all
 
+  csv do
+    column('instance') {|submission_grade| submission_grade.assignment.course_instance.code}
+    column('assignment') { |submission_grade| submission_grade.assignment.name}
+    column('student email') { |submission_grade| submission_grade.student.email}
+    column('mentor email') { |submission_grade| submission_grade.mentor.nil? ? '' : submission_grade.mentor.email}
+    column('type') {|submission_grade| submission_grade.attempt == 1 ? 'new' : 're_grade'}
+    column('grade status') {|submission_grade| submission_grade.status}
+    column('point') {|submission_grade| submission_grade.point}
+    column('created at') {|submission_grade| submission_grade.created_at}
+    column('graded at') {|submission_grade| submission_grade.graded_at}
+  end
   controller do
     belongs_to :assignments, optional: true
 
