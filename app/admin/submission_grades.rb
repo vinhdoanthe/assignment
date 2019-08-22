@@ -2,7 +2,7 @@
 
 ActiveAdmin.register SubmissionGrade do
   menu priority: 1
-  config.per_page = [10, 50, 100]
+  config.per_page = [100, 50, 25]
   sidebar :versionate, partial: 'layouts/version', only: :show
 
   # Filters for index page
