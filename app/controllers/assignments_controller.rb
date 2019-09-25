@@ -36,7 +36,7 @@ class AssignmentsController < ApplicationController
   # GET /assignments/new
   def new
     @assignment = Assignment.new
-    @assignment.status = 'active'
+    @assignment.assignment_status = 'active'
     if params[:course_instance_id].present?
       @assignment.course_instance_id = params[:course_instance_id]
     end

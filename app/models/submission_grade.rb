@@ -11,6 +11,7 @@ class SubmissionGrade < ApplicationRecord
   has_one_attached :submission_file
   has_one_attached :graded_file
 
+  has_one :course_instance, through: :assignment
   has_one :graded_rubric, dependent: :destroy
 
   has_many :graded_criteriums, through: :graded_rubric

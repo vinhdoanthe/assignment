@@ -8,6 +8,7 @@ ActiveAdmin.register SubmissionGrade do
   # Filters for index page
   filter :status, as: :select
   filter :is_latest, as: :check_boxes
+  filter :course_instance, as: :searchable_select
   filter :assignment, as: :searchable_select
   # filter :student_email, as: :string, filters: [:contains]
   filter :student, as: :searchable_select

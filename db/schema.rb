@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_28_093326) do
+ActiveRecord::Schema.define(version: 2019_09_25_162617) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
@@ -50,7 +50,7 @@ ActiveRecord::Schema.define(version: 2019_06_28_093326) do
   create_table "assignments", force: :cascade do |t|
     t.string "name"
     t.integer "course_instance_id"
-    t.string "status"
+    t.string "assignment_status"
     t.integer "max_attempt"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
