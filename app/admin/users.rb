@@ -1,5 +1,13 @@
 ActiveAdmin.register User do
 
+  config.per_page = [100, 50, 25]
+  filter :role, as: :select
+  filter :email, as: :searchable_select
+  filter :full_name, as: :string
+  filter :status, as: :select
+  filter :created_at
+  filter :updated_at
+
   form do |form|
     title form.object.new_record? ? 'Add new user' : 'Edit user'
     form.semantic_errors

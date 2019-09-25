@@ -1,5 +1,12 @@
 ActiveAdmin.register Enrollment do
 
+  config.per_page = [100, 50, 25]
+  filter :user, as: :searchable_select
+  filter :course_instance, as: :searchable_select
+  filter :status, as: :select
+  filter :created_at
+  filter :updated_at
+
   controller do
     belongs_to :users, :course_instances, optional: true
   end
