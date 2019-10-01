@@ -56,6 +56,7 @@ ActiveAdmin.register SubmissionGrade do
   index do
     selectable_column
     id_column
+    column :course_instance
     column :assignment
     column :attempt
     column :is_latest
