@@ -4,7 +4,7 @@
   <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'/>
 </head>
 <body>
-<p><%= t('mailer.submission_grade.submitted_email.dear_msg', user_full_name: @user.full_name) %>,</p>
+<p><%= t('mailer.submission_grade.submitted_email.dear_msg', user_full_name: @user.email) %>,</p>
 <p>
   <span><%= t('mailer.submission_grade.submitted_email.content',
               link_to_submission: submission_grade_url(@submission_grade)) %>.</span>
