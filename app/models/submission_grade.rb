@@ -26,6 +26,8 @@ class SubmissionGrade < ApplicationRecord
                           Constants::SUBMISSION_GRADE_STATUS_PASSED,
                           Constants::SUBMISSION_GRADE_STATUS_NOT_PASSED]
 
+  validate :validate_submission_file
+
   def display_name
     "#{assignment.display_name} - Attempt #{attempt}"
   end
@@ -131,5 +133,16 @@ class SubmissionGrade < ApplicationRecord
       end
     end
     list_str
+  end
+
+  private
+
+  def validate_submission_file
+    if submission_file.attached?
+      if submission_file.blob.byte_size > 50000
+        submission_file.purge
+        errors[:base] << I18n.t('assignment.submission_grade.error.over_file_size')
+      end
+    end
   end
 end

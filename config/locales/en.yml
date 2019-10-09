@@ -51,6 +51,8 @@ en:
         total_point: "Total point of this grade"
         grade_status: "Status of this grade"
         previous_graded_criteria: "Previous graded criteria"
+      error:
+        over_file_size: "Attached file size must be less than 50 MB"
       list:
         submitted_date_newest_first: "Submitted date (newest first)"
         submitted_date_oldest_first: "Submitted date (oldest first)"

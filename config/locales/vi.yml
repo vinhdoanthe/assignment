@@ -51,6 +51,8 @@ vi:
         total_point: "Tổng điểm của bài chấm"
         grade_status: "Trạng thái của bài"
         previous_graded_criteria: "Các tiêu chí đã chấm"
+      error:
+        over_file_size: "Dung lượng file đính kèm phải nhỏ hơn 50 MB"
       list:
         submitted_date_newest_first: "Ngày nộp mới nhất"
         submitted_date_oldest_first: "Ngày nộp cũ nhất"

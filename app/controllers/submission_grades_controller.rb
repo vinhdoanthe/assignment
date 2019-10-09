@@ -83,16 +83,16 @@ class SubmissionGradesController < ApplicationController
       @submission_grade.attempt = find_attempt(@submission_grade.assignment_id, current_user.id)
       respond_to do |format|
         if @submission_grade.save
+          SubmissionGradeMailer.submitted_email(current_user, @submission_grade).deliver_later
           format.html { redirect_to active_assignments_path, success: 'Submission grade was successfully created.' }
           format.json { render :show, status: :created, location: @submission_grade }
         else
-          format.html { render :new }
+          format.html { render :new_solution }
           format.json { render json: @submission_grade.errors, status: :unprocessable_entity }
         end
         unless @submission_grade.attempt == 1
           SubmissionGrade.update_latest(@submission_grade.student_id, @submission_grade.assignment_id, @submission_grade.attempt - 1)
         end
-        SubmissionGradeMailer.submitted_email(current_user, @submission_grade).deliver_later
       end
     else
       render js: "alert('You do not have permission to perform this action');"

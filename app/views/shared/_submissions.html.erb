@@ -4,6 +4,7 @@
     <tr>
       <th><%= t('assignment.active.status') %></th>
       <th><%= t('assignment.active.assignment') %></th>
+      <th><%= t('assignment.active.learner') %></th>
       <th><%= t('assignment.active.solution') %></th>
       <th><%= t('assignment.active.attempt') %></th>
       <th><%= t('assignment.submission_grade.label.submitted_at') %></th>
@@ -16,6 +17,7 @@
       <tr>
         <td><%= submission.status %></td>
         <td><%= submission.assignment.display_name %></td>
+        <td><%= submission.student.email %></td>
         <td><%= (submission.submission_file.attached?) ? link_to(t('attachment.action.download'), rails_blob_path(submission.submission_file, disposition: "attachment")) : '' %></td>
         <td><%= submission.attempt %></td>
         <td><%= submission.created_at.strftime('%d/%m/%Y') %></td>
