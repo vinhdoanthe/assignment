@@ -32,9 +32,9 @@ ActiveAdmin.register SubmissionGrade do
 
   csv do
     column('instance') {|submission_grade| submission_grade.assignment.course_instance.code}
-    column('assignment') { |submission_grade| submission_grade.assignment.name}
-    column('student email') { |submission_grade| submission_grade.student.email}
-    column('mentor email') { |submission_grade| submission_grade.mentor.nil? ? '' : submission_grade.mentor.email}
+    column('assignment') {|submission_grade| submission_grade.assignment.name}
+    column('student email') {|submission_grade| submission_grade.student.email}
+    column('mentor email') {|submission_grade| submission_grade.mentor.nil? ? '' : submission_grade.mentor.email}
     column('type') {|submission_grade| submission_grade.attempt == 1 ? 'new' : 're_grade'}
     column('grade status') {|submission_grade| submission_grade.status}
     column('point') {|submission_grade| submission_grade.point}
@@ -72,9 +72,13 @@ ActiveAdmin.register SubmissionGrade do
     actions defaults: false do |resource|
       item 'View', admin_submission_grade_path(resource)
 
-      if current_user.admin?
+      if current_user.admin? and resource.status == Constants::SUBMISSION_GRADE_STATUS_SUBMITTED
         text_node ' | '
-        item 'Assign mentor', assign_mentor_admin_submission_grade_path(resource)
+        item 'Assign', assign_mentor_admin_submission_grade_path(resource)
+      end
+      if current_user.admin? and resource.status == Constants::SUBMISSION_GRADE_STATUS_ASSIGNED
+        text_node ' | '
+        item 'Re-Assign', assign_mentor_admin_submission_grade_path(resource)
       end
     end
   end
@@ -134,9 +138,27 @@ ActiveAdmin.register SubmissionGrade do
     render 'layouts/history'
   end
 
+  member_action :take_back, method: :post do
+    submission_grade = SubmissionGrade.find(params[:id])
+    submission_grade.mentor_id = nil
+    submission_grade.assigned_at = nil
+    submission_grade.status = Constants::SUBMISSION_GRADE_STATUS_SUBMITTED
+    submission_grade.save!
+    redirect_to admin_submission_grade_path(submission_grade)
+  end
+
+  action_item :take_back, only: :show do
+    if current_user.admin?
+      submission_grade = SubmissionGrade.find(params[:id])
+      if submission_grade.status == Constants::SUBMISSION_GRADE_STATUS_ASSIGNED
+        link_to 'Take Back', take_back_admin_submission_grade_path, {:id => submission_grade.id, :method => :post}
+      end
+    end
+  end
+
   action_item :history, only: :show do
     submission_grade = SubmissionGrade.find(params[:id])
-    link_to 'View history', history_admin_submission_grade_path(submission_grade)
+    link_to 'View history', take_back_admin_submission_grade_path(:id => submission_grade.id), :method => :post
   end
 
   action_item :assign_mentor, only: :show do
