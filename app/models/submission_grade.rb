@@ -139,8 +139,8 @@ class SubmissionGrade < ApplicationRecord
 
   def validate_submission_file
     if submission_file.attached?
-      if submission_file.blob.byte_size > 50000
-        submission_file.purge
+      if submission_file.blob.byte_size > 50_000_000
+        # submission_file.purge
         errors[:base] << I18n.t('assignment.submission_grade.error.over_file_size')
       end
     end
