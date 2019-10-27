@@ -26,7 +26,7 @@ class SubmissionGrade < ApplicationRecord
                           Constants::SUBMISSION_GRADE_STATUS_PASSED,
                           Constants::SUBMISSION_GRADE_STATUS_NOT_PASSED]
 
-  validate :validate_submission_file
+  validate :validate_submission_file, on: :create
 
   def display_name
     "#{assignment.display_name} - Attempt #{attempt}"
