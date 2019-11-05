@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_29_073923) do
+ActiveRecord::Schema.define(version: 2019_10_29_081157) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
@@ -97,7 +97,7 @@ ActiveRecord::Schema.define(version: 2019_10_29_073923) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "index", default: 0, null: false
-    t.decimal "weight", default: "0.0"
+    t.decimal "weight", precision: 5, scale: 2, default: "0.0"
     t.string "criteria_type"
     t.string "outcome"
     t.text "meet_the_specification"
@@ -132,7 +132,7 @@ ActiveRecord::Schema.define(version: 2019_10_29_073923) do
     t.datetime "updated_at", null: false
     t.integer "index", default: 0, null: false
     t.string "criteria_type"
-    t.decimal "weight"
+    t.decimal "weight", precision: 5, scale: 2, default: "0.0"
     t.string "outcome"
     t.text "meet_the_specification"
     t.datetime "deleted_at"
