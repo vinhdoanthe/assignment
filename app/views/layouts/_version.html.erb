@@ -2,13 +2,13 @@
   <h3><%= t('admin.history.current_version') %>: <%= @versions.length %></h3>
 
   <b><%= t('admin.history.created_at') %>:</b>
-  <%= @versions.last.created_at%>
+  <%= @versions.last.created_at %>
   <br>
   <b><%= t('admin.history.user') %></b>: <%= User.find(@versions.last.whodunnit).email %>
   <br>
   <% if @versions.length.to_i > 1 %>
     <% if params[:version].to_i > 1 || !params[:version] %>
-      <%= link_to t('admin.history.previous_version'), {:version => (params[:version] || @versions.length).to_i - 1}%>
+      <%= link_to t('admin.history.previous_version'), {:version => (params[:version] || @versions.length).to_i - 1} %>
       <br>
     <% end %>
     <% if params[:version] %>
@@ -19,7 +19,7 @@
       <b><%= t('admin.history.user') %></b>:
       <%= User.find(@versions[(params[:version].to_i - 1)].whodunnit).email %>
       <br>
-      <%= link_to t('admin.history.go_to_current_version')%>
+      <%= link_to t('admin.history.go_to_current_version') %>
     <% end %>
   <% end %>
 <% else %>

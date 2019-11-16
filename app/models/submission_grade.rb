@@ -32,10 +32,6 @@ class SubmissionGrade < ApplicationRecord
     "#{assignment.display_name} - Attempt #{attempt}"
   end
 
-  def grade_type=(grade_type)
-    # Do nothing
-  end
-
   def grade_type
     assignment.grade_type
   end

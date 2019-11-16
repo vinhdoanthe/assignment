@@ -2,24 +2,20 @@
 
 ActiveAdmin.register SubmissionGrade do
   menu priority: 1
-  config.per_page = [100, 50, 25]
-  sidebar :versionate, partial: 'layouts/version', only: :show
+  config.per_page = [200, 100, 50, 25]
 
   # Filters for index page
   filter :status, as: :select
-  filter :is_latest, as: :check_boxes
+  filter :attempt, as: :select, input_html: {multiple: true}
   filter :course_instance, as: :searchable_select
   filter :assignment, as: :searchable_select
-  # filter :student_email, as: :string, filters: [:contains]
   filter :student, as: :searchable_select
   filter :mentor, as: :searchable_select
   filter :created_at
-  # filter :mentor_email, as: :string, filters: [:contains]
   filter :assigned_at
   filter :graded_at
 
   # Scopes (default filters) for index page
-  scope('Taken back') {|scope| scope.where(status: Constants::SUBMISSION_GRADE_STATUS_TAKEN_BACK)}
   scope('Due') do |scope|
     scope.where('status = ? AND is_latest = ? AND assigned_at < ?',
                 Constants::SUBMISSION_GRADE_STATUS_ASSIGNED,
@@ -43,30 +39,22 @@ ActiveAdmin.register SubmissionGrade do
   end
   controller do
     belongs_to :assignments, optional: true
-
-    def show
-      @submission_grade = SubmissionGrade.includes(versions: :item).find(params[:id])
-      @versions = @submission_grade.versions
-      @submission_grade = @submission_grade.versions[params[:version].to_i].reify if params[:version]
-      @page_title = @submission_grade.display_name
-      show!
-    end
   end
 
   index do
     selectable_column
     id_column
     column :course_instance
-    column :assignment
+    column(:assignment) {|resource| resource.assignment.name}
     column :attempt
-    column :is_latest
+    # column :is_latest
     column :status
     column :student
-    column :created_at
+    column(:created_at) {|resource| resource.created_at.strftime("%H:%M:%S %d-%m-%Y")}
     column :mentor
-    column :assigned_at
+    column(:assigned_at) {|resource| resource.assigned_at.strftime("%H:%M:%S %d-%m-%Y")}
     column :point
-    column :graded_at
+    # column :graded_at
     column :grade_type
 
     actions defaults: false do |resource|
@@ -132,12 +120,6 @@ ActiveAdmin.register SubmissionGrade do
     end
   end
 
-  member_action :history do
-    @submission_grade = SubmissionGrade.find(params[:id])
-    @versions = PaperTrail::Version.where(item_type: 'SubmissionGrade', item_id: @submission_grade.id)
-    render 'layouts/history'
-  end
-
   member_action :take_back, method: :post do
     submission_grade = SubmissionGrade.find(params[:id])
     submission_grade.mentor_id = nil
@@ -154,11 +136,6 @@ ActiveAdmin.register SubmissionGrade do
         link_to 'Take Back', take_back_admin_submission_grade_path, {:id => submission_grade.id, :method => :post}
       end
     end
-  end
-
-  action_item :history, only: :show do
-    submission_grade = SubmissionGrade.find(params[:id])
-    link_to 'View history', take_back_admin_submission_grade_path(:id => submission_grade.id), :method => :post
   end
 
   action_item :assign_mentor, only: :show do

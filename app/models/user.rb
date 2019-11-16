@@ -27,7 +27,8 @@ class User < ApplicationRecord
   end
 
   def display_name
-    "#{email} - #{role}"
+    # "#{email} - #{role}"
+    email
   end
 
   def admin?

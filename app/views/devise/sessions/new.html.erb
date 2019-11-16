@@ -5,7 +5,7 @@
   <%- if devise_mapping.omniauthable? %>
     <%- resource_class.omniauth_providers.each do |provider| %>
       <a href=<%= omniauth_authorize_path(resource_name, provider) %>>
-        <button class="login-button btn btn-primary btn-lg"><%= t('devise.sessions.login_btn') %></button>
+        <button class="btn btn-primary btn-lg" style="color: #022952;"><%= t('devise.sessions.login_btn') %></button>
       </a>
     <% end %>
   <% end %>
