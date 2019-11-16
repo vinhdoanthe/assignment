@@ -50,9 +50,9 @@ ActiveAdmin.register SubmissionGrade do
     # column :is_latest
     column :status
     column :student
-    column(:created_at) {|resource| resource.created_at.strftime("%H:%M:%S %d-%m-%Y")}
+    column(:created_at) {|resource| resource.created_at.nil? ? '' : resource.created_at.strftime("%H:%M:%S %d-%m-%Y")}
     column :mentor
-    column(:assigned_at) {|resource| resource.assigned_at.strftime("%H:%M:%S %d-%m-%Y")}
+    column(:assigned_at) {|resource| resource.assigned_at.nil? ? '' : resource.assigned_at.strftime("%H:%M:%S %d-%m-%Y")}
     column :point
     # column :graded_at
     column :grade_type
