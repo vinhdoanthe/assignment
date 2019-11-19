@@ -6,7 +6,6 @@ git_source(:github) {|repo| "https://github.com/#{repo}.git"}
 ruby '2.5.1'
 
 gem 'activeadmin'
-gem 'formadmin'
 gem 'activeadmin-searchable_select'
 gem 'bootstrap', '~> 4.3.1'
 gem 'cancancan'
