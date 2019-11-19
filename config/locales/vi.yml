@@ -57,6 +57,8 @@ vi:
         submitted_date_newest_first: "Ngày nộp mới nhất"
         submitted_date_oldest_first: "Ngày nộp cũ nhất"
         history_of_grades: "Lịch sử các lần nộp/chấm"
+      message:
+        confirm_reset_submit: "Bạn có chắc chắn muốn reset bài nộp này?"
     your_assignments: "Danh sách các bài thực hành"
   attachment:
     action:

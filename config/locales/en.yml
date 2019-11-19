@@ -57,6 +57,8 @@ en:
         submitted_date_newest_first: "Submitted date (newest first)"
         submitted_date_oldest_first: "Submitted date (oldest first)"
         history_of_grades: "Grade history"
+      message:
+        confirm_reset_submit: "You are resetting this submission. Are you sure?"
     your_assignments: "Your assignments"
   attachment:
     action:

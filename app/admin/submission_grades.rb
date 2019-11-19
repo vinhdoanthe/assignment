@@ -141,8 +141,32 @@ ActiveAdmin.register SubmissionGrade do
   action_item :assign_mentor, only: :show do
     if current_user.admin?
       submission_grade = SubmissionGrade.find(params[:id])
-      link_to 'Assign mentor', assign_mentor_admin_submission_grade_path(submission_grade)
+      if submission_grade.status != Constants::SUBMISSION_GRADE_STATUS_PASSED and submission_grade.status != Constants::SUBMISSION_GRADE_STATUS_NOT_PASSED
+        link_to 'Assign mentor', assign_mentor_admin_submission_grade_path(submission_grade)
+      end
     end
+  end
+
+  action_item :reset_submission, only: :show do
+    if current_user.admin?
+      submission_grade = SubmissionGrade.find(params[:id])
+      if submission_grade.status != Constants::SUBMISSION_GRADE_STATUS_PASSED and submission_grade.status != Constants::SUBMISSION_GRADE_STATUS_NOT_PASSED
+        link_to 'Reset Submission', reset_submission_admin_submission_grade_path(params[:id]),
+                {:id => submission_grade.id, :method => :post, :data => {confirm: I18n.t('assignment.submission_grade.message.confirm_reset_submit')}}
+      end
+    end
+  end
+
+  member_action :reset_submission, method: :post do
+    submission_grade = SubmissionGrade.find(params[:id])
+    if submission_grade.attempt > 1
+      prev_submission = SubmissionGrade.where(student_id: submission_grade.student_id, assignment_id: submission_grade.assignment_id, attempt: submission_grade.attempt-1).first
+      puts prev_submission
+      prev_submission.is_latest = true
+      prev_submission.save
+    end
+    submission_grade.destroy!
+    redirect_to admin_submission_grades_path
   end
 
   batch_action :assign_mentor, form: -> {{user: User.where(role: Constants::USER_ROLE_MENTOR).pluck(:email, :id)}} do |ids, inputs|
