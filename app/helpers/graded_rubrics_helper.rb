@@ -23,7 +23,7 @@ module GradedRubricsHelper
                                            attempt: graded_rubric.submission_grade.attempt - 1).first
       point += prev_attempt.point
     end
-    point.round(1)
+    point.round(2)
   end
 
   def pre_calculate_status(graded_rubric)
