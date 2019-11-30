@@ -40,6 +40,7 @@ vi:
         submitted_at: "Ngày học viên nộp bài"
         assigned_at: "Ngày được giao chấm"
         point: "Điểm"
+        grade_type: "Kiểu chấm"
         your_are_grading: "Bạn đang chấm bài"
         weight: "Trọng số"
         criteria: "Tiêu chí"

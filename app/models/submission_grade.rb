@@ -32,10 +32,6 @@ class SubmissionGrade < ApplicationRecord
     "#{assignment.display_name} - Attempt #{attempt}"
   end
 
-  # def grade_type
-  #   assignment.grade_type
-  # end
-
   scope :filtered_by_mentor_id, lambda {|mentor_id|
     where(mentor_id: mentor_id)
   }
@@ -45,6 +41,7 @@ class SubmissionGrade < ApplicationRecord
       available_filters: %i[
       sorted_by
       with_status
+      with_grade_type
     ]
   )
 
@@ -62,6 +59,10 @@ class SubmissionGrade < ApplicationRecord
     where(status: [*status])
   }
 
+  scope :with_grade_type, lambda { |grade_type|
+    where(grade_type: [*grade_type])
+  }
+
   def self.options_for_sorted_by
     [
         [I18n.t('assignment.submission_grade.list.submitted_date_newest_first'), 'created_at_desc'],
@@ -69,11 +70,18 @@ class SubmissionGrade < ApplicationRecord
     ]
   end
 
-  def self.options_for_select
+  def self.options_for_status
     {
         Constants::SUBMISSION_GRADE_STATUS_ASSIGNED => Constants::SUBMISSION_GRADE_STATUS_ASSIGNED,
         Constants::SUBMISSION_GRADE_STATUS_PASSED => Constants::SUBMISSION_GRADE_STATUS_PASSED,
         Constants::SUBMISSION_GRADE_STATUS_NOT_PASSED => Constants::SUBMISSION_GRADE_STATUS_NOT_PASSED
+    }
+  end
+
+  def self.option_for_grade_type
+    {
+        Constants::ASSIGNMENT_GRADE_TYPE_DEFAULT => Constants::ASSIGNMENT_GRADE_TYPE_DEFAULT,
+        Constants::ASSIGNMENT_GRADE_TYPE_INTERVIEW => Constants::ASSIGNMENT_GRADE_TYPE_INTERVIEW
     }
   end
 

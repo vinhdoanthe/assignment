@@ -27,11 +27,12 @@ class SubmissionGradesController < ApplicationController
         params[:filterrific],
         select_options: {
             sorted_by: SubmissionGrade.options_for_sorted_by,
-            with_status: SubmissionGrade.options_for_select
+            with_status: SubmissionGrade.options_for_status,
+            with_grade_type: SubmissionGrade.option_for_grade_type
         },
         persistence_id: 'submission_grades_assigned_submissions',
         default_filter_params: {},
-        available_filters: %i[sorted_by with_status],
+        available_filters: %i[sorted_by with_status with_grade_type],
         sanitize_params: true
     ) || return
     @assigned_submissions = @filterrific.find.page(params[:page]).per_page(20)

@@ -40,6 +40,7 @@ en:
         submitted_at: "Submitted at"
         assigned_at: "Assigned at"
         point: "Point"
+        grade_type: "Grade type"
         your_are_grading: "You are grading"
         weight: "Weight"
         criteria: "Criteria"
