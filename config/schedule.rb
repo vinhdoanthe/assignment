@@ -24,12 +24,12 @@
 # set :environment, :development
 env :PATH, ENV['PATH']
 
-# every 30.minutes do
-#   runner 'SubmissionGrade.take_back',
-#          environment: 'production', output: 'log/cron.log'
-# end
-#
-# every 5.minutes do
-#   runner 'SubmissionGrade.take_back',
-#          environment: 'development', output: 'log/cron.log'
-# end
+every 10.minutes do
+  runner 'SubmissionGrade.update_grade_type',
+         environment: 'production', output: 'log/cron.log'
+end
+
+every 1.minutes do
+  runner 'SubmissionGrade.update_grade_type',
+         environment: 'development', output: 'log/cron.log'
+end

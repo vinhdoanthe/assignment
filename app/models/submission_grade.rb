@@ -32,9 +32,9 @@ class SubmissionGrade < ApplicationRecord
     "#{assignment.display_name} - Attempt #{attempt}"
   end
 
-  def grade_type
-    assignment.grade_type
-  end
+  # def grade_type
+  #   assignment.grade_type
+  # end
 
   scope :filtered_by_mentor_id, lambda {|mentor_id|
     where(mentor_id: mentor_id)
@@ -112,12 +112,20 @@ class SubmissionGrade < ApplicationRecord
                                  true,
                                  Time.now - Settings[:submission][:taken_back_after])
 
-    puts to_taken_submissions.inspect.to_s
+    # puts to_taken_submissions.inspect.to_s
     to_taken_submissions.each do |submission|
       SubmissionGradeMailer.taken_back_email(submission.mentor_id, submission).deliver_later
       submission.update(status: Constants::SUBMISSION_GRADE_STATUS_TAKEN_BACK,
                         mentor_id: nil)
       # TODO
+    end
+  end
+
+  def self.update_grade_type
+    all_submissions = SubmissionGrade.all
+    all_submissions.each do |submission|
+      submission.grade_type = submission.assignment.grade_type
+      submission.save
     end
   end
 

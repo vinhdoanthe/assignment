@@ -7,6 +7,7 @@ ActiveAdmin.register SubmissionGrade do
   # Filters for index page
   filter :status, as: :select
   filter :attempt, as: :select, input_html: {multiple: true}
+  filter :grade_type, as: :select
   filter :course_instance, as: :searchable_select
   filter :assignment, as: :searchable_select
   filter :student, as: :searchable_select
@@ -24,6 +25,7 @@ ActiveAdmin.register SubmissionGrade do
   end
   scope('Assigned') {|scope| scope.where(status: Constants::SUBMISSION_GRADE_STATUS_ASSIGNED, is_latest: true)}
   scope('Submitted') {|scope| scope.where(status: Constants::SUBMISSION_GRADE_STATUS_SUBMITTED, is_latest: true)}
+  scope('Interview') { |scope| scope.where(grade_type: Constants::ASSIGNMENT_GRADE_TYPE_INTERVIEW, is_latest: true)}
   scope :all
 
   csv do
@@ -87,6 +89,7 @@ ActiveAdmin.register SubmissionGrade do
         end
       end
       row :is_latest
+      row :grade_type
       row :mentor
       row :graded_file do
         if submission_grade.graded_file.attached?
@@ -101,7 +104,7 @@ ActiveAdmin.register SubmissionGrade do
     end
   end
   permit_params :assignment_id, :student_id,
-                :status, :attempt, :is_latest,
+                :status, :attempt, :is_latest, :grade_type,
                 :mentor_id, :assigned_at, :point, :graded_at
 
   member_action :assign_mentor, method: %i[get post] do
@@ -160,7 +163,7 @@ ActiveAdmin.register SubmissionGrade do
   member_action :reset_submission, method: :post do
     submission_grade = SubmissionGrade.find(params[:id])
     if submission_grade.attempt > 1
-      prev_submission = SubmissionGrade.where(student_id: submission_grade.student_id, assignment_id: submission_grade.assignment_id, attempt: submission_grade.attempt-1).first
+      prev_submission = SubmissionGrade.where(student_id: submission_grade.student_id, assignment_id: submission_grade.assignment_id, attempt: submission_grade.attempt - 1).first
       puts prev_submission
       prev_submission.is_latest = true
       prev_submission.save

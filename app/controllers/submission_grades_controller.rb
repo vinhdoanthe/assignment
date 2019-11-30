@@ -23,16 +23,16 @@ class SubmissionGradesController < ApplicationController
 
   def assigned_submissions
     @filterrific = initialize_filterrific(
-      SubmissionGrade.filtered_by_mentor_id(current_user.id),
-      params[:filterrific],
-      select_options: {
-        sorted_by: SubmissionGrade.options_for_sorted_by,
-        with_status: SubmissionGrade.options_for_select
-      },
-      persistence_id: 'submission_grades_assigned_submissions',
-      default_filter_params: {},
-      available_filters: %i[sorted_by with_status],
-      sanitize_params: true
+        SubmissionGrade.filtered_by_mentor_id(current_user.id),
+        params[:filterrific],
+        select_options: {
+            sorted_by: SubmissionGrade.options_for_sorted_by,
+            with_status: SubmissionGrade.options_for_select
+        },
+        persistence_id: 'submission_grades_assigned_submissions',
+        default_filter_params: {},
+        available_filters: %i[sorted_by with_status],
+        sanitize_params: true
     ) || return
     @assigned_submissions = @filterrific.find.page(params[:page]).per_page(20)
     respond_to do |format|
@@ -61,9 +61,9 @@ class SubmissionGradesController < ApplicationController
                                                   is_latest: true)
 
       if latest_submission.nil? ||
-         (latest_submission.status == Constants::SUBMISSION_GRADE_STATUS_NOT_PASSED &&
-             (assignment.max_attempt.zero? ? true :
-                  latest_submission.attempt < assignment.max_attempt))
+          (latest_submission.status == Constants::SUBMISSION_GRADE_STATUS_NOT_PASSED &&
+              (assignment.max_attempt.zero? ? true :
+                   latest_submission.attempt < assignment.max_attempt))
         # Do nothing. Student can submit
       elsif latest_submission.status == Constants::SUBMISSION_GRADE_STATUS_PASSED
         flash[:success] = t('submission.latest_passed')
@@ -81,14 +81,15 @@ class SubmissionGradesController < ApplicationController
     @submission_grade = SubmissionGrade.new(submission_grade_params)
     if student_can_submit?(@submission_grade.assignment_id, current_user.id)
       @submission_grade.attempt = find_attempt(@submission_grade.assignment_id, current_user.id)
+      @submission_grade.grade_type = @submission_grade.assignment.grade_type
       respond_to do |format|
         if @submission_grade.save
           SubmissionGradeMailer.submitted_email(current_user, @submission_grade).deliver_later
-          format.html { redirect_to active_assignments_path, success: 'Submission grade was successfully created.' }
-          format.json { render :show, status: :created, location: @submission_grade }
+          format.html {redirect_to active_assignments_path, success: 'Submission grade was successfully created.'}
+          format.json {render :show, status: :created, location: @submission_grade}
         else
-          format.html { render :new_solution }
-          format.json { render json: @submission_grade.errors, status: :unprocessable_entity }
+          format.html {render :new_solution}
+          format.json {render json: @submission_grade.errors, status: :unprocessable_entity}
         end
         unless @submission_grade.attempt == 1
           SubmissionGrade.update_latest(@submission_grade.student_id, @submission_grade.assignment_id, @submission_grade.attempt - 1)
@@ -103,8 +104,8 @@ class SubmissionGradesController < ApplicationController
     purge_file
     @submission_grade.destroy
     respond_to do |format|
-      format.html { redirect_to submission_grades_url, notice: 'Submission grade was successfully destroyed.' }
-      format.json { head :no_content }
+      format.html {redirect_to submission_grades_url, notice: 'Submission grade was successfully destroyed.'}
+      format.json {head :no_content}
     end
   end
 
