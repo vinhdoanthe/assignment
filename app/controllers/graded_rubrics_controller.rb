@@ -17,9 +17,6 @@ class GradedRubricsController < ApplicationController
       rubrics = Rubric.select(['id']).where(assignment_id: assignment_id)
       criteria_formats = CriteriaFormat.where(rubric_id: rubrics)
       @to_be_grade_criteria_formats = criteria_formats.reject {|criteria| can_not_be_regrade_index.include?(criteria.index)}
-      puts "graded_criteriums #{graded_criteriums.inspect}"
-      puts "criteria_formats #{criteria_formats.inspect}"
-      puts "to_be_grade_criteria_formats #{@to_be_grade_criteria_formats.inspect}"
 
       @graded_rubric = GradedRubric.new(submission_grade_id: submission_grade_id)
       # Build graded_criteriums

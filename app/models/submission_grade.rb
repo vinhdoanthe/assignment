@@ -98,7 +98,6 @@ class SubmissionGrade < ApplicationRecord
       begin
         prev_latest.save
       rescue StandardError => error
-        puts "Submission grade update_latest #{error.inspect}"
       end
     end
   end
@@ -120,7 +119,6 @@ class SubmissionGrade < ApplicationRecord
                                  true,
                                  Time.now - Settings[:submission][:taken_back_after])
 
-    # puts to_taken_submissions.inspect.to_s
     to_taken_submissions.each do |submission|
       SubmissionGradeMailer.taken_back_email(submission.mentor_id, submission).deliver_later
       submission.update(status: Constants::SUBMISSION_GRADE_STATUS_TAKEN_BACK,

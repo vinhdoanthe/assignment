@@ -8,6 +8,7 @@ class Enrollment < ApplicationRecord
 
   TT_STR = 'TT'
   EMAIL_STR = 'Email'
+  FULL_NAME_STR = 'Full Name'
   INSTANCE_STR = 'Course Instance'
   ROLE_STR = 'Role'
 
@@ -29,7 +30,6 @@ class Enrollment < ApplicationRecord
     spreadsheet = open_spreadsheet(file)
 
     list_enrollments = read_sheet spreadsheet
-    puts "list_enrollments #{list_enrollments.inspect}"
     list_errors = []
     list_enrollments.each do |enrollment_row|
       error = create_enrollment enrollment_row
@@ -38,13 +38,13 @@ class Enrollment < ApplicationRecord
       end
     end
 
-    puts "list_errors #{list_errors.inspect}"
     list_errors
   end
 
   def self.read_sheet(spreadsheet)
     list_enrollments = []
-    spreadsheet.each(tt: TT_STR, email: EMAIL_STR, course_instances: INSTANCE_STR, role: ROLE_STR) do |hash|
+    spreadsheet.each(tt: TT_STR, email: EMAIL_STR, full_name: FULL_NAME_STR,
+                     course_instances: INSTANCE_STR, role: ROLE_STR) do |hash|
       list_enrollments.append hash
     end
     list_enrollments.shift
@@ -64,8 +64,7 @@ class Enrollment < ApplicationRecord
       error = {tt: enrollment_row[:tt], note: user.errors.full_messages.to_s}
       return error
     else
-      ## TODO: need to set role to learner with every record
-      if user.update(role: enrollment_row[:role])
+      if user.update(role: enrollment_row[:role], full_name: enrollment_row[:full_name])
       else
         tmp_error = 'Update user failed' + user.email
         error.append(tmp_error)

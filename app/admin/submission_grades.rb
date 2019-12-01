@@ -164,7 +164,6 @@ ActiveAdmin.register SubmissionGrade do
     submission_grade = SubmissionGrade.find(params[:id])
     if submission_grade.attempt > 1
       prev_submission = SubmissionGrade.where(student_id: submission_grade.student_id, assignment_id: submission_grade.assignment_id, attempt: submission_grade.attempt - 1).first
-      puts prev_submission
       prev_submission.is_latest = true
       prev_submission.save
     end
