@@ -8,7 +8,7 @@ ActiveAdmin.register SubmissionGrade do
   filter :status, as: :select
   filter :attempt, as: :select, input_html: {multiple: true}
   filter :grade_type, as: :select
-  filter :course_instance, as: :searchable_select
+  filter :course_instance, as: :searchable_select, input_html: {multiple: true}
   filter :assignment, as: :searchable_select
   filter :student, as: :searchable_select
   filter :mentor, as: :searchable_select
