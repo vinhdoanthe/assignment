@@ -2,7 +2,7 @@ vi:
   system_name: "Hệ thống quản lý bài thực hành"
   hello: "Xin chào"
   home_page: "Trang chủ"
-  welcome_message: "Chào mừng bạn đến với hệ thống quản lý bài thực hành"
+  welcome_message: "Chào mừng bạn đến với hệ thống quản lý bài Assignment"
   welcome_login: "Vui lòng đăng nhập để bắt đầu"
   submission:
     latest_being_processed: "Bạn đã nộp bài này. Bài nộp của bạn đang được xử lý"
