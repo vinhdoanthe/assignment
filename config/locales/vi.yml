@@ -60,7 +60,7 @@ vi:
         history_of_grades: "Lịch sử các lần nộp/chấm"
       message:
         confirm_reset_submit: "Bạn có chắc chắn muốn reset bài nộp này?"
-    your_assignments: "Danh sách các bài thực hành"
+    your_assignments: "Danh sách các bài Assignment"
   attachment:
     action:
       download: "Tải về"
