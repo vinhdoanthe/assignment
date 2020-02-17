@@ -77,28 +77,26 @@ class Enrollment < ApplicationRecord
         tmp_error = {tt: enrollment_row[:tt], note: 'Course instance do not exist: ' + instance.to_s}
         error.append(tmp_error)
       else
-        enrollment = Enrollment.where(user_id: user.id, course_instance_id: course_instance.id)
+        enrollment = Enrollment.where(user_id: user.id, course_instance_id: course_instance.id).first
         if enrollment.nil?
-          enrollment_deleted = Enrollment.where(user_id: user.id, course_instance_id: course_instance.id).with_deleted.first
-          if enrollment_deleted.nil?
+          enrollment = Enrollment.where(user_id: user.id, course_instance_id: course_instance.id).with_deleted.first
+          if enrollment.nil?
             enrollment = Enrollment.new(user_id: user.id, course_instance_id: course_instance.id)
-            enrollment.save
-            if enrollment.errors.full_messages.any?
-              tmp_error = {tt: enrollment_row[:tt], note: enrollment.errors.full_messages.to_s}
-              error.append(tmp_error)
-            end
           else
-            enrollment_deleted.recover
-            enrollment = enrollment_deleted
+            enrollment.recover
+          end
+          enrollment.save
+          if enrollment.errors.full_messages.any?
+            tmp_error = {tt: enrollment_row[:tt], note: enrollment.errors.full_messages.to_s}
+            error.append(tmp_error)
           end
         end
-        # enrollment = Enrollment.find_or_create_by(user: user, course_instance: course_instance)
+
         if enrollment.update(status: Constants::ENROLLMENT_STATUS_ACTIVE)
         else
           tmp_error = {tt: enrollment_row[:tt], note: 'Update enrollment status to active failed: ' + instance.to_s}
           error.append(tmp_error)
         end
-
       end
     end
 
