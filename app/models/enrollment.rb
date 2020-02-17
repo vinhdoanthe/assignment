@@ -83,7 +83,7 @@ class Enrollment < ApplicationRecord
           if enrollment.nil?
             enrollment = Enrollment.new(user_id: user.id, course_instance_id: course_instance.id)
           else
-            enrollment.recover
+            enrollment.restore
           end
           enrollment.save
           if enrollment.errors.full_messages.any?
