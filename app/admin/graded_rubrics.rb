@@ -1,5 +1,5 @@
 ActiveAdmin.register GradedRubric do
-  # menu false
+  menu false
   controller do
     belongs_to :submission_grade, optional: true
   end

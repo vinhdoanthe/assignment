@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 ActiveAdmin.register Rubric do
+  menu false
   controller do
     belongs_to :assignment, optional: true
   end
