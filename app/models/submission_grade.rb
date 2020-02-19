@@ -26,7 +26,11 @@ class SubmissionGrade < ApplicationRecord
                           Constants::SUBMISSION_GRADE_STATUS_PASSED,
                           Constants::SUBMISSION_GRADE_STATUS_NOT_PASSED]
 
-  validate :validate_submission_file, on: :create
+
+  validates :submission_file, attached: true, content_type: {in: ['application/x-rar-compressed,
+            application/octet-stream', 'application/zip, application/octet-stream'], message: 'is not a rar/zip file'},
+            size: {less_than: 30.megabytes, message: 'file size is more than 30 MB'}
+  # validate :validate_submission_file, on: :create
 
   def display_name
     "#{assignment.display_name} - Attempt #{attempt}"
@@ -59,7 +63,7 @@ class SubmissionGrade < ApplicationRecord
     where(status: [*status])
   }
 
-  scope :with_grade_type, lambda { |grade_type|
+  scope :with_grade_type, lambda {|grade_type|
     where(grade_type: [*grade_type])
   }
 
@@ -145,14 +149,14 @@ class SubmissionGrade < ApplicationRecord
     list_str
   end
 
-  private
-
-  def validate_submission_file
-    if submission_file.attached?
-      if submission_file.blob.byte_size > 50_000_000
-        # submission_file.purge
-        errors[:base] << I18n.t('assignment.submission_grade.error.over_file_size')
-      end
-    end
-  end
+  # private
+  #
+  # def validate_submission_file
+  #   if submission_file.attached?
+  #     if submission_file.blob.byte_size > 50_000_000
+  #       # submission_file.purge
+  #       errors[:base] << I18n.t('assignment.submission_grade.error.over_file_size')
+  #     end
+  #   end
+  # end
 end

@@ -27,6 +27,8 @@ gem 'simple_form'
 gem 'whenever', require: false
 gem 'will_paginate'
 
+gem 'active_storage_validations'
+
 # Capistrano for deployment
 gem 'capistrano', '~> 3.7', '>= 3.7.1'
 gem 'capistrano-passenger', '~> 0.2.0'
