@@ -154,12 +154,14 @@ class SubmissionGrade < ApplicationRecord
     count = 0
     gradedrubrics.each do |gradedrubric|
       submissiongrade = gradedrubric.submission_grade
-      if submissiongrade.status == Constants::SUBMISSION_GRADE_STATUS_ASSIGNED
-        p 'count : '
-        count += 1
-        p count.to_s
-        p gradedrubric.inspect
-        gradedrubric.delete
+      unless submissiongrade.nil?
+        if submissiongrade.status == Constants::SUBMISSION_GRADE_STATUS_ASSIGNED
+          p 'count : '
+          count += 1
+          p count.to_s
+          p gradedrubric.inspect
+          gradedrubric.delete
+        end
       end
     end
   end
