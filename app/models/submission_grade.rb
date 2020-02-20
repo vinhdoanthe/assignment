@@ -28,7 +28,7 @@ class SubmissionGrade < ApplicationRecord
 
 
   validates :submission_file, size: {less_than: 30.megabytes,
-                                                     message: 'file size is more than 30 MB'}
+                                     message: 'file size is more than 30 MB'}
   # validate :validate_submission_file, on: :create
 
   def display_name
@@ -146,6 +146,22 @@ class SubmissionGrade < ApplicationRecord
       end
     end
     list_str
+  end
+
+  def self.tmp_remove_error_graded_rubrics
+    p 'Run'
+    gradedrubrics = GradedRubric.all
+    count = 0
+    gradedrubrics.each do |gradedrubric|
+      submissiongrade = gradedrubric.submission_grade
+      if submissiongrade.status == Constants::SUBMISSION_GRADE_STATUS_ASSIGNED
+        p 'count : '
+        count += 1
+        p count.to_s
+        p gradedrubric.inspect
+        gradedrubric.delete
+      end
+    end
   end
 
   # private
