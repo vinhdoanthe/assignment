@@ -130,13 +130,13 @@ class SubmissionGrade < ApplicationRecord
     end
   end
 
-  def self.update_grade_type
-    all_submissions = SubmissionGrade.all
-    all_submissions.each do |submission|
-      submission.grade_type = submission.assignment.grade_type
-      submission.save
-    end
-  end
+  # def self.update_grade_type
+  #   all_submissions = SubmissionGrade.all
+  #   all_submissions.each do |submission|
+  #     submission.grade_type = submission.assignment.grade_type
+  #     submission.save
+  #   end
+  # end
 
   def list_failed_criteria
     list_str = ''
@@ -148,23 +148,23 @@ class SubmissionGrade < ApplicationRecord
     list_str
   end
 
-  def self.tmp_remove_error_graded_rubrics
-    p 'Run'
-    gradedrubrics = GradedRubric.all
-    count = 0
-    gradedrubrics.each do |gradedrubric|
-      submissiongrade = gradedrubric.submission_grade
-      unless submissiongrade.nil?
-        if submissiongrade.status == Constants::SUBMISSION_GRADE_STATUS_ASSIGNED
-          p 'count : '
-          count += 1
-          p count.to_s
-          p gradedrubric.inspect
-          gradedrubric.delete
-        end
-      end
-    end
-  end
+  # def self.tmp_remove_error_graded_rubrics
+  #   p 'Run'
+  #   gradedrubrics = GradedRubric.all
+  #   count = 0
+  #   gradedrubrics.each do |gradedrubric|
+  #     submissiongrade = gradedrubric.submission_grade
+  #     unless submissiongrade.nil?
+  #       if submissiongrade.status == Constants::SUBMISSION_GRADE_STATUS_ASSIGNED
+  #         p 'count : '
+  #         count += 1
+  #         p count.to_s
+  #         p gradedrubric.inspect
+  #         gradedrubric.delete
+  #       end
+  #     end
+  #   end
+  # end
 
   # private
   #

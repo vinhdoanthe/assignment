@@ -22,14 +22,14 @@
 # Learn more: http://github.com/javan/whenever
 # ENV['RAILS_ENV'] = 'development'
 # set :environment, :development
-env :PATH, ENV['PATH']
-
-every 2.minutes do
-  runner 'SubmissionGrade.tmp_remove_error_graded_rubrics',
-         environment: 'production', output: 'log/cron.log'
-end
-
-every 1.minutes do
-  runner 'SubmissionGrade.tmp_remove_error_graded_rubrics',
-         environment: 'development', output: 'log/cron.log'
-end
+# env :PATH, ENV['PATH']
+#
+# every 2.minutes do
+#   runner 'SubmissionGrade.tmp_remove_error_graded_rubrics',
+#          environment: 'production', output: 'log/cron.log'
+# end
+#
+# every 1.minutes do
+#   runner 'SubmissionGrade.tmp_remove_error_graded_rubrics',
+#          environment: 'development', output: 'log/cron.log'
+# end
