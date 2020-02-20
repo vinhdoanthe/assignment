@@ -27,7 +27,7 @@ class SubmissionGrade < ApplicationRecord
                           Constants::SUBMISSION_GRADE_STATUS_NOT_PASSED]
 
 
-  validates :submission_file, attached: true, size: {less_than: 30.megabytes,
+  validates :submission_file, size: {less_than: 30.megabytes,
                                                      message: 'file size is more than 30 MB'}
   # validate :validate_submission_file, on: :create
 
