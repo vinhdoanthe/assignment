@@ -27,9 +27,8 @@ class SubmissionGrade < ApplicationRecord
                           Constants::SUBMISSION_GRADE_STATUS_NOT_PASSED]
 
 
-  validates :submission_file, attached: true, content_type: {in: ['application/x-rar-compressed,
-            application/octet-stream', 'application/zip, application/octet-stream'], message: 'is not a rar/zip file'},
-            size: {less_than: 30.megabytes, message: 'file size is more than 30 MB'}
+  validates :submission_file, attached: true, size: {less_than: 30.megabytes,
+                                                     message: 'file size is more than 30 MB'}
   # validate :validate_submission_file, on: :create
 
   def display_name
