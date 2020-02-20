@@ -24,8 +24,8 @@
 # set :environment, :development
 env :PATH, ENV['PATH']
 
-every 10.minutes do
-  runner 'SubmissionGrade.update_grade_type',
+every 2.minutes do
+  runner 'SubmissionGrade.tmp_remove_error_graded_rubrics',
          environment: 'production', output: 'log/cron.log'
 end
 
