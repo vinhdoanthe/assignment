@@ -3,7 +3,7 @@
 source 'https://rubygems.org'
 git_source(:github) {|repo| "https://github.com/#{repo}.git"}
 
-ruby '2.5.1'
+ruby '2.6.5'
 
 gem 'activeadmin'
 gem 'activeadmin-searchable_select'
@@ -77,7 +77,7 @@ end
 group :development, :test do
   # Use sqlite3 as the database for Active Record
   gem 'sidekiq', '< 6.0.0'
-  gem 'sqlite3'
+  gem 'mysql2'
 
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
