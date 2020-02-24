@@ -29,7 +29,7 @@ Rails.application.routes.draw do
   resources :submission_grades, only: %i[show index]
   resources :graded_rubrics, only: %i[new show]
   # resources :after_grade
-
+  
   # Custom routes
   root to: 'home#index'
   get 'active_assignments', to: 'assignments#active_assignments'
@@ -41,4 +41,5 @@ Rails.application.routes.draw do
   post 'graded_rubrics/preview', to: 'graded_rubrics#preview', as: :preview_rubric
   post 'graded_rubrics', to: 'graded_rubrics#grade', as: :grade_rubric
   post 'import_enrollments', to: 'enrollments#import_enrollments', as: :import_enrollments
+  get 'list_submissions', to: 'submission_grades#list_submissions'
 end

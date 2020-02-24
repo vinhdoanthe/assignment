@@ -1,0 +1,13 @@
+<%= @programs.each do |id, code| %>
+  <% program = Program.find(id) %>
+  <h3><%= program.name %></h3>
+  </hr>
+  <div class="row">
+    <% course_instances = program.course_instances %>
+    <% unless course_instances.nil? %>
+      <% course_instances.each do |course_instance| %>
+        <%= render 'submission_grades/shared/course_instances', {course_instance: course_instance} %>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>

@@ -36,6 +36,8 @@ vi:
         send_grade: "Gửi điểm"
         confirm: "Xác nhận"
       label:
+        waiting_for_grading: 'Chờ chấm'
+        graded_completed: 'Đã chấm'
         mentor_grades: "Danh sách bài chấm"
         submitted_at: "Ngày học viên nộp bài"
         assigned_at: "Ngày được giao chấm"

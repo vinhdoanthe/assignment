@@ -1,0 +1,9 @@
+<div class="card ml-3 mt-3">
+  <div class="card-body">
+    <h5 class="card-title"><%= course_instance.name %></h5>
+    <h6 class="card-subtitle mb-2 text-muted"><%= course_instance.code %></h6>
+    <p class="card-text"><%= t('assignment.submission_grade.label.mentor_grades') %></p>
+    <a href="" class="card-link"><span class="text-warning"> <%= count_assigned_submissions(course_instance.id, current_user.id).to_s + ' ' + t('assignment.submission_grade.label.waiting_for_grading') %></span></a>
+    <a href="" class="card-link"><span class="text-success"><%= count_graded_submissions(course_instance.id, current_user.id).to_s + ' ' + t('assignment.submission_grade.label.graded_completed') %></span></a>
+  </div>
+</div>

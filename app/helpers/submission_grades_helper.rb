@@ -42,4 +42,19 @@ module SubmissionGradesHelper
       graded_rubrics
     end
   end
+
+  def count_assigned_submissions(course_instance_id, mentor_id)
+    assignments = CourseInstance.find(course_instance_id).assignments
+    count = 0
+    unless assignments.nil?
+      assignments.each do |assignment|
+        count += SubmissionGrade.where(mentor_id:mentor_id, assignment_id:assignment.id, status: Constants::SUBMISSION_GRADE_STATUS_ASSIGNED).count
+      end
+    end
+    count
+  end
+
+  def count_graded_submissions(course_instance_id, mentor_id)
+    0
+  end
 end

@@ -21,6 +21,34 @@ class SubmissionGradesController < ApplicationController
     @submission_grades = SubmissionGrade.where(is_latest: true)
   end
 
+  def list_submissions
+    respond_to :json, :html
+    submissions = SubmissionGrade.where(mentor_id:current_user.id, is_latest:true).to_a
+    @course_instances = Hash.new
+    unless submissions.nil?
+      submissions.each do |submission|
+        course_instance = submission.assignment.course_instance
+        # binding.pry
+        @course_instances.merge!({course_instance.id => course_instance.code})
+        # @course_instances[course_instance.id] = course_instance.code
+        # {course_instance.id => course_instance.code}.merge!(@course_instances)
+      end
+    end
+    @programs = {}
+    unless @course_instances.nil?
+      @course_instances.each do |course_instance_id, course_instance_code|
+        program = CourseInstance.find(course_instance_id).program
+        @programs.merge!({program.id => program.code})
+      end
+    end
+    respond_to do |format|
+      unless @programs.nil?
+        format.html { render 'list_submissions'}
+        # format.json { render json: @programs }
+      end
+    end
+  end
+
   def assigned_submissions
     @filterrific = initialize_filterrific(
         SubmissionGrade.filtered_by_mentor_id(current_user.id),
