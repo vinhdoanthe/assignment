@@ -79,6 +79,8 @@ group :development, :test do
   gem 'sidekiq', '< 6.0.0'
   gem 'mysql2'
   gem 'pry', '~> 0.12.2'
+  gem 'pry-remote'
+  gem 'pry-nav'
 
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: %i[mri mingw x64_mingw]

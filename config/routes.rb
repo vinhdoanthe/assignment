@@ -42,4 +42,5 @@ Rails.application.routes.draw do
   post 'graded_rubrics', to: 'graded_rubrics#grade', as: :grade_rubric
   post 'import_enrollments', to: 'enrollments#import_enrollments', as: :import_enrollments
   get 'list_submissions', to: 'submission_grades#list_submissions'
+  get 'filter_submissions', to: 'submission_grades#filter_submissions'
 end
