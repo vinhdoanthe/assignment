@@ -1,32 +1,38 @@
-<h2><%= t('assignment.submission_grade.label.mentor_grades') %></h2>
-
-<%= form_for_filterrific @filterrific do |f| %>
-  <div class="container">
+<div>
+  <div class="row">
+    <h2><%= t('assignment.submission_grade.label.mentor_grades') %></h2>
+  </div>
+  <div class="row">
+    <%= form_for_filterrific @filterrific do |f| %>
+      <div class="row">
+        <div class="form-group">
+          <%= t('assignment.active.status') %>:
+          <%= f.select(
+                  :with_status,
+                  @filterrific.select_options[:with_status],
+                  {include_blank: '- All -'}
+              ) %>
+        </div>
+        <div class="form-group">
+          <%= t('assignment.submission_grade.action.sort_by') %>:
+          <%= f.select(:sorted_by, @filterrific.select_options[:sorted_by]) %>
+        </div>
+        <div class="form-group">
+          <%= link_to(
+                  t('assignment.submission_grade.action.reset_filter'),
+                  reset_filterrific_url,
+              ) %>
+        </div>
+        <%= render_filterrific_spinner %>
+      </div>
+    <% end %>
     <div class="row">
-      <div class="form-group">
-        <%= t('assignment.active.status') %>:
-        <%= f.select(
-                :with_status,
-                @filterrific.select_options[:with_status],
-                {include_blank: '- All -'}
-            ) %>
-      </div>
-      <div class="form-group">
-        <%= t('assignment.submission_grade.action.sort_by') %>:
-        <%= f.select(:sorted_by, @filterrific.select_options[:sorted_by]) %>
-      </div>
-      <div class="form-group">
-        <%= link_to(
-                t('assignment.submission_grade.action.reset_filter'),
-                reset_filterrific_url,
-            ) %>
-      </div>
-      <%= render_filterrific_spinner %>
+      <%= render(
+              partial: 'shared/submissions',
+              locals: {:submissions => @assigned_submissions}
+          ) %>
     </div>
-<% end %>
-</div>
 
-<%= render(
-        partial: 'shared/submissions',
-        locals: {:submissions => @assigned_submissions}
-    ) %>
+  </div>
+
+</div>

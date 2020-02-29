@@ -68,8 +68,8 @@
 
   <!--  Confirmation area-->
   <div>
-    <%= link_to t('assignment.submission_grade.action.cancel'), :back, class: 'btn  btn-light' %>
-    <%= form.button :submit, t('assignment.submission_grade.action.confirm') %>
+    <%= link_to t('assignment.submission_grade.action.cancel'), :back, class: 'btn btn-danger' %>
+    <%= form.button :submit, t('assignment.submission_grade.action.confirm'), class: 'btn btn-primary' %>
 
   </div>
 <% end %>

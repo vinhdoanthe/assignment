@@ -2,27 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3e505951-a80a-4d1f-bcd8-2980b2cc70c9" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/dictionaries/doanthevinh.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/views/submission_grades/shared/_submission.html.erb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.generators" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.generators" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/assignment.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/assignment.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Gemfile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Gemfile.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/assets/javascripts/application.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/assets/javascripts/application.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/assets/javascripts/graded_rubic.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/submission_grades/shared/_filter_nav.html.erb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/assets/javascripts/submission_grades/filter_submissions.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/assets/javascripts/submission_grades/filter_submissions.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/assets/stylesheets/custom.css" beforeDir="false" afterPath="$PROJECT_DIR$/app/assets/stylesheets/custom.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/controllers/submission_grades_controller.rb" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/submission_grades_controller.rb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/helpers/submission_grades_helper.rb" beforeDir="false" afterPath="$PROJECT_DIR$/app/helpers/submission_grades_helper.rb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/models/submission_grade.rb" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/submission_grade.rb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/layouts/application.html.erb" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/layouts/application.html.erb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/shared/_header.html.erb" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/shared/_header.html.erb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views/graded_rubrics/form/_new.html.erb" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/graded_rubrics/form/_new.html.erb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views/graded_rubrics/form/_preview.html.erb" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/graded_rubrics/form/_preview.html.erb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/views/shared/_submissions.html.erb" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/shared/_submissions.html.erb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views/submission_grades/_formsubmitnew.html.erb" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/submission_grades/_formsubmitnew.html.erb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/views/submission_grades/assigned_submissions.html.erb" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/submission_grades/assigned_submissions.html.erb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/submission_grades/filter_submissions.html.erb" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/submission_grades/filter_submissions.html.erb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/initializers/assets.rb" beforeDir="false" afterPath="$PROJECT_DIR$/config/initializers/assets.rb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views/submission_grades/shared/_submission.html.erb" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/submission_grades/shared/_submission.html.erb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/locales/en.yml" beforeDir="false" afterPath="$PROJECT_DIR$/config/locales/en.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/locales/vi.yml" beforeDir="false" afterPath="$PROJECT_DIR$/config/locales/vi.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/routes.rb" beforeDir="false" afterPath="$PROJECT_DIR$/config/routes.rb" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -360,7 +350,7 @@
       <workItem from="1582216320015" duration="1448000" />
       <workItem from="1582563334325" duration="2626000" />
       <workItem from="1582962288745" duration="238000" />
-      <workItem from="1582962994457" duration="9087000" />
+      <workItem from="1582962994457" duration="13390000" />
     </task>
     <servers />
   </component>
@@ -368,10 +358,18 @@
     <option name="version" value="1" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="498" y="282" width="683" height="486" key="find.popup" timestamp="1582973521095">
+    <state x="341" y="164" key="SettingsEditor" timestamp="1582978903105">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
-    <state x="498" y="282" width="683" height="486" key="find.popup/0.0.1680.1050@0.0.1680.1050" timestamp="1582973521095" />
+    <state x="341" y="164" key="SettingsEditor/0.0.1680.1050@0.0.1680.1050" timestamp="1582978903105" />
+    <state x="498" y="282" width="683" height="486" key="find.popup" timestamp="1582985538711">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state x="498" y="282" width="683" height="486" key="find.popup/0.0.1680.1050@0.0.1680.1050" timestamp="1582985538711" />
+    <state x="505" y="233" width="670" height="676" key="search.everywhere.popup" timestamp="1582978907999">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state x="505" y="233" width="670" height="676" key="search.everywhere.popup/0.0.1680.1050@0.0.1680.1050" timestamp="1582978907999" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

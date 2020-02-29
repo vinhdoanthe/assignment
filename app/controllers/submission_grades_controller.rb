@@ -77,7 +77,7 @@ class SubmissionGradesController < ApplicationController
         available_filters: %i[sorted_by with_status],
         sanitize_params: true
     ) || return
-    @assigned_submissions = @filterrific.find.page(params[:page]).per_page(48)
+    @assigned_submissions = @filterrific.find.page(params[:page]).per_page(100)
     respond_to do |format|
       format.html
       format.js

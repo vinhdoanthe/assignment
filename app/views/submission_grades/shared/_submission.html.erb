@@ -1,36 +1,26 @@
 <% is_status_assigned = submission.status == Constants::SUBMISSION_GRADE_STATUS_ASSIGNED %>
 <% is_graded = submission.status == Constants::SUBMISSION_GRADE_STATUS_PASSED ||
     submission.status == Constants::SUBMISSION_GRADE_STATUS_NOT_PASSED %>
-<div class="card w-25 mr-auto <%= is_status_assigned ? 'border-primary mb-3' : 'text-white bg-secondary mb-3' %>">
-  <% need_interview = need_interview?(submission.id) %>
-  <div class="card-header <%= need_interview && is_status_assigned ? 'bg-warning' : '' %>"><%= need_interview && is_status_assigned ? 'Need interview' : '' %></div>
-  <% assignment = submission.assignment %>
-  <div class="card-body">
-    <h5 class="card-title"><%= assignment.display_name %></h5>
-    <p class="card-text">
-      <%= t('assignment.active.status') + ': ' %><%= submission.status %>
-      <br>
-      <%= t('assignment.active.learner') + ': ' + submission.student.email %>
-    <br>
-      <%= t('assignment.active.solution') + ': ' %><%= ((submission.submission_file.attached?) ?
-                                                            link_to(t('attachment.action.download'), rails_blob_path(submission.submission_file, disposition: "attachment")) : '') %>
-    <br>
-      <%= t('assignment.active.attempt') + ': ' + submission.attempt.to_s %>
-    <br>
-      <%= t('assignment.submission_grade.label.assigned_at') + ': ' +
-              (submission.assigned_at.nil? ? '' : submission.assigned_at.strftime('%d/%m/%Y')) %>
-      <br>
-      <% point = is_graded ? number_with_precision(submission.point, :precision => 1) : t('notions.n_a') %>
-    </p>
-    <%= t('assignment.submission_grade.label.point') + ': ' + point.to_s %>
-    <br>
-  </div>
-  <div class="card-body">
-    <% if current_user.mentor? || current_user.admin? %>
+<% need_interview = need_interview?(submission.id) %>
+<% point = is_graded ? number_with_precision(submission.point, :precision => 1) : t('notions.n_a') %>
+
+<tr class="<%= is_status_assigned ? 'table-primary' : 'table-secondary' %>">
+  <td><%= submission.status %></td>
+  <td><%= submission.student.email %></td>
+  <td><%= ((submission.submission_file.attached?) ?
+               link_to(t('attachment.action.download'), rails_blob_path(submission.submission_file, disposition: "attachment")) : '') %></td>
+  <td><%= submission.attempt.to_s %></td>
+  <td><%= submission.assigned_at.nil? ? '' : submission.assigned_at.strftime('%d/%m/%Y') %></td>
+  <td><%= point.to_s %></td>
+  <td><%= need_interview && is_status_assigned ? 'Need interview' : '' %></td>
+  <% if current_user.mentor? || current_user.admin? %>
+    <td>
       <%= link_to t('assignment.submission_grade.action.view'), submission_grade_path(submission), class: "btn btn-primary" %>
-      <% if is_status_assigned %>
+    </td>
+    <% if is_status_assigned %>
+      <td>
         <%= link_to t('assignment.submission_grade.action.grade'), new_graded_rubric_path(assignment_id: submission.assignment_id, student_id: submission.student_id, submission_grade_id: submission.id), class: "btn btn-primary" %>
-      <% end %>
+      </td>
     <% end %>
-  </div>
-</div>
+  <% end %>
+</tr>

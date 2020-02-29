@@ -54,6 +54,7 @@ en:
         previous_graded_criteria: "Previous graded criteria"
         waiting_for_grading: "Waiting grade"
         graded_completed: "Graded completed"
+        note: "Note"
       error:
         over_file_size: "Attached file size must be less than 50 MB"
       list:

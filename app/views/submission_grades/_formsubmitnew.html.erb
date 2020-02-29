@@ -44,7 +44,7 @@
   </table>
 
   <div class="actions">
-    <%= link_to t('assignment.submission_grade.action.cancel'), active_assignments_path, class: 'btn btn-light' %>
+    <%= link_to t('assignment.submission_grade.action.cancel'), active_assignments_path, class: 'btn btn-danger' %>
     <%= form.button :submit,  submission_grade.assignment.submit_type != Constants::ASSIGNMENT_SUBMIT_TYPE_NOFILE ? t('assignment.submission_grade.action.submit_solution') : t('assignment.submission_grade.action.ready_interview'), class: 'btn btn-primary' %>
   </div>
 <% end %>

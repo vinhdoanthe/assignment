@@ -1,9 +1,21 @@
-<div class="" id="filterrific_results">
-  <div class="row">
+<div class="table table-hover table-responsive-sm" id="filterrific_results">
+  <table>
+    <thead>
+    <tr>
+      <th><%= t('assignment.active.status') %></th>
+      <th><%= t('assignment.active.learner') %></th>
+      <th><%= t('assignment.active.solution') %></th>
+      <th><%= t('assignment.active.attempt') %></th>
+      <th><%= t('assignment.submission_grade.label.assigned_at') %></th>
+      <th><%= t('assignment.submission_grade.label.point') %></th>
+      <th><%= t('assignment.submission_grade.label.note') %></th>
+    </tr>
+    </thead>
+    <tbody>
     <% submissions.each do |submission| %>
       <%= render 'submission_grades/shared/submission', {submission: submission} %>
     <% end %>
-  </div>
+    </tbody>
+  </table>
 </div>
-
 <%= will_paginate submissions %>

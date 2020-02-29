@@ -25,7 +25,7 @@ vi:
       point: "Điểm"
     submission_grade:
       action:
-        grade: "Chấm bài"
+        grade: "Chấm"
         submit_solution: "Nộp bài"
         view: "Xem"
         ready_interview: "Đăng ký vấn đáp"
@@ -36,6 +36,7 @@ vi:
         send_grade: "Gửi điểm"
         confirm: "Xác nhận"
       label:
+        note: 'Ghi chú'
         waiting_for_grading: 'Chờ chấm'
         graded_completed: 'Đã chấm'
         mentor_grades: "Danh sách bài chấm"
