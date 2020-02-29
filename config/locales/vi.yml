@@ -58,6 +58,8 @@ vi:
         over_file_size: "Dung lượng file đính kèm phải nhỏ hơn 50 MB"
       list:
         submitted_date_newest_first: "Ngày nộp mới nhất"
+        assigned_date_newest_first: "Ngày giao chấm mới nhất"
+        assigned_date_oldest_first: "Ngày giao chấm cũ nhất"
         submitted_date_oldest_first: "Ngày nộp cũ nhất"
         history_of_grades: "Lịch sử các lần nộp/chấm"
       message:
@@ -87,3 +89,7 @@ vi:
         object_changes: "Các thay đổi"
         modified_at: "Thời điểm thay đổi"
         user: "Người thay đổi"
+  will_paginate:
+    previous_label: "&#8592; Trang trước"
+    next_label: "Trang tiếp &#8594;"
+    page_gap: "&hellip;"

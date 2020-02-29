@@ -3,20 +3,11 @@
 <%= form_for_filterrific @filterrific do |f| %>
   <div class="container">
     <div class="row">
-
       <div class="form-group">
         <%= t('assignment.active.status') %>:
         <%= f.select(
                 :with_status,
                 @filterrific.select_options[:with_status],
-                {include_blank: '- All -'}
-            ) %>
-      </div>
-      <div class="form-group">
-        <%= t('assignment.submission_grade.label.grade_type') %>
-        <%= f.select(
-                :with_grade_type,
-                @filterrific.select_options[:with_grade_type],
                 {include_blank: '- All -'}
             ) %>
       </div>

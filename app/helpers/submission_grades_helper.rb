@@ -11,8 +11,8 @@ module SubmissionGradesHelper
     # Step 2: check previous submission
     last_submission_grade = SubmissionGrade.where(assignment_id: assignment_id, student_id: user_id, is_latest: true).first
     if last_submission_grade.nil? ||
-       (last_submission_grade.status == Constants::SUBMISSION_GRADE_STATUS_NOT_PASSED &&
-           (Assignment.find(assignment_id).max_attempt.zero? ? true : last_submission_grade.attempt < Assignment.find(assignment_id).max_attempt))
+        (last_submission_grade.status == Constants::SUBMISSION_GRADE_STATUS_NOT_PASSED &&
+            (Assignment.find(assignment_id).max_attempt.zero? ? true : last_submission_grade.attempt < Assignment.find(assignment_id).max_attempt))
       true
     else
       false
@@ -48,7 +48,7 @@ module SubmissionGradesHelper
     count = 0
     unless assignments.nil?
       assignments.each do |assignment|
-        count += SubmissionGrade.where(mentor_id:mentor_id, assignment_id:assignment.id, status: Constants::SUBMISSION_GRADE_STATUS_ASSIGNED).count
+        count += SubmissionGrade.where(mentor_id: mentor_id, assignment_id: assignment.id, status: Constants::SUBMISSION_GRADE_STATUS_ASSIGNED).count
       end
     end
     count
@@ -56,5 +56,29 @@ module SubmissionGradesHelper
 
   def count_graded_submissions(course_instance_id, mentor_id)
     0
+  end
+
+  def need_interview?(submission_id)
+    submission = SubmissionGrade.find(submission_id)
+    if submission.grade_type == Constants::ASSIGNMENT_GRADE_TYPE_INTERVIEW
+      need_review = true
+      unless submission.nil? || submission.attempt == 1
+        assignment_id = submission.assignment_id
+        student_id = submission.student_id
+        submissions = SubmissionGrade.where(assignment_id: assignment_id, student_id: student_id).to_a
+        unless submissions.blank?
+          submissions.each do |submission|
+            if !submission.point.nil? && submission.point != 0
+              need_review = false
+              break
+            end
+          end
+        end
+      end
+      need_review
+    else
+      false
+    end
+
   end
 end

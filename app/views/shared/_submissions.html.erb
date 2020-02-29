@@ -1,42 +1,9 @@
 <div class="" id="filterrific_results">
-  <table class="table table-striped table-hover table-bordered">
-    <thead>
-    <tr>
-      <th><%= t('assignment.active.status') %></th>
-      <th><%= t('assignment.active.assignment') %></th>
-      <th><%= t('assignment.active.learner') %></th>
-      <th><%= t('assignment.active.solution') %></th>
-      <th><%= t('assignment.active.attempt') %></th>
-      <th><%= t('assignment.submission_grade.label.submitted_at') %></th>
-      <th><%= t('assignment.submission_grade.label.assigned_at') %></th>
-      <th colspan="2"><%= t('assignment.submission_grade.label.point') %></th>
-    </tr>
-    </thead>
-    <tbody>
+  <div class="row">
     <% submissions.each do |submission| %>
-      <tr>
-        <td><%= submission.status %></td>
-        <td><%= submission.assignment.display_name %></td>
-        <td><%= submission.student.email %></td>
-        <td><%= (submission.submission_file.attached?) ? link_to(t('attachment.action.download'), rails_blob_path(submission.submission_file, disposition: "attachment")) : '' %></td>
-        <td><%= submission.attempt %></td>
-        <td><%= submission.created_at.strftime('%d/%m/%Y') %></td>
-        <td><%= submission.assigned_at.nil? ? '' : submission.assigned_at.strftime('%d/%m/%Y') %></td>
-        <td><%= (submission.status == Constants::SUBMISSION_GRADE_STATUS_PASSED ||
-            submission.status == Constants::SUBMISSION_GRADE_STATUS_NOT_PASSED) ? number_with_precision(submission.point, :precision => 1) : t('notions.n_a') %></td>
-        <td>
-          <% if current_user.mentor? || current_user.admin? %>
-            <%= link_to t('assignment.submission_grade.action.view'), submission_grade_path(submission) %>
-            <% if submission.status == Constants::SUBMISSION_GRADE_STATUS_ASSIGNED %>
-              |
-                <%= link_to t('assignment.submission_grade.action.grade'), new_graded_rubric_path(assignment_id: submission.assignment_id, student_id: submission.student_id, submission_grade_id: submission.id) %>
-            <% end %>
-          <% end %>
-        </td>
-      </tr>
+      <%= render 'submission_grades/shared/submission', {submission: submission} %>
     <% end %>
-    </tbody>
-  </table>
+  </div>
 </div>
 
 <%= will_paginate submissions %>

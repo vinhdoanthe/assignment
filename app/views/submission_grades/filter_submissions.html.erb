@@ -1,5 +1,7 @@
-<%= javascript_include_tag 'submission_grades/filter_submissions' %>
-This is html file
-<div>
-  <a>Click me to load</a>
+<% content_for :javascript_includes do %>
+  <%= javascript_include_tag "submission_grades/filter_submissions.js" %>
+<% end %>
+
+<div class="row filter-submissions" id="filter-submissions-mentor">
+  <%= render 'submission_grades/shared/filter_nav' %>
 </div>

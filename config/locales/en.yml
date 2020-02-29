@@ -60,6 +60,8 @@ en:
         submitted_date_newest_first: "Submitted date (newest first)"
         submitted_date_oldest_first: "Submitted date (oldest first)"
         history_of_grades: "Grade history"
+        assigned_date_newest_first: "Assigned date (newest first)"
+        assigned_date_oldest_first: "Assigned date (oldest first)"
       message:
         confirm_reset_submit: "You are resetting this submission. Are you sure?"
     your_assignments: "Your assignments"
@@ -87,4 +89,7 @@ en:
         object_changes: "Object Changes"
         modified_at: "Modified at"
         user: "User"
-
+  will_paginate:
+    previous_label: "&#8592; Previous"
+    next_label: "Next &#8594;"
+    page_gap: "&hellip;"

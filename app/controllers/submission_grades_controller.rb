@@ -24,7 +24,7 @@ class SubmissionGradesController < ApplicationController
   def filter_submissions
     # binding.pry
     return
-    if params[:mentor_id].present? && params[:course_instance_id].present?&& 
+    if params[:mentor_id].present? && params[:course_instance_id].present?&&
         params[:status].present? && params[:order].present?
       assignments = Assignment.select(:id).where('course_instance_id':params[:course_instance_id]).to_a
       if params[:order] == 'asc'
@@ -46,10 +46,7 @@ class SubmissionGradesController < ApplicationController
     unless submissions.nil?
       submissions.each do |submission|
         course_instance = submission.assignment.course_instance
-        # binding.pry
         @course_instances.merge!({course_instance.id => course_instance.code})
-        # @course_instances[course_instance.id] = course_instance.code
-        # {course_instance.id => course_instance.code}.merge!(@course_instances)
       end
     end
     @programs = {}
@@ -73,15 +70,14 @@ class SubmissionGradesController < ApplicationController
         params[:filterrific],
         select_options: {
             sorted_by: SubmissionGrade.options_for_sorted_by,
-            with_status: SubmissionGrade.options_for_status,
-            with_grade_type: SubmissionGrade.option_for_grade_type
+            with_status: SubmissionGrade.options_for_status
         },
-        persistence_id: 'submission_grades_assigned_submissions',
+        :persistence_id => false,
         default_filter_params: {},
-        available_filters: %i[sorted_by with_status with_grade_type],
+        available_filters: %i[sorted_by with_status],
         sanitize_params: true
     ) || return
-    @assigned_submissions = @filterrific.find.page(params[:page]).per_page(20)
+    @assigned_submissions = @filterrific.find.page(params[:page]).per_page(48)
     respond_to do |format|
       format.html
       format.js
@@ -202,15 +198,6 @@ class SubmissionGradesController < ApplicationController
       @submission_grade.mentor_id == current_user.id
     end
   end
-
-  #
-  # def init_submission_grade
-  #   @submission_grade.status = Constants::SUBMISSION_GRADE_STATUS_SUBMITTED
-  #   @submission_grade.student_id = current_user.id
-  #   @submission_grade.is_latest = true
-  #   @submission_grade.mentor_id = nil
-  #   @submission_grade.point = 0
-  # end
 
   def authorized_granted!
     unless current_user.mentor? || current_user.admin?

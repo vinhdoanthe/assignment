@@ -40,19 +40,18 @@ class SubmissionGrade < ApplicationRecord
   }
 
   filterrific(
-      default_filter_params: {sorted_by: 'created_at_desc'},
+      default_filter_params: {sorted_by: 'assigned_at_desc'},
       available_filters: %i[
       sorted_by
       with_status
-      with_grade_type
     ]
   )
 
   scope :sorted_by, lambda {|sort_option|
     direction = /desc$/.match?(sort_option) ? 'desc' : 'asc'
     case sort_option.to_s
-    when /^created_at_/
-      order("submission_grades.created_at #{direction}")
+    when /^assigned_at_/
+      order("submission_grades.assigned_at #{direction}")
     else
       raise(ArgumentError, "Invalid sort option: #{sort_option.inspect}")
     end
@@ -62,14 +61,10 @@ class SubmissionGrade < ApplicationRecord
     where(status: [*status])
   }
 
-  scope :with_grade_type, lambda {|grade_type|
-    where(grade_type: [*grade_type])
-  }
-
   def self.options_for_sorted_by
     [
-        [I18n.t('assignment.submission_grade.list.submitted_date_newest_first'), 'created_at_desc'],
-        [I18n.t('assignment.submission_grade.list.submitted_date_oldest_first'), 'created_at_asc']
+        [I18n.t('assignment.submission_grade.list.assigned_date_newest_first'), 'assigned_at_desc'],
+        [I18n.t('assignment.submission_grade.list.assigned_date_oldest_first'), 'assigned_at_asc']
     ]
   end
 
@@ -78,13 +73,6 @@ class SubmissionGrade < ApplicationRecord
         Constants::SUBMISSION_GRADE_STATUS_ASSIGNED => Constants::SUBMISSION_GRADE_STATUS_ASSIGNED,
         Constants::SUBMISSION_GRADE_STATUS_PASSED => Constants::SUBMISSION_GRADE_STATUS_PASSED,
         Constants::SUBMISSION_GRADE_STATUS_NOT_PASSED => Constants::SUBMISSION_GRADE_STATUS_NOT_PASSED
-    }
-  end
-
-  def self.option_for_grade_type
-    {
-        Constants::ASSIGNMENT_GRADE_TYPE_DEFAULT => Constants::ASSIGNMENT_GRADE_TYPE_DEFAULT,
-        Constants::ASSIGNMENT_GRADE_TYPE_INTERVIEW => Constants::ASSIGNMENT_GRADE_TYPE_INTERVIEW
     }
   end
 
@@ -130,14 +118,6 @@ class SubmissionGrade < ApplicationRecord
     end
   end
 
-  # def self.update_grade_type
-  #   all_submissions = SubmissionGrade.all
-  #   all_submissions.each do |submission|
-  #     submission.grade_type = submission.assignment.grade_type
-  #     submission.save
-  #   end
-  # end
-
   def list_failed_criteria
     list_str = ''
     graded_criteriums.each do |criterium|
@@ -148,32 +128,4 @@ class SubmissionGrade < ApplicationRecord
     list_str
   end
 
-  # def self.tmp_remove_error_graded_rubrics
-  #   p 'Run'
-  #   gradedrubrics = GradedRubric.all
-  #   count = 0
-  #   gradedrubrics.each do |gradedrubric|
-  #     submissiongrade = gradedrubric.submission_grade
-  #     unless submissiongrade.nil?
-  #       if submissiongrade.status == Constants::SUBMISSION_GRADE_STATUS_ASSIGNED
-  #         p 'count : '
-  #         count += 1
-  #         p count.to_s
-  #         p gradedrubric.inspect
-  #         gradedrubric.delete
-  #       end
-  #     end
-  #   end
-  # end
-
-  # private
-  #
-  # def validate_submission_file
-  #   if submission_file.attached?
-  #     if submission_file.blob.byte_size > 50_000_000
-  #       # submission_file.purge
-  #       errors[:base] << I18n.t('assignment.submission_grade.error.over_file_size')
-  #     end
-  #   end
-  # end
 end
