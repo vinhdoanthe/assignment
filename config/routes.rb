@@ -41,6 +41,7 @@ Rails.application.routes.draw do
   post 'graded_rubrics/preview', to: 'graded_rubrics#preview', as: :preview_rubric
   post 'graded_rubrics', to: 'graded_rubrics#grade', as: :grade_rubric
   post 'import_enrollments', to: 'enrollments#import_enrollments', as: :import_enrollments
+  post 'reset_results', to: 'enrollments#reset_results', as: :reset_results
   # get 'list_submissions', to: 'submission_grades#list_submissions'
   # get 'filter_submissions', to: 'submission_grades#filter_submissions'
 end
