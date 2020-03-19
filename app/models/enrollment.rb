@@ -26,6 +26,69 @@ class Enrollment < ApplicationRecord
                           Constants::ENROLLMENT_STATUS_COMPLETED,
                           Constants::ENROLLMENT_STATUS_STOPPED]
 
+  def self.reset_results(file)
+    spreadsheet = open_spreadsheet(file)
+
+    list_enrollments_to_reset = read_reset_sheet spreadsheet
+    list_errors = []
+    list_enrollments_to_reset.each do |enrollment_row|
+      error = reset_result enrollment_row
+      unless error.empty?
+        list_errors.append error
+      end
+    end
+
+    list_errors
+  end
+
+  def self.read_reset_sheet(spreadsheet)
+    list_enrollments = []
+    last_row = spreadsheet.last_row
+    (2..last_row).each do |i|
+      hash = {}
+      hash[:stt] = spreadsheet.cell('A',i)
+      hash[:email] = spreadsheet.cell('B',i)
+      hash[:full_name] = spreadsheet.cell('C',i)
+      hash[:course_instances] = spreadsheet.cell('D',i)
+      list_enrollments.append hash
+    end
+    list_enrollments
+  end
+
+  def self.reset_result(enrollment_row)
+    user = User.find_by_email(enrollment_row[:email])
+    return [] if user.nil?
+
+    list_instances = enrollment_row[:course_instances].to_s.split(',')
+    list_instances = list_instances.map(&:strip)
+    instance_ids = CourseInstance.where(code: list_instances).pluck(:id)
+    return [] if instance_ids.blank?
+
+    assignment_ids = Assignment.where(course_instance_id: instance_ids).pluck(:id)
+    return [] if assignment_ids.blank?
+
+    assignment_ids.each do |assignment_id|
+      next if is_passed(user.id, assignment_id)
+      # Student not passed this assignment
+      delete_submissions(user.id, assignment_id)
+    end
+    []
+  end
+
+  def self.is_passed(user_id, assignment_id)
+    submissions = SubmissionGrade.where(student_id: user_id, assignment_id: assignment_id).pluck(:status)
+    if submissions.include?(Constants::SUBMISSION_GRADE_STATUS_PASSED)
+      true
+    else
+      false
+    end
+  end
+
+  def self.delete_submissions(user_id, assignment_id)
+    submission_ids = SubmissionGrade.where(student_id: user_id, assignment_id: assignment_id).pluck(:id)
+    SubmissionGrade.delete(submission_ids) 
+  end
+
   def self.import_from_file(file)
     spreadsheet = open_spreadsheet(file)
 

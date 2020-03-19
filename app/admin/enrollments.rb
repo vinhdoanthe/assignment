@@ -15,6 +15,15 @@ ActiveAdmin.register Enrollment do
 
   end
 
+  collection_action :reset_results do
+
+  end
+
+  action_item only: :index do
+    if current_user.admin?
+      link_to('Reset Old Results', reset_results_admin_enrollments_path)
+    end
+  end
 
   action_item only: :index do
     if current_user.admin?
