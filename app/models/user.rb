@@ -9,7 +9,7 @@ class User < ApplicationRecord
 
   # Include default devise modules. Others available are:
   devise :database_authenticatable, :rememberable
-  devise :omniauthable, omniauth_providers: [:google_oauth2]
+  devise :omniauthable, omniauth_providers: [:google_oauth2, :azureactivedirectory]
 
   has_many :enrollments
   has_many :course_instances, through: :enrollments

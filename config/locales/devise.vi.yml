@@ -11,4 +11,6 @@ vi:
       signed_out: "Đăng xuất thành công."
       already_signed_out: "Đăng xuất thành công."
       login_btn: "Đăng nhập"
+      login_btn_google: 'Đăng nhập với tài khoản Google'
+      login_btn_office365: 'Đăng nhập với tài khoản Microsoft Office 365'
       logout_btn: "Đăng xuất"

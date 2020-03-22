@@ -3,10 +3,11 @@
   <hr class="my-4">
   <p><%= t('welcome_login') %></p>
   <%- if devise_mapping.omniauthable? %>
-    <%- resource_class.omniauth_providers.each do |provider| %>
-      <a href=<%= omniauth_authorize_path(resource_name, provider) %>>
-        <button class="btn btn-primary btn-lg"><%= t('devise.sessions.login_btn') %></button>
-      </a>
-    <% end %>
+    <a href='<%= user_google_oauth2_omniauth_authorize_path %>' >
+        <button class="btn btn-primary btn-lg"><%= t('devise.sessions.login_btn_google') %></button>
+    </a>
+    <a href='<%= user_azureactivedirectory_omniauth_authorize_path %>' >
+        <button class="btn btn-primary btn-lg"><%= t('devise.sessions.login_btn_office365') %></button>
+    </a>
   <% end %>
 </div>
