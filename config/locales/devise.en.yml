@@ -50,6 +50,7 @@ en:
       login_btn: "Login"
       login_btn_google: 'Login with Google account'
       login_btn_office365: 'Login with Microsoft Office 365 account'
+      is_pxu_login_here: 'Phu Xuan University student? Click here!'
       logout_btn: "Log out"
     unlocks:
       send_instructions: "You will receive an email with instructions for how to unlock your account in a few minutes."

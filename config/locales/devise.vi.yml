@@ -14,3 +14,4 @@ vi:
       login_btn_google: 'Đăng nhập với tài khoản Google'
       login_btn_office365: 'Đăng nhập với tài khoản Microsoft Office 365'
       logout_btn: "Đăng xuất"
+      is_pxu_login_here: 'SV Đại học Phú Xuân? Bấm vào đây!'
