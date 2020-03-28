@@ -12,6 +12,10 @@ class CriteriaFormat < ApplicationRecord
   enumerize :criteria_type, in: [Constants::CRITERIA_TYPE_POINT, Constants::CRITERIA_TYPE_PASS_FAIL]
 
   def display_name
-    "#{rubric.display_name} - Criteria #{index}"
+    if !rubric.nil?
+      "#{rubric.display_name} - Criteria #{index}"
+    else
+      ''
+    end
   end
 end
