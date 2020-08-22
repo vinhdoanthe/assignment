@@ -36,6 +36,7 @@ ActiveAdmin.register SubmissionGrade do
     column('type') {|submission_grade| submission_grade.attempt == 1 ? 'new' : 're_grade'}
     column('grade status') {|submission_grade| submission_grade.status}
     column('point') {|submission_grade| submission_grade.point}
+    column('assigned at') {|submission_grade| submission_grade.assigned_at}
     column('created at') {|submission_grade| submission_grade.created_at}
     column('graded at') {|submission_grade| submission_grade.graded_at}
   end
