@@ -39,14 +39,6 @@ class SubmissionGrade < ApplicationRecord
     where(mentor_id: mentor_id)
   }
 
-  filterrific(
-      default_filter_params: {sorted_by: 'assigned_at_desc'},
-      available_filters: %i[
-      sorted_by
-      with_status
-    ]
-  )
-
   scope :sorted_by, lambda {|sort_option|
     direction = /desc$/.match?(sort_option) ? 'desc' : 'asc'
     case sort_option.to_s

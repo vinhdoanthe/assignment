@@ -1,38 +1,49 @@
-<div>
-  <div class="row">
-    <h2><%= t('assignment.submission_grade.label.mentor_grades') %></h2>
-  </div>
-  <div class="row">
-    <%= form_for_filterrific @filterrific do |f| %>
-      <div class="row">
-        <div class="form-group">
-          <%= t('assignment.active.status') %>:
-          <%= f.select(
-                  :with_status,
-                  @filterrific.select_options[:with_status],
-                  {include_blank: '- All -'}
-              ) %>
-        </div>
-        <div class="form-group">
-          <%= t('assignment.submission_grade.action.sort_by') %>:
-          <%= f.select(:sorted_by, @filterrific.select_options[:sorted_by]) %>
-        </div>
-        <div class="form-group">
-          <%= link_to(
-                  t('assignment.submission_grade.action.reset_filter'),
-                  reset_filterrific_url,
-              ) %>
-        </div>
-        <%= render_filterrific_spinner %>
-      </div>
-    <% end %>
-    <div class="row">
-      <%= render(
-              partial: 'shared/submissions',
-              locals: {:submissions => @assigned_submissions}
-          ) %>
+<% content_for :stylesheet_includes do %>
+  <%= stylesheet_link_tag 'submission_grades' %>
+<% end %>
+
+<% content_for :javascript_includes do %>
+  <%= javascript_include_tag 'submission_grades' %>
+<% end %>
+
+
+<div class="card">
+
+  <div class="card-header">
+    <h3 class="card-title"><%= t('assignment.submission_grade.label.mentor_grades') %></h3>
+    <div class="card-tools">
+      <%= paginate @submissions %>
     </div>
-
   </div>
-
+  <div class="card-body">
+    <%= render 'filter' %>
+  </div>
+  <div class="card-body p-0">
+    <div class="table table-responsive">
+      <table class="table table-condensed table-hover">
+        <thead>
+          <tr>
+            <th><%= t('assignment.active.status') %></th>
+            <th><%= t('assignment.active.learner') %></th>
+            <th><%= t('assignment.active.solution') %></th>
+            <th><%= t('assignment.active.attempt') %></th>
+            <th><%= t('assignment.submission_grade.label.assigned_at') %></th>
+            <th><%= t('assignment.submission_grade.label.point') %></th>
+            <th><%= t('assignment.submission_grade.label.note') %></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @submissions.each do |submission| %>
+            <%= render 'submission_grades/shared/submission', {submission: submission} %>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="card-footer">
+    <div class="float-right">
+      <%= paginate @submissions %>
+    </div>
+  </div>
 </div>

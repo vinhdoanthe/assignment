@@ -14,4 +14,4 @@ Rails.application.config.assets.precompile += %w( application.js )
 # folder are already added.
 # Rails.application.config.assets.precompile += %w( admin.js admin.css )
 Rails.application.config.assets.precompile += %w( devise/new_session.js )
-Rails.application.config.assets.precompile += %w( filterrific/filterrific-spinner.gif )
+Rails.application.config.assets.precompile += %w( adminlte.min.js adminlte.min.css daterangepicker.js daterangepicker.css moment.min.js submission_grades.js submission_grades.css )
