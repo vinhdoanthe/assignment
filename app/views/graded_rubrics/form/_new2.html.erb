@@ -1,0 +1,55 @@
+<%= form_for graded_rubric, url: preview_rubric_path, method: :post do |form| %>
+  <%= form.hidden_field :submission_grade_id, value: graded_rubric.submission_grade_id %>
+  <!-- Grading Criteria -->
+  <div class="form-group">
+    <table class="table table-bordered table-hover">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th><%= t('assignment.submission_grade.label.weight') %></th>
+          <th><%= t('assignment.submission_grade.label.criteria') %></th>
+          <th><%= t('assignment.submission_grade.label.meet_the_specification') %></th>
+          <th><%= t('assignment.submission_grade.label.point') %></th>
+          <th><%= t('assignment.submission_grade.label.comment') %></th>
+          <th><%= t('assignment.submission_grade.label.mandatory') %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= form.fields_for :graded_criteriums do |criteria| %>
+          <tr>
+            <th><%= criteria.object.index %></th>
+            <%= criteria.hidden_field :index, value: criteria.object.index %>
+            <td><span><%= criteria.object.weight %></span></td>
+            <%= criteria.hidden_field :weight, value: criteria.object.weight %>
+            <%= criteria.hidden_field :mandatory, value: criteria.object.mandatory %>
+            <td>
+              <span><%= criteria.object.criteria_description %></span>
+              <%= criteria.hidden_field :criteria_description, value: criteria.object.criteria_description %>
+            </td>
+            <td><span><%= criteria.object.meet_the_specification %></span></td>
+            <%= criteria.hidden_field :meet_the_specification, value: criteria.object.meet_the_specification %>
+            <%= criteria.hidden_field :criteria_type, value: criteria.object.criteria_type %>
+            <td>
+              <% if criteria.object.criteria_type == Constants::CRITERIA_TYPE_PASS_FAIL %>
+                <%= criteria.select :status, [Constants::GRADED_CRITERIA_STATUS_PASSED, Constants::GRADED_CRITERIA_STATUS_FAILED] %>
+              <% else %>
+                <%= criteria.select :point, 0...(Settings[:criteria][:point_max_point] + 1) %>
+              <% end %>
+            </td>
+            <td><%= criteria.text_area :comment, :label => false, class: 'br-radius-sm', :input_html => {:rows => 3} %></td>
+            <td><span><%= criteria.object.mandatory ? t('assignment.submission_grade.label.mandatory_yes') : t('assignment.submission_grade.label.mandatory_no') %></span></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <div class="form-group row">
+    <label class="col-12">Nx khac</label>
+    <div class="col-12">
+      <%= form.text_area :comment, label: t('assignment.submission_grade.label.comment'), class: 'full-width__container br-radius-md', :input_html => {:rows => 3} %>
+    </div>
+  </div>
+  <div class="form-group text-center">
+    <%= form.submit t('assignment.submission_grade.action.send_grade'), class: 'btn btn-primary' %>
+  </div>
+<% end %>

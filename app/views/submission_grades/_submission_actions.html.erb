@@ -1,0 +1,13 @@
+<% if current_user.mentor? || current_user.admin? %>
+  <% if @submission_grade.status == Constants::SUBMISSION_GRADE_STATUS_ASSIGNED %>
+    <%= link_to "<i class='fas fa-marker'></i>&nbsp;#{t('assignment.submission_grade.action.grade')}</button>".html_safe, new_graded_rubric_path(assignment_id: @submission_grade.assignment_id,student_id: @submission_grade.student_id,submission_grade_id: @submission_grade.id), class: 'btn btn-sm btn-primary' %>
+  <% end %>
+<% end %>
+
+<% if current_user.learner? %>
+  <% list_graded_rubrics = list_graded_rubrics(@submission_grade) %>
+  <% if list_graded_rubrics.any? %>
+    <h4><%= t('assignment.submission_grade.list.history_of_grades') %></h4>
+    <%= render partial: 'graded_rubrics/list_embedded_show', locals: {graded_rubrics: list_graded_rubrics} %>
+  <% end %>
+<% end %>

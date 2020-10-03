@@ -16,16 +16,18 @@
     </div>
   </div>
   <div class="card-body">
-    <%= render 'filter' %>
+    <%= render :partial => 'status_report', :locals => {status_report: @status_report} %>
   </div>
   <div class="card-body p-0">
-    <div class="table table-responsive">
+    <div class="table-responsive">
       <table class="table table-condensed table-hover">
         <thead>
           <tr>
             <th><%= t('assignment.active.status') %></th>
             <th><%= t('assignment.active.learner') %></th>
             <th><%= t('assignment.active.solution') %></th>
+            <th><%= t('assignment.active.course') %></th>
+            <th><%= t('assignment.active.assignment') %></th>
             <th><%= t('assignment.active.attempt') %></th>
             <th><%= t('assignment.submission_grade.label.assigned_at') %></th>
             <th><%= t('assignment.submission_grade.label.point') %></th>

@@ -81,6 +81,7 @@ class SubmissionGrade < ApplicationRecord
       begin
         prev_latest.save
       rescue StandardError => error
+        p error.inspect
       end
     end
   end
@@ -118,6 +119,18 @@ class SubmissionGrade < ApplicationRecord
       end
     end
     list_str
+  end
+
+  def assigned?
+    status == Constants::SUBMISSION_GRADE_STATUS_ASSIGNED
+  end
+  
+  def passed?
+    status == Constants::SUBMISSION_GRADE_STATUS_PASSED
+  end
+
+  def not_passed?
+    status == Constants::SUBMISSION_GRADE_STATUS_NOT_PASSED
   end
 
 end

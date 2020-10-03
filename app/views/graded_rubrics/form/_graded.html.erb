@@ -1,7 +1,5 @@
-<% unless can_not_be_regrade_criteriums.size.zero? %>
-  <h4><%= t('assignment.submission_grade.label.previous_graded_criteria') %></h4>
-  <table class="table table-bordered table-hover">
-    <thead>
+<table class="table table-bordered table-hover">
+  <thead>
     <tr>
       <th>#</th>
       <th><%= t('assignment.submission_grade.label.weight') %></th>
@@ -10,8 +8,8 @@
       <th style="width: 20%;"><%= t('assignment.submission_grade.label.comment') %></th>
       <th><%= t('assignment.submission_grade.label.mandatory') %></th>
     </tr>
-    </thead>
-    <tbody>
+  </thead>
+  <tbody>
     <% can_not_be_regrade_criteriums.each do |criteria| %>
       <tr>
         <th><%= criteria.index %></th>
@@ -30,6 +28,5 @@
         </td>
       </tr>
     <% end %>
-    </tbody>
-  </table>
-<% end %>
+  </tbody>
+</table>

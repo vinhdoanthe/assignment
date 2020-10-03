@@ -4,6 +4,7 @@ class GradedRubricsController < ApplicationController
   before_action :set_graded_rubric, only: %i[show]
 
   def new
+    # GradedRubricService.new.new_grade new_grade_params
     if params[:assignment_id].present? && params[:student_id].present? && params[:submission_grade_id]
       assignment_id = params[:assignment_id]
       student_id = params[:student_id]
@@ -49,9 +50,6 @@ class GradedRubricsController < ApplicationController
   def grade
     @graded_rubric = GradedRubric.new(graded_rubric_params)
     @graded_rubric.calculate_point!
-    logger = Rails.logger
-    logger.info '@graded_rubric.point'
-    logger.info @graded_rubric.point
     submission_grade = @graded_rubric.submission_grade
     if @graded_rubric.status == Constants::GRADED_RUBRIC_STATUS_FAILED
       submission_grade.status = Constants::SUBMISSION_GRADE_STATUS_NOT_PASSED
@@ -65,7 +63,7 @@ class GradedRubricsController < ApplicationController
       if submission_grade.save
         SubmissionGradeMailer.graded_email(submission_grade.id).deliver_later
         redirect_to @graded_rubric.submission_grade,
-                    success: 'Graded successfully!'
+          success: 'Graded successfully!'
 
       end
     end
@@ -83,8 +81,12 @@ class GradedRubricsController < ApplicationController
     params.require(:graded_rubric).permit(:submission_grade_id,
                                           :comment,
                                           graded_criteriums_attributes:
-                                              %i[id index weight mandatory
-                                                 criteria_description outcome meet_the_specification
-                                                 criteria_type status point comment])
+                                          %i[id index weight mandatory
+                                             criteria_description outcome meet_the_specification
+                                             criteria_type status point comment])
+  end
+
+  def new_grade_params
+    params.permit(:assignment_id, :student_id, :submission_grade_id)
   end
 end

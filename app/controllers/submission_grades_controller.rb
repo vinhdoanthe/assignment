@@ -22,20 +22,6 @@ class SubmissionGradesController < ApplicationController
   end
 
   def filter_submissions
-    return
-    # if params[:mentor_id].present? && params[:course_instance_id].present?&&
-    #     params[:status].present? && params[:order].present?
-    #   assignments = Assignment.select(:id).where('course_instance_id':params[:course_instance_id]).to_a
-    #   if params[:order] == 'asc'
-    #     @submissions = SubmissionGrade.where('mentor_id':params[:mentor_id], 'status':params[:status],'assignment_id': assignments).order(:created_at => 'asc')
-    #   else
-    #     @submissions = SubmissionGrade.where('mentor_id':params[:mentor_id], 'status':params[:status],'assignment_id': assignments).order(:created_at => 'desc')
-    #   end
-    #   render :json => @submissions
-    # else
-    #   render :json => {'error': true,
-    #                    'message':'Some of params is not present!'}
-    # end
   end
 
   def list_submissions
@@ -58,13 +44,15 @@ class SubmissionGradesController < ApplicationController
     respond_to do |format|
       unless @programs.nil?
         format.html { render 'list_submissions'}
-        # format.json { render json: @programs }
       end
     end
   end
 
   def assigned_submissions
-    @submissions = SubmissionGradesService.new.list_submissions params, current_user
+    sg_service = SubmissionGradesService.new
+
+    @submissions = sg_service.list_submissions params, current_user
+    @status_report = sg_service.status_report current_user
   rescue Exception => e
     p e.inspect
     redirect_to root_path && return

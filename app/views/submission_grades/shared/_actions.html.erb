@@ -1,0 +1,8 @@
+<div class="actions">
+<% if current_user.mentor? || current_user.admin? %>
+  <%= link_to "<i class='far fa-hand-point-right'></i>&nbsp;#{t('assignment.submission_grade.action.view')}".html_safe, submission_grade_path(submission), class: "btn btn-sm btn-info" %>
+  <% if submission.assigned? %>
+    <%= link_to "<i class='fas fa-marker'></i>&nbsp;#{t('assignment.submission_grade.action.grade')}".html_safe, new_graded_rubric_path(assignment_id: submission.assignment_id, student_id: submission.student_id, submission_grade_id: submission.id), class: "btn btn-sm btn-primary" %>
+  <% end %>
+<% end %>
+</div>

@@ -3,12 +3,31 @@
 module SubmissionGradesHelper
   include Constants
 
+  def status_css_class status
+    if status == SUBMISSION_GRADE_STATUS_NOT_PASSED
+      css_class = 'secondary'
+    elsif status == SUBMISSION_GRADE_STATUS_ASSIGNED
+      css_class = 'info'
+    elsif status == SUBMISSION_GRADE_STATUS_PASSED
+      css_class = 'success'
+    end
+
+    css_class
+  end
+
+  def status_lbl status
+    if status == SUBMISSION_GRADE_STATUS_NOT_PASSED
+      lbl = I18n.t('assignment.submission_grade.label.lbl_status_notpassed')
+    elsif status == SUBMISSION_GRADE_STATUS_ASSIGNED
+      lbl = I18n.t('assignment.submission_grade.label.lbl_status_assigned')
+    elsif status == SUBMISSION_GRADE_STATUS_PASSED
+      lbl = I18n.t('assignment.submission_grade.label.lbl_status_passed')
+    end
+
+    lbl
+  end
+
   def student_can_submit?(assignment_id, user_id)
-    # Define logic for check if a student is accepted for submitting the assignment
-    # enrollments = Enrollment.where(:user_id => user_id, :is_active => true)
-    # Step 1: check enrollment
-    # TODO TODO
-    # Step 2: check previous submission
     last_submission_grade = SubmissionGrade.where(assignment_id: assignment_id, student_id: user_id, is_latest: true).first
     if last_submission_grade.nil? ||
         (last_submission_grade.status == Constants::SUBMISSION_GRADE_STATUS_NOT_PASSED &&

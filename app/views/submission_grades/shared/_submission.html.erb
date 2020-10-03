@@ -1,26 +1,15 @@
-<% is_status_assigned = submission.status == Constants::SUBMISSION_GRADE_STATUS_ASSIGNED %>
-<% is_graded = submission.status == Constants::SUBMISSION_GRADE_STATUS_PASSED ||
-    submission.status == Constants::SUBMISSION_GRADE_STATUS_NOT_PASSED %>
 <% need_interview = need_interview?(submission.id) %>
-<% point = is_graded ? number_with_precision(submission.point, :precision => 1) : t('notions.n_a') %>
+<% sg_decorated = SubmissionGradeDecorator.new(submission) %>
 
-<tr class="<%= is_status_assigned ? 'table-primary' : 'table-secondary' %>">
-  <td><%= submission.status %></td>
+<tr>
+  <td><%= render :partial => "submission_grades/shared/status", :locals => {status: submission.status} %></td>
   <td><%= submission.student.email %></td>
-  <td><%= ((submission.submission_file.attached?) ?
-               link_to(t('attachment.action.download'), rails_blob_path(submission.submission_file, disposition: "attachment")) : '') %></td>
+  <td><%= render :partial => "submission_grades/shared/submission_file", :locals => {submission: submission} %></td>
+  <td><%= submission.assignment.course_instance.code %></td>
+  <td><%= submission.assignment.name %></td>
   <td><%= submission.attempt.to_s %></td>
-  <td><%= submission.assigned_at.nil? ? '' : submission.assigned_at.strftime('%d/%m/%Y') %></td>
-  <td><%= point.to_s %></td>
-  <td><%= need_interview && is_status_assigned ? 'Need interview' : '' %></td>
-  <% if current_user.mentor? || current_user.admin? %>
-    <td>
-      <%= link_to t('assignment.submission_grade.action.view'), submission_grade_path(submission), class: "btn btn-primary" %>
-    </td>
-    <% if is_status_assigned %>
-      <td>
-        <%= link_to t('assignment.submission_grade.action.grade'), new_graded_rubric_path(assignment_id: submission.assignment_id, student_id: submission.student_id, submission_grade_id: submission.id), class: "btn btn-primary" %>
-      </td>
-    <% end %>
-  <% end %>
+  <td><%= sg_decorated.assigned_at_frm %></td>
+  <td><%= sg_decorated.point_frm %></td>
+  <td><%= need_interview && submission.assigned? ? 'Need interview' : '' %></td>
+  <td><%= render :partial => "submission_grades/shared/actions", :locals => {submission: submission} %></td>
 </tr>

@@ -1,0 +1,1 @@
+<span><%= ((submission.submission_file.attached?) ? link_to( "<i class='fas fa-download'></i>&nbsp;#{t('attachment.action.download')}".html_safe, rails_blob_path(submission.submission_file, disposition: "attachment")) : '') %></span>
