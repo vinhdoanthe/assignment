@@ -21,3 +21,7 @@
 .br-radius-sm {
   border-radius: 0.125rem;
 }
+
+.display-none {
+  display: none;
+}

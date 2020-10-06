@@ -1,6 +1,6 @@
 <% if current_user.mentor? || current_user.admin? %>
   <% if @submission_grade.status == Constants::SUBMISSION_GRADE_STATUS_ASSIGNED %>
-    <%= link_to "<i class='fas fa-marker'></i>&nbsp;#{t('assignment.submission_grade.action.grade')}</button>".html_safe, new_graded_rubric_path(assignment_id: @submission_grade.assignment_id,student_id: @submission_grade.student_id,submission_grade_id: @submission_grade.id), class: 'btn btn-sm btn-primary' %>
+    <%= link_to "<i class='fas fa-marker'></i>&nbsp;#{t('assignment.submission_grade.action.grade')}</button>".html_safe, grade_form_path(assignment_id: @submission_grade.assignment_id,student_id: @submission_grade.student_id,submission_grade_id: @submission_grade.id), class: 'btn btn-sm btn-primary' %>
   <% end %>
 <% end %>
 

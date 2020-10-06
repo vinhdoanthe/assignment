@@ -22,7 +22,7 @@ gem 'rails-i18n'
 gem 'roo', '~> 2.8.0'
 gem 'whenever', require: false
 gem 'kaminari'
-
+gem 'simple_command'
 gem 'active_storage_validations'
 
 # Capistrano for deployment

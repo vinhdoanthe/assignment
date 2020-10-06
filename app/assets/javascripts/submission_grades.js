@@ -16,4 +16,15 @@ $(document).ready(function() {
       $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'))
     }
   )
+
+  // $('#btnSubmitGrade').on('click', (event) => {
+  //   event.preventDefault();
+  //   alert('Clicked')
+  //   getFormInput()
+  //   $('#gradeForm').submit()
+  // })
 })
+
+const getFormInput = () => {
+  console('getFormInput called');
+}

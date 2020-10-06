@@ -58,7 +58,7 @@ class SubmissionGradesController < ApplicationController
     redirect_to root_path && return
   end
 
-  def show;
+  def show
   end
 
   def new_solution
@@ -122,6 +122,23 @@ class SubmissionGradesController < ApplicationController
     end
   end
 
+  def grade_form
+    # Find parameters
+    @submission_grade, @can_not_be_regrade_criteriums, @tobe_grade_criteria_formats = SubmissionGradesService.new.get_grade_form_params grade_params
+    # Render the form
+  end
+
+  def pre_caculate_grade
+    binding.pry
+    SubmissionGradesService.new.caculate_point_and_state(params)
+  end
+
+  def grade
+    binding.pry
+    SubmissionGradeSerive.new.grade(grade_params)
+    # TODO 
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.
@@ -175,5 +192,9 @@ class SubmissionGradesController < ApplicationController
       flash[:danger] = 'You do not have permission to take this action'
       redirect_to root_path
     end
+  end
+
+  def grade_params
+    params.permit(:assignment_id, :student_id, :submission_grade_id)
   end
 end
