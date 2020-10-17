@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 module Constants
+  
+  STR_TRUE = 'true'
+  STR_FALSE = 'false'
 
   SUBMISSION_GRADE_STATUS_OPEN = 'open'
   SUBMISSION_GRADE_STATUS_SUBMITTED = 'submitted'

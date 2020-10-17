@@ -129,8 +129,9 @@ class SubmissionGradesController < ApplicationController
   end
 
   def pre_caculate_grade
-    binding.pry
-    SubmissionGradesService.new.caculate_point_and_state(params)
+    # binding.pry
+    result = SubmissionGradesService.new.caculate_point_and_state(params)
+    render 'confirm_grade', locals: {submission_id: params.permit(:submission_grade_id), comment: params.permit(:comment), cr_list: params.permit(:cr) , result: result}
   end
 
   def grade

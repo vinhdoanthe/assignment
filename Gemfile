@@ -24,6 +24,7 @@ gem 'whenever', require: false
 gem 'kaminari'
 gem 'simple_command'
 gem 'active_storage_validations'
+gem 'mini_racer'
 
 # Capistrano for deployment
 gem 'capistrano', '~> 3.7', '>= 3.7.1'
