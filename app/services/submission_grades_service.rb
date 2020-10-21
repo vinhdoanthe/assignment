@@ -9,8 +9,15 @@ class SubmissionGradesService
     total_weight = submission.assignment.rubric.total_weight.to_f
 
     point = 0.0
+    
+    cr_list = []
+    cr = {}
 
     params[:cr].each do |key, value|
+      cr = value
+      cr[:index] = key
+      cr_list.append cr
+
       if value[:criteria_type] == Constants::CRITERIA_TYPE_PASS_FAIL
         if value[:pointfp] == Constants::GRADED_CRITERIA_STATUS_PASSED
           point += (Settings[:criteria][:pass_fail_point] * value[:weight].to_f) / total_weight
@@ -45,7 +52,13 @@ class SubmissionGradesService
     end
 
     # binding.pry
-    {point: point.round(2), status: status}
+    {
+      point: point.round(2), 
+      status: status, 
+      submission_id: submission.id,
+      comment: params[:submission][:comment],
+      cr_list: cr_list
+    }
   end
 
   def get_grade_form_params params 

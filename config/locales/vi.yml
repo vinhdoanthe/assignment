@@ -34,7 +34,9 @@ vi:
         sort_by: "Sắp xếp theo"
         reset_filter: "Bỏ lọc"
         send_grade: "Gửi điểm"
+        close: 'Đóng'
         confirm: "Xác nhận"
+        confirm_grade: 'Xác nhận gửi điểm'
         view_all: 'Xem toàn bộ'
       label:
         note: 'Ghi chú'

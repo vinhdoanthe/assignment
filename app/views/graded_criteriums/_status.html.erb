@@ -1,0 +1,5 @@
+<% if cr_type == Constants::CRITERIA_TYPE_PASS_FAIL %>
+  <span class="badge badge-<%= cr_status_css_class(cr_type, cr_status, 0) %>"><%= cr_status %></span>
+<% else %>
+  <span class="badge badge-<%= cr_status_css_class(cr_type, '', cr_point) %>"><%= cr_point %></span>
+<% end %>

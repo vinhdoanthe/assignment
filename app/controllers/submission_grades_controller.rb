@@ -3,6 +3,8 @@
 class SubmissionGradesController < ApplicationController
   include Constants
   include SubmissionGradesHelper
+  include GradedCriteriumHelper
+
   before_action :set_submission_grade, only: %i[show update destroy]
   before_action :authorized_permission!, only: %i[show update destroy]
   before_action :authorized_admin!, only: %i[destroy index]

@@ -16,15 +16,11 @@
         <td><span><%= criteria.weight %></span></td>
         <td><span><%= criteria.meet_the_specification %></span></td>
         <td>
-          <% if criteria.criteria_type == Constants::CRITERIA_TYPE_PASS_FAIL %>
-            <span><%= criteria.status %></span>
-          <% else %>
-            <span><%= criteria.point %></span>
-          <% end %>
+          <%= render :partial => "graded_criteriums/status", :locals => {cr_type: criteria.criteria_type, cr_status: criteria.status, cr_point: criteria.point} %>
         </td>
         <td><span><%= criteria.comment %></span></td>
         <td>
-          <span><%= criteria.mandatory ? t('assignment.submission_grade.label.mandatory_yes') : t('assignment.submission_grade.label.mandatory_no') %></span>
+          <%= render :partial => "graded_criteriums/mandatory", :locals => {mandatory: criteria.mandatory} %>
         </td>
       </tr>
     <% end %>
