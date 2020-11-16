@@ -13,7 +13,9 @@ append :linked_dirs, 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bund
 
 # Whenever setup
 require "whenever/capistrano"
-
+set :stage, :production
+set :branch, 'production'
+set :rails_env, 'production'
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 

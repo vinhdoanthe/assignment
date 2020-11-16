@@ -17,7 +17,7 @@ module GradedRubricsHelper
     point *= Settings[:submission][:point_factor]
 
     if graded_rubric.submission_grade.attempt != 1
-      point /= 2
+      point /= (2**(graded_rubric.submission_grade.attempt-1))
       prev_attempt = SubmissionGrade.where(assignment_id: graded_rubric.submission_grade.assignment_id,
                                            student_id: graded_rubric.submission_grade.student_id,
                                            attempt: graded_rubric.submission_grade.attempt - 1).first

@@ -48,7 +48,7 @@ class GradedRubric < ApplicationRecord
     end
 
     temp_point *= Settings[:submission][:point_factor]
-    temp_point /= 2 if submission_grade.attempt != 1
+    temp_point /= (2**(submission_grade.attempt-1)) if submission_grade.attempt != 1
     self.point = temp_point.round(2)
   end
 end
