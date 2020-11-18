@@ -1,0 +1,39 @@
+<% content_for :stylesheet_includes do %>
+  <%= stylesheet_link_tag 'graded_rubrics' %>
+<% end %>
+
+<% content_for :javascript_includes do %>
+  <%= javascript_include_tag 'submission_grades' %>
+<% end %>
+
+<%= link_to "<i class='fas fa-arrow-left'></i>&nbsp;#{t('assignment.submission_grade.action.back')}".html_safe, assigned_submissions_path %>
+
+<h3><%= "#{t('assignment.submission_grade.label.your_are_grading')} #{@submission_grade.assignment.display_name}" %></h3>
+
+<div class="card card-outline card-primary">
+  <div class="card-body">
+    <%= render :partial => 'submission_grades/submission_div_simple', :locals => {submission: @submission_grade} %>
+  </div>
+</div>
+<% unless @can_not_be_regrade_criteriums.size.zero? %>
+  <div class="card card-outline card-primary">
+    <div class="card-header">
+      <h3 class="card-title"><%= t('assignment.submission_grade.label.previous_graded_criteria') %></h3>
+    </div>
+    <div class="card-body">
+      <%= render :partial => 'graded_rubrics/form/graded', locals: {can_not_be_regrade_criteriums: @can_not_be_regrade_criteriums} %>
+    </div>
+  </div>
+<% end %>
+<div class="card card-outline card-primary">
+  <div class="card-header">
+    <h3 class="card-title"><%= "#{t('assignment.submission_grade.label.to_grade_criteria')}" %></h3>
+  </div>
+  <div class="card-body">
+    <%= render :partial =>  'graded_rubrics/form/new2', locals: {graded_rubric: @graded_rubric} %>
+  </div>
+</div>
+
+<%= link_to "<i class='fas fa-arrow-left'></i>&nbsp;#{t('assignment.submission_grade.action.back')}".html_safe, assigned_submissions_path %>
+
+<%= render 'confirmation_modal' %>

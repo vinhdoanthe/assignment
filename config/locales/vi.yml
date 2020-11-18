@@ -20,7 +20,7 @@ vi:
       action: "Hành động"
       learner: "Email học viên"
       solution: "File nộp của học viên"
-      attempt: "Số lần nộp"
+      attempt: "Lần nộp số"
       mentor: "Email mentor"
       point: "Điểm"
     submission_grade:
@@ -34,7 +34,10 @@ vi:
         sort_by: "Sắp xếp theo"
         reset_filter: "Bỏ lọc"
         send_grade: "Gửi điểm"
+        close: 'Đóng'
         confirm: "Xác nhận"
+        confirm_grade: 'Xác nhận gửi điểm'
+        view_all: 'Xem toàn bộ'
       label:
         note: 'Ghi chú'
         waiting_for_grading: 'Chờ chấm'
@@ -54,7 +57,11 @@ vi:
         mandatory_no: "Không bắt buộc"
         total_point: "Tổng điểm của bài chấm"
         grade_status: "Trạng thái của bài"
-        previous_graded_criteria: "Các tiêu chí đã chấm"
+        previous_graded_criteria: "Các tiêu chí đã đạt"
+        lbl_status_assigned: 'Được giao chấm'
+        lbl_status_passed: 'Bài đạt'
+        lbl_status_notpassed: 'Bài không đạt'
+        to_grade_criteria: 'Các tiêu chí cần chấm'
       error:
         over_file_size: "Dung lượng file đính kèm phải nhỏ hơn 50 MB"
       list:
@@ -72,6 +79,8 @@ vi:
       attach_file: "Đính kèm file (rar, zip)"
   notions:
     n_a: "Chưa có"
+  notification:
+    grade_success: 'Chấm bài thành công!'
   admin:
     history:
       previous_version: "Phiên bản trước"

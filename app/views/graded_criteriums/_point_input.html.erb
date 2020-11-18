@@ -1,0 +1,13 @@
+<textarea name='cr[<%= cr.index %>][criteria_type]' class='display-none'><%= cr.criteria_type %></textarea>
+<% if cr.pass_fail_type? %>
+  <select name='cr[<%= cr.index %>][pointfp]'>
+    <option value=<%= Constants::GRADED_CRITERIA_STATUS_PASSED %>><%= Constants::GRADED_CRITERIA_STATUS_PASSED.capitalize %></option>
+    <option value=<%= Constants::GRADED_CRITERIA_STATUS_FAILED %>><%= Constants::GRADED_CRITERIA_STATUS_FAILED.capitalize %></option>
+  </select>
+<% else %>
+  <select name='cr[<%= cr.index %>][pointp]'>
+    <% (0..(Settings[:criteria][:point_max_point])).each do |p_option| %>
+      <option value=<%= p_option %>><%= p_option %></option>
+    <% end %>
+  </select>
+<% end %>

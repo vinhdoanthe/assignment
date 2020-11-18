@@ -72,6 +72,8 @@ en:
       attach_file: "Attach file (zip/rar)"
   notions:
     n_a: "N/A"
+  notification:
+    grade_success: 'Grade successfully!'
   admin:
     history:
       previous_version: "Previous version"

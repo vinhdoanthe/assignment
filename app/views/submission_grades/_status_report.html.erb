@@ -1,0 +1,4 @@
+<% status_report.each do |status, count| %>
+  <%= render :partial => "status_report_item", :locals => {status: status, count: count} %>
+<% end %>
+<a href="<%= assigned_submissions_path %> " class="btn btn-primary"><%="#{t('assignment.submission_grade.action.view_all')}&nbsp;<i class='far fa-hand-point-right'></i>".html_safe %></a>

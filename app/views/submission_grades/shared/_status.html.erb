@@ -1,0 +1,4 @@
+<% full_width = (full_width.nil? ? true: full_width) %> 
+<div>
+  <span class="badge badge-<%= status_css_class(status) %> <%= full_width == false ? '' : 'full-width__parent' %>"> <%= status_lbl(status) %></span>
+</div>

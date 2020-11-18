@@ -1,6 +1,6 @@
 <h4><%= "#{t('assignment.submission_grade.label.your_are_grading')} #{graded_rubric.submission_grade.assignment.display_name}" %></h4>
 
-<%= simple_form_for graded_rubric, url: preview_rubric_path, validate: true, method: :post do |form| %>
+<%= form_for graded_rubric, url: preview_rubric_path, validate: true, method: :post do |form| %>
   <%= form.input :submission_grade_id, as: :hidden, value: graded_rubric.submission_grade_id %>
   <!-- Grading Criteria -->
   <table class="table table-bordered table-hover">

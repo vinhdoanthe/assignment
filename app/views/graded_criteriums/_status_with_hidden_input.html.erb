@@ -1,0 +1,8 @@
+<textarea name='cr[<%= cr_index %>][criteria_type]' class='display-none'><%= cr_type %></textarea>
+<% if cr_type == Constants::CRITERIA_TYPE_PASS_FAIL %>
+  <span class="badge badge-<%= cr_status_css_class(cr_type, cr_status, 0) %>"><%= cr_status %></span>
+  <input name='cr[<%= cr_index %>][pointfp]' type='hidden' value=<%= cr_status %> /> 
+<% else %>
+  <input name='cr[<%= cr_index %>][pointp]' type='hidden' value=<%= cr_point %> /> 
+  <span class="badge badge-<%= cr_status_css_class(cr_type, '', cr_point) %>"><%= cr_point %></span>
+<% end %>

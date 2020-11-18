@@ -4,6 +4,7 @@ class GradedRubricsController < ApplicationController
   before_action :set_graded_rubric, only: %i[show]
 
   def new
+    # GradedRubricService.new.new_grade new_grade_params
     if params[:assignment_id].present? && params[:student_id].present? && params[:submission_grade_id]
       assignment_id = params[:assignment_id]
       student_id = params[:student_id]
@@ -34,6 +35,15 @@ class GradedRubricsController < ApplicationController
     end
   end
 
+  def pre_caculate
+    result = GradedRubricService.new.pre_caculate_rubric pre_caculate_params
+
+    respond_to do |format|
+      format.html { render 'confirmation'}
+      format.js {render js: 'comfirmation', :locals => {result: result}}
+    end
+  end
+
   def preview_get
     redirect_to root_path
   end
@@ -47,44 +57,54 @@ class GradedRubricsController < ApplicationController
   end
 
   def grade
-    @graded_rubric = GradedRubric.new(graded_rubric_params)
-    @graded_rubric.calculate_point!
-    logger = Rails.logger
-    logger.info '@graded_rubric.point'
-    logger.info @graded_rubric.point
-    submission_grade = @graded_rubric.submission_grade
-    if @graded_rubric.status == Constants::GRADED_RUBRIC_STATUS_FAILED
-      submission_grade.status = Constants::SUBMISSION_GRADE_STATUS_NOT_PASSED
-    else
-      submission_grade.status = Constants::SUBMISSION_GRADE_STATUS_PASSED
-    end
-    submission_grade.update_point(@graded_rubric.point)
-    submission_grade.graded_at = Time.now
+    GradedRubricService.new.grade(graded_rubric_params)
+    # @graded_rubric = GradedRubric.new(graded_rubric_params)
+    # @graded_rubric.calculate_point!
+    # submission_grade = @graded_rubric.submission_grade
+    # if @graded_rubric.status == Constants::GRADED_RUBRIC_STATUS_FAILED
+    #   submission_grade.status = Constants::SUBMISSION_GRADE_STATUS_NOT_PASSED
+    # else
+    #   submission_grade.status = Constants::SUBMISSION_GRADE_STATUS_PASSED
+    # end
+    # submission_grade.update_point(@graded_rubric.point)
+    # submission_grade.graded_at = Time.now
 
-    if @graded_rubric.save
-      if submission_grade.save
-        SubmissionGradeMailer.graded_email(submission_grade.id).deliver_later
-        redirect_to @graded_rubric.submission_grade,
-                    success: 'Graded successfully!'
+    # if @graded_rubric.save
+    #   if submission_grade.save
+    #     SubmissionGradeMailer.graded_email(submission_grade.id).deliver_later
+    #     redirect_to @graded_rubric.submission_grade,
+    #       success: 'Graded successfully!'
 
-      end
-    end
+    #   end
+    # end
   end
 
   private
 
-  # Use callbacks to share common setup or constraints between actions.
   def set_graded_rubric
     @graded_rubric = GradedRubric.find(params[:id])
   end
 
-  # Never trust parameters from the scary internet, only allow the white list through.
   def graded_rubric_params
     params.require(:graded_rubric).permit(:submission_grade_id,
                                           :comment,
                                           graded_criteriums_attributes:
-                                              %i[id index weight mandatory
-                                                 criteria_description outcome meet_the_specification
-                                                 criteria_type status point comment])
+                                          %i[id index weight mandatory
+                                             criteria_description outcome meet_the_specification
+                                             criteria_type status point comment])
+  end
+
+  def new_grade_params
+    params.permit(:assignment_id, :student_id, :submission_grade_id)
+  end
+
+  def pre_caculate_params
+    params.require(:graded_rubric).permit(:submission_grade_id,
+                                          :comment,
+                                          graded_criteriums_attributes:
+                                          %i[id index weight mandatory
+                                             criteria_description outcome meet_the_specification
+                                             criteria_type status point comment])
+
   end
 end

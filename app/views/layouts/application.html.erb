@@ -1,38 +1,43 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title><%= t('system_name') %></title>
-  <%= csrf_meta_tags %>
-  <%= csp_meta_tag %>
+  <head>
+    <title><%= t('system_name') %></title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
 
-  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
 
-  <%= yield :javascript_includes %>
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <%= yield :javascript_includes %>
 
-  <!-- Global site tag (gtag.js) - Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-149352122-1"></script>
-  <script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-149352122-1"></script>
+    <script>
       window.dataLayer = window.dataLayer || [];
 
       function gtag() {
-          dataLayer.push(arguments);
+        dataLayer.push(arguments);
       }
 
       gtag('js', new Date());
       gtag('config', 'UA-149352122-1');
-  </script>
+    </script>
+    <%= javascript_include_tag 'adminlte.min' %>
+    <%= stylesheet_link_tag 'adminlte.min' %>
+  </head>
 
-</head>
-
-<body>
-<% unless current_user.nil? %>
-  <%= render 'shared/header' %>
-<% end %>
-<%= render 'shared/messages' %>
-<div class="container">
-  <%= yield %>
-</div>
-<%= debug(params) if Rails.env.development? %>
-</body>
+  <body>
+    <% unless current_user.nil? %>
+      <%= render 'shared/header' %>
+    <% end %>
+    <%= render 'shared/messages' %>
+    <div class="container-fluid">
+      <%= yield %>
+    </div>
+    <%= debug(params) if Rails.env.development? %>
+  </body>
 </html>

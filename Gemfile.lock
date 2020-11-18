@@ -108,18 +108,11 @@ GEM
       rack-test (>= 0.6.3)
       regexp_parser (~> 1.5)
       xpath (~> 3.2)
-    character_set (1.4.0)
     childprocess (3.0.0)
     chromedriver-helper (2.1.1)
       archive-zip (~> 0.10)
       nokogiri (~> 1.8)
     chronic (0.10.2)
-    client_side_validations (17.2.0)
-      js_regex (~> 3.1)
-      rails (>= 5.0.0.1, < 6.2)
-    client_side_validations-simple_form (11.1.0)
-      client_side_validations (>= 15.0, < 18.0)
-      simple_form (~> 5.0)
     coderay (1.1.3)
     coffee-rails (4.2.2)
       coffee-script (>= 2.2.0)
@@ -193,7 +186,6 @@ GEM
     ffi (1.13.1)
     figaro (1.2.0)
       thor (>= 0.14.0, < 2)
-    filterrific (5.2.1)
     formtastic (3.1.5)
       actionpack (>= 3.2.13)
     formtastic_i18n (0.6.0)
@@ -249,11 +241,7 @@ GEM
       thor (>= 0.14, < 2.0)
     jquery-ui-rails (6.0.1)
       railties (>= 3.2.16)
-    js_regex (3.5.1)
-      character_set (~> 1.4)
-      regexp_parser (~> 1.8, >= 1.8.2)
-      regexp_property_values (~> 1.0)
-    jwt (1.5.6)
+    jwt (2.2.2)
     kaminari (1.2.1)
       activesupport (>= 4.1.0)
       kaminari-actionview (= 1.2.1)
@@ -266,6 +254,7 @@ GEM
       activerecord
       kaminari-core (= 1.2.1)
     kaminari-core (1.2.1)
+    libv8 (8.4.255.0)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
@@ -282,6 +271,8 @@ GEM
     mimemagic (0.3.5)
     mini_mime (1.0.2)
     mini_portile2 (2.4.0)
+    mini_racer (0.3.1)
+      libv8 (~> 8.4.255)
     minitest (5.14.2)
     msgpack (1.3.3)
     multi_json (1.15.0)
@@ -303,13 +294,10 @@ GEM
     omniauth (1.9.1)
       hashie (>= 3.4.6)
       rack (>= 1.6.2, < 3)
-    omniauth-azure-activedirectory (1.0.0)
-      jwt (~> 1.5)
-      omniauth (~> 1.1)
-    omniauth-google-oauth2 (0.5.4)
-      jwt (>= 1.5)
+    omniauth-google-oauth2 (0.8.0)
+      jwt (>= 2.0)
       omniauth (>= 1.1.1)
-      omniauth-oauth2 (>= 1.5)
+      omniauth-oauth2 (>= 1.6)
     omniauth-oauth2 (1.7.0)
       oauth2 (~> 1.4)
       omniauth (~> 1.9)
@@ -376,7 +364,6 @@ GEM
       ffi (~> 1.0)
     redis (4.1.4)
     regexp_parser (1.8.2)
-    regexp_property_values (1.0.0)
     representable (3.0.4)
       declarative (< 0.1.0)
       declarative-option (< 0.2.0)
@@ -427,14 +414,8 @@ GEM
       faraday (>= 0.17.3, < 2.0)
       jwt (>= 1.5, < 3.0)
       multi_json (~> 1.10)
-    simple_form (5.0.3)
-      actionpack (>= 5.0)
-      activemodel (>= 5.0)
+    simple_command (0.1.0)
     slop (3.6.0)
-    spring (2.1.1)
-    spring-watcher-listen (2.0.1)
-      listen (>= 2.7, < 4.0)
-      spring (>= 1.2, < 3.0)
     sprockets (3.7.2)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
@@ -448,6 +429,8 @@ GEM
     thor (1.0.1)
     thread_safe (0.3.6)
     tilt (2.0.10)
+    toastr-rails (1.0.3)
+      railties (>= 3.1.0)
     turbolinks (5.2.1)
       turbolinks-source (~> 5.2)
     turbolinks-source (5.2.0)
@@ -468,7 +451,6 @@ GEM
     websocket-extensions (0.1.5)
     whenever (1.0.0)
       chronic (>= 0.6.3)
-    will_paginate (3.3.0)
     xpath (3.2.0)
       nokogiri (~> 1.8)
 
@@ -490,21 +472,19 @@ DEPENDENCIES
   capistrano-sidekiq
   capybara (>= 2.15)
   chromedriver-helper
-  client_side_validations
-  client_side_validations-simple_form
   coffee-rails (~> 4.2)
   config
   devise
   enumerize
   figaro
-  filterrific
   google-cloud-storage (~> 1.8)
   jbuilder (~> 2.5)
   jquery-rails
   jquery-ui-rails
+  kaminari
   listen (>= 3.0.5, < 3.2)
+  mini_racer
   mysql2
-  omniauth-azure-activedirectory
   omniauth-google-oauth2
   paper_trail
   paranoia (~> 2.2)
@@ -518,15 +498,13 @@ DEPENDENCIES
   sass-rails (~> 5.0)
   selenium-webdriver
   sidekiq (< 6.0.0)
-  simple_form
-  spring
-  spring-watcher-listen (~> 2.0.0)
+  simple_command
+  toastr-rails (~> 1.0)
   turbolinks (~> 5)
   tzinfo-data
   uglifier (>= 1.3.0)
   web-console (>= 3.3.0)
   whenever
-  will_paginate
 
 RUBY VERSION
    ruby 2.6.5p114

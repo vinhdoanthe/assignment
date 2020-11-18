@@ -1,0 +1,27 @@
+.td-widh__30 {
+  width: 30%;
+}
+
+.td-width__20 {
+  width: 20%;
+}
+
+.td-width__10 {
+  width: 10%;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.br-radius-md {
+  border-radius: 0.25rem;
+}
+
+.br-radius-sm {
+  border-radius: 0.125rem;
+}
+
+.display-none {
+  display: none;
+}

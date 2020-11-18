@@ -1,5 +1,0 @@
-<% js = escape_javascript(
-  render(partial: 'shared/submissions',
-        locals: { :submissions => @assigned_submissions})
-) %>
-$("#filterrific_results").html("<%= js %>");

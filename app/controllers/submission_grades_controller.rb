@@ -3,6 +3,8 @@
 class SubmissionGradesController < ApplicationController
   include Constants
   include SubmissionGradesHelper
+  include GradedCriteriumHelper
+
   before_action :set_submission_grade, only: %i[show update destroy]
   before_action :authorized_permission!, only: %i[show update destroy]
   before_action :authorized_admin!, only: %i[destroy index]
@@ -20,23 +22,8 @@ class SubmissionGradesController < ApplicationController
   def index
     @submission_grades = SubmissionGrade.where(is_latest: true)
   end
-  
+
   def filter_submissions
-    # binding.pry
-    return
-    if params[:mentor_id].present? && params[:course_instance_id].present?&&
-        params[:status].present? && params[:order].present?
-      assignments = Assignment.select(:id).where('course_instance_id':params[:course_instance_id]).to_a
-      if params[:order] == 'asc'
-        @submissions = SubmissionGrade.where('mentor_id':params[:mentor_id], 'status':params[:status],'assignment_id': assignments).order(:created_at => 'asc')
-      else
-        @submissions = SubmissionGrade.where('mentor_id':params[:mentor_id], 'status':params[:status],'assignment_id': assignments).order(:created_at => 'desc')
-      end
-      render :json => @submissions
-    else
-      render :json => {'error': true,
-      'message':'Some of params is not present!'}
-    end
   end
 
   def list_submissions
@@ -59,35 +46,21 @@ class SubmissionGradesController < ApplicationController
     respond_to do |format|
       unless @programs.nil?
         format.html { render 'list_submissions'}
-        # format.json { render json: @programs }
       end
     end
   end
 
   def assigned_submissions
-    @filterrific = initialize_filterrific(
-        SubmissionGrade.filtered_by_mentor_id(current_user.id),
-        params[:filterrific],
-        select_options: {
-            sorted_by: SubmissionGrade.options_for_sorted_by,
-            with_status: SubmissionGrade.options_for_status
-        },
-        :persistence_id => false,
-        default_filter_params: {},
-        available_filters: %i[sorted_by with_status],
-        sanitize_params: true
-    ) || return
-    @assigned_submissions = @filterrific.find.page(params[:page]).per_page(100)
-    respond_to do |format|
-      format.html
-      format.js
-    end
-  rescue ActiveRecord::RecordNotFound => e
-    # There is an issue with the persisted param_set. Reset it.
-    redirect_to(reset_filterrific_url(format: :html)) && return
+    sg_service = SubmissionGradesService.new
+
+    @submissions = sg_service.list_submissions params, current_user
+    @status_report = sg_service.status_report current_user
+  rescue Exception => e
+    p e.inspect
+    redirect_to root_path && return
   end
 
-  def show;
+  def show
   end
 
   def new_solution
@@ -104,9 +77,9 @@ class SubmissionGradesController < ApplicationController
 
       if latest_submission.nil? ||
           (latest_submission.status == Constants::SUBMISSION_GRADE_STATUS_NOT_PASSED &&
-              (assignment.max_attempt.zero? ? true :
-                   latest_submission.attempt < assignment.max_attempt))
-        # Do nothing. Student can submit
+           (assignment.max_attempt.zero? ? true :
+            latest_submission.attempt < assignment.max_attempt))
+      # Do nothing. Student can submit
       elsif latest_submission.status == Constants::SUBMISSION_GRADE_STATUS_PASSED
         flash[:success] = t('submission.latest_passed')
         redirect_to root_path
@@ -148,6 +121,29 @@ class SubmissionGradesController < ApplicationController
     respond_to do |format|
       format.html {redirect_to submission_grades_url, notice: 'Submission grade was successfully destroyed.'}
       format.json {head :no_content}
+    end
+  end
+
+  def grade_form
+    # Find parameters
+    @submission_grade, @can_not_be_regrade_criteriums, @tobe_grade_criteria_formats = SubmissionGradesService.new.get_grade_form_params grade_params
+    # Render the form
+  end
+
+  def pre_caculate_grade
+    # binding.pry
+    result = SubmissionGradesService.new.caculate_point_and_state(params)
+    render 'confirm_grade', locals: {submission_id: params.permit(:submission_grade_id), comment: params.permit(:comment), cr_list: params.permit(:cr) , result: result}
+  end
+
+  def grade
+    grade_result =  SubmissionGradesService.new.grade(params)
+    if grade_result
+      redirect_to submission_grade_path(params[:submission_id])
+      flash[:success] = I18n.t('notification.grade_success')
+    else
+      redirect_to submission_grade_path(params[:submission_id])
+      flash[:danger] = I18n.t('notification.grade_fail')
     end
   end
 
@@ -204,5 +200,9 @@ class SubmissionGradesController < ApplicationController
       flash[:danger] = 'You do not have permission to take this action'
       redirect_to root_path
     end
+  end
+
+  def grade_params
+    params.permit(:assignment_id, :student_id, :submission_grade_id)
   end
 end

@@ -1,4 +1,4 @@
-<%= simple_form_for graded_rubric, url: :grade_rubric, method: :post do |form| %>
+<%= form_for graded_rubric, url: :grade_rubric, method: :post do |form| %>
 
   <!--Area form showing confirm-->
   <div>
@@ -34,36 +34,36 @@
     <!-- Grading Criteria -->
     <table class="table table-bordered table-hover">
       <tbody>
-      <%= form.simple_fields_for :graded_criteriums do |criteria| %>
+      <%= form.fields_for :graded_criteriums do |criteria| %>
         <tr>
           <th><%= criteria.object.index %></th>
-          <%= criteria.input :index, as: :hidden, value: criteria.object.index %>
+          <%= criteria.hidden_field :index, value: criteria.object.index %>
           <td><span><%= criteria.object.weight %></span></td>
-          <%= criteria.input :weight, as: :hidden, value: criteria.object.weight %>
-          <%= criteria.input :mandatory, as: :hidden, value: criteria.object.mandatory %>
+          <%= criteria.hidden_field :weight, value: criteria.object.weight %>
+          <%= criteria.hidden_field :mandatory, value: criteria.object.mandatory %>
           <td>
             <span><%= criteria.object.criteria_description %></span>
-            <%= criteria.input :criteria_description, as: :hidden, value: criteria.object.criteria_description %>
+            <%= criteria.hidden_field :criteria_description, value: criteria.object.criteria_description %>
           </td>
           <td><span><%= criteria.object.outcome %></span></td>
-          <%= criteria.input :outcome, as: :hidden, value: criteria.object.outcome %>
+          <%= criteria.hidden_field :outcome, value: criteria.object.outcome %>
           <td><span><%= criteria.object.meet_the_specification %></span></td>
-          <%= criteria.input :meet_the_specification, as: :hidden, value: criteria.object.meet_the_specification %>
-          <%= criteria.input :criteria_type, as: :hidden, value: criteria.object.criteria_type %>
+          <%= criteria.hidden_field :meet_the_specification, value: criteria.object.meet_the_specification %>
+          <%= criteria.hidden_field :criteria_type, value: criteria.object.criteria_type %>
           <td>
             <% if criteria.object.criteria_type == Constants::CRITERIA_TYPE_PASS_FAIL %>
-              <%= criteria.input :status, as: :hidden, value: criteria.object.status %>
+              <%= criteria.hidden_field :status, value: criteria.object.status %>
             <% else %>
-              <%= criteria.input :point, as: :hidden, value: criteria.object.point %>
+              <%= criteria.hidden_field :point, value: criteria.object.point %>
             <% end %>
           </td>
-          <td><%= criteria.input :comment, as: :text, :label => false, :input_html => {:rows => 3} %></td>
+          <td><%= criteria.hidden_field :comment, :label => false, :input_html => {:rows => 3} %></td>
         </tr>
       <% end %>
       </tbody>
     </table>
 
-    <%= form.input :comment, :input_html => {:rows => 3} %>
+    <%= form.hidden_field :comment, :input_html => {:rows => 3} %>
   </div>
 
   <!--  Confirmation area-->

@@ -1,0 +1,46 @@
+<%= form_for :submission, html: {:id => 'gradeForm'}, url: pre_caculate_grade_path, remote: true, method: :post do |form| %>
+  <%= form.hidden_field :submission_grade_id, value: @submission_grade.id %>
+  <!-- Grading Criteria -->
+  <div class="form-group">
+    <table class="table table-bordered table-hover">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th><%= t('assignment.submission_grade.label.weight') %></th>
+          <th style="width: 20%"><%= t('assignment.submission_grade.label.criteria') %></th>
+          <th style="width: 30%"><%= t('assignment.submission_grade.label.meet_the_specification') %></th>
+          <th><%= t('assignment.submission_grade.label.point') %></th>
+          <th style="width: 10%"><%= t('assignment.submission_grade.label.comment') %></th>
+          <th><%= t('assignment.submission_grade.label.mandatory') %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @tobe_grade_criteria_formats.each do |cr| %>
+          <tr>
+            <th><%= cr.index %></th>
+            <input name='cr[<%= cr.index %>][index]' type='hidden' value=<%= cr.index %> />
+            <td><%= cr.weight %></td>
+            <input name='cr[<%= cr.index %>][weight]' type='hidden' value=<%= cr.weight %> />
+            <td><%= cr.criteria_description %></td>
+            <textarea name='cr[<%= cr.index %>][desc]' class='display-none'><%= cr.criteria_description %> </textarea>
+            <td><%= cr.meet_the_specification %></td>
+            <textarea name='cr[<%= cr.index %>][spec]' class='display-none'><%= cr.meet_the_specification %> </textarea>
+            <td><%= render :partial => 'graded_criteriums/point_input', :locals => {cr: cr} %></td>
+            <td><textarea name='cr[<%= cr.index %>][note]' rows='3' required class='full-width__container br-radius-sm'></textarea></td>
+            <td><%= render :partial => 'criteria_formats/mandatory', :locals => {mandatory: cr.mandatory} %></td>
+            <input name='cr[<%= cr.index %>][mandatory]' type='hidden' value=<%= cr.mandatory %> />
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <div class="form-group row">
+    <label class="col-12"><%= t('assignment.submission_grade.label.comment') %></label>
+    <div class="col-12">
+      <%= form.text_area :comment, label: t('assignment.submission_grade.label.comment'), required: true, class: 'full-width__container br-radius-md', :input_html => {:rows => 3} %>
+    </div>
+  </div>
+  <div class="form-group text-center">
+    <%= form.submit t('assignment.submission_grade.action.send_grade'), id: 'btnSubmitGrade', class: 'btn btn-primary' %>
+  </div>
+<% end %>

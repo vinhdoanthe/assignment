@@ -1,63 +1,11 @@
-<p id="notice"><%= notice %></p>
-<%= link_to t('assignment.submission_grade.action.back'), current_user.learner? ? active_assignments_path : assigned_submissions_path %>
-<div>
-  <table class='table'>
-    <tr>
-      <th><%= t('assignment.active.assignment') %>:</th>
-      <td> <%= @submission_grade.assignment.name %></td>
-    </tr>
-    <tr>
-      <th><%= t('assignment.active.course') %>:</th>
-      <td><%= @submission_grade.assignment.course_instance.code %></td>
-    </tr>
-    <tr>
-      <th><%= t('assignment.active.learner') %>:</th>
-      <td><%= @submission_grade.student.email %></td>
-    </tr>
-    <tr>
-      <th><%= t('assignment.active.status') %>:</th>
-      <td><%= @submission_grade.status %></td>
-    </tr>
-    <tr>
-      <th><%= t('assignment.active.solution') %>:</th>
-      <td>
-        <% if @submission_grade.submission_file.attached? %>
-          <%= link_to t('attachment.action.download'), rails_blob_path(@submission_grade.submission_file, disposition: "attachment") %>
-        <% else %>
-        <% end %>
-      </td>
-    </tr>
-    <tr>
-      <th><%= t('assignment.active.attempt') %>:</th>
-      <td><%= @submission_grade.attempt %></td>
-    </tr>
-    <tr>
-      <th><%= t('assignment.active.mentor') %>:</th>
-      <td>
-        <% if @submission_grade.mentor.nil? %>
-        <% else %>
-          <%= @submission_grade.mentor.email %>
-        <% end %>
-      </td>
-    </tr>
-    <tr>
-      <th><%= t('assignment.active.point') %>:</th>
-      <td><%= (@submission_grade.status == Constants::SUBMISSION_GRADE_STATUS_ASSIGNED or @submission_grade.status == Constants::SUBMISSION_GRADE_STATUS_SUBMITTED or @submission_grade.status == Constants::SUBMISSION_GRADE_STATUS_TAKEN_BACK) ? t('notions.n_a') : number_with_precision(@submission_grade.point, :precision => 1) %></td>
-    </tr>
-  </table>
+<div class="card">
+  <div class="card-header">
+    <%= link_to "<i class='fas fa-arrow-left'></i>&nbsp;#{t('assignment.submission_grade.action.back')}".html_safe, current_user.learner? ? active_assignments_path : assigned_submissions_path %>
+  </div>
+  <div class="card-body">
+    <%= render :partial => "submission_div", :locals => {submission: @submission_grade} %>
+  </div>
+  <div class="card-footer">
+    <%= render "submission_actions" %>
+  </div>
 </div>
-<% if current_user.mentor? || current_user.admin? %>
-  <% if @submission_grade.status == Constants::SUBMISSION_GRADE_STATUS_ASSIGNED %>
-    <%= link_to "<button type='button'>#{t('assignment.submission_grade.action.grade')}</button>".html_safe, new_graded_rubric_path(assignment_id: @submission_grade.assignment_id,
-                                                                                                                                    student_id: @submission_grade.student_id,
-                                                                                                                                    submission_grade_id: @submission_grade.id) %>
-  <% end %>
-<% end %>
-
-<% if current_user.learner? %>
-  <% list_graded_rubrics = list_graded_rubrics(@submission_grade) %>
-  <% if list_graded_rubrics.any? %>
-    <h4><%= t('assignment.submission_grade.list.history_of_grades') %></h4>
-    <%= render partial: 'graded_rubrics/list_embedded_show', locals: {graded_rubrics: list_graded_rubrics} %>
-  <% end %>
-<% end %>

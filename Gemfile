@@ -9,27 +9,23 @@ gem 'activeadmin'
 gem 'activeadmin-searchable_select'
 gem 'bootstrap', '~> 4.3.1'
 gem 'cancancan'
-gem 'client_side_validations'
-gem 'client_side_validations-simple_form'
 gem 'config'
 gem 'devise'
-gem 'omniauth-azure-activedirectory'
 gem 'omniauth-google-oauth2'
 gem 'enumerize'
 gem 'figaro'
-gem 'filterrific'
-gem 'jquery-rails'
 gem 'jquery-ui-rails'
+gem 'jquery-rails'
 gem 'paper_trail'
 gem 'paranoia', '~> 2.2'
 gem 'rails-i18n'
 gem 'roo', '~> 2.8.0'
-gem 'simple_form'
 gem 'whenever', require: false
-gem 'will_paginate'
-
+gem 'kaminari'
+gem 'simple_command'
 gem 'active_storage_validations'
-
+gem 'mini_racer'
+gem 'toastr-rails', '~> 1.0'
 # Capistrano for deployment
 gem 'capistrano', '~> 3.7', '>= 3.7.1'
 gem 'capistrano-passenger', '~> 0.2.0'
@@ -92,8 +88,8 @@ group :development do
   gem 'listen', '>= 3.0.5', '< 3.2'
   gem 'web-console', '>= 3.3.0'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-  gem 'spring'
-  gem 'spring-watcher-listen', '~> 2.0.0'
+  # gem 'spring'
+  # gem 'spring-watcher-listen', '~> 2.0.0'
 end
 
 group :test do
