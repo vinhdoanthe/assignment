@@ -7,7 +7,7 @@ module GradedCriteriumHelper
         class_name = 'danger'
       end
     elsif cr_type == Constants::CRITERIA_TYPE_POINT
-      if cr_point > 0
+      if cr_point.to_i > 0
         class_name ='success'
       else
         class_name = 'danger'

@@ -1,5 +1,2 @@
 $('#confirmation-modal').modal('show')
 $('#confirmation-modal-body').html('<%= j render :partial => 'confirmation_modal_body', :locals => {result: result} %>')
-
-window.grading_params = 11
-// window.grading_params = JSON.parse("#{raw(result.to_json)}")

@@ -23,8 +23,10 @@ $(document).ready(function() {
   //   getFormInput()
   //   $('#gradeForm').submit()
   // })
+
+  $('#confirmSendGradeBtn').on('click', (event) => {
+    console.log('clicked')
+    $('#confirmSendGradeForm').submit()
+  })
 })
 
-const getFormInput = () => {
-  console('getFormInput called');
-}

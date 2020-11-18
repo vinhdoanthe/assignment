@@ -79,6 +79,8 @@ vi:
       attach_file: "Đính kèm file (rar, zip)"
   notions:
     n_a: "Chưa có"
+  notification:
+    grade_success: 'Chấm bài thành công!'
   admin:
     history:
       previous_version: "Phiên bản trước"

@@ -25,7 +25,7 @@ gem 'kaminari'
 gem 'simple_command'
 gem 'active_storage_validations'
 gem 'mini_racer'
-
+gem 'toastr-rails', '~> 1.0'
 # Capistrano for deployment
 gem 'capistrano', '~> 3.7', '>= 3.7.1'
 gem 'capistrano-passenger', '~> 0.2.0'

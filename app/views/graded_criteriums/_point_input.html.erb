@@ -6,7 +6,7 @@
   </select>
 <% else %>
   <select name='cr[<%= cr.index %>][pointp]'>
-    <% (0..(Settings[:criteria][:point_max_point] + 1)).each do |p_option| %>
+    <% (0..(Settings[:criteria][:point_max_point])).each do |p_option| %>
       <option value=<%= p_option %>><%= p_option %></option>
     <% end %>
   </select>

@@ -1,41 +1,61 @@
-<table class="table table-bordered table-hover">
-  <thead>
-    <tr>
-      <th>#</th>
-      <th><%= t('assignment.submission_grade.label.weight') %></th>
-      <th style="width: 30%;"><%= t('assignment.submission_grade.label.meet_the_specification') %></th>
-      <th><%= t('assignment.submission_grade.label.point') %></th>
-      <th style="width: 20%;"><%= t('assignment.submission_grade.label.comment') %></th>
-      <th><%= t('assignment.submission_grade.label.mandatory') %></th>
-    </tr>
-  </thead>
-  <tbody>
-    <% result[:cr_list].each do |criteria| %>
+<%= form_with(url: grade_submission_path, id: 'confirmSendGradeForm', local: true, method: :post) do |form| %>
+  <%= form.hidden_field :submission_id, value: result[:submission_id] %>
+  <table class="table table-bordered table-hover">
+    <thead>
       <tr>
-        <th><%= criteria[:index] %></th>
-        <td><span><%= criteria[:weight] %></span></td>
-        <td><span><%= criteria[:spec] %></span></td>
-        <td>
-          <%= render :partial => "graded_criteriums/status", :locals => {cr_type: criteria[:criteria_type], cr_status: criteria[:pointfp], cr_point: criteria[:pointp]} %>
-        </td>
-        <td><span><%= criteria[:note] %></span></td>
-        <td>
-          <%= render :partial => "graded_criteriums/mandatory", :locals => {mandatory: criteria[:mandatory]} %>
-        </td>
+        <th>#</th>
+        <th><%= t('assignment.submission_grade.label.weight') %></th>
+        <th style="width: 30%;"><%= t('assignment.submission_grade.label.meet_the_specification') %></th>
+        <th><%= t('assignment.submission_grade.label.point') %></th>
+        <th style="width: 20%;"><%= t('assignment.submission_grade.label.comment') %></th>
+        <th><%= t('assignment.submission_grade.label.mandatory') %></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
-<hr/>
-<div class='row'>
-  <label class="col-sm-2 col-form-label"><%= t('assignment.active.status') %></label>
-  <div class="col-sm-10 col-form-label">
-    <p class="mg-auto"><%= render :partial => 'submission_grades/shared/status', :locals => {status: result[:status], full_width: false} %></p>
+    </thead>
+    <tbody>
+      <% result[:cr_list].each do |criteria| %>
+        <tr>
+          <input name='cr[<%= criteria[:index] %>][index]' type='hidden' value=<%= criteria[:index] %> />
+          <input name='cr[<%= criteria[:index] %>][weight]' type='hidden' value=<%= criteria[:weight] %> />
+          <textarea name='cr[<%= criteria[:index] %>][desc]' class='display-none'><%= criteria[:desc] %> </textarea>
+          <textarea name='cr[<%= criteria[:index] %>][spec]' class='display-none'><%= criteria[:spec] %> </textarea>
+          <textarea name='cr[<%= criteria[:index] %>][note]' class='display-none'><%= criteria[:note] %></textarea>
+          <input name='cr[<%= criteria[:index] %>][mandatory]' type='hidden' value=<%= criteria[:mandatory] %> />
+          <th><%= criteria[:index] %></th>
+          <td><span><%= criteria[:weight] %></span></td>
+          <td><span><%= criteria[:spec] %></span></td>
+          <td>
+            <%= render :partial => "graded_criteriums/status_with_hidden_input", :locals => {cr_index: criteria[:index], cr_type: criteria[:criteria_type], cr_status: criteria[:pointfp], cr_point: criteria[:pointp]} %>
+          </td>
+          <td><span><%= criteria[:note] %></span></td>
+          <td>
+            <%= render :partial => "graded_criteriums/mandatory", :locals => {mandatory: criteria[:mandatory]} %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <hr/>
+  <div class='row'>
+    <label class="col-sm-2 col-form-label"><%= t('assignment.submission_grade.label.note') %></label>
+    <div class="col-sm-10 col-form-label">
+      <p class="mg-auto">
+        <div>
+          <%= result[:comment] %>
+        </div>
+      </p>
+      <textarea name='note' class='display-none'><%= result[:comment] %></textarea>
+    </div>
   </div>
-</div>
-<div class='row'>
-  <label class="col-sm-2 col-form-label"><%= t('assignment.active.point') %>:</label>
-  <div class="col-sm-10 col-form-label">
-    <p class="mg-auto"><%= result[:point] %></p>
+  <div class='row'>
+    <label class="col-sm-2 col-form-label"><%= t('assignment.active.status') %></label>
+    <div class="col-sm-10 col-form-label">
+      <p class="mg-auto"><%= render :partial => 'submission_grades/shared/status', :locals => {status: result[:status], full_width: false} %></p>
+    </div>
   </div>
-</div>
+  <div class='row'>
+    <label class="col-sm-2 col-form-label"><%= t('assignment.active.point') %>:</label>
+    <div class="col-sm-10 col-form-label">
+      <p class="mg-auto"><%= result[:point] %></p>
+    </div>
+  </div>
+<% end %>

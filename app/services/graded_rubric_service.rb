@@ -37,4 +37,32 @@ class GradedRubricService
 
     point
   end
+
+  def build_graded_rubric submission_id, point, comment, graded_cr_list
+    graded_rubric = GradedRubric.new
+    graded_rubric.submission_grade_id = submission_id
+    graded_rubric.point = point.round(2)
+    graded_rubric.comment = comment
+
+    ActiveRecord::Base.transaction do
+      if graded_rubric.save
+        graded_cr_list.each do |cr|
+          graded_cr = GradedCriterium.new
+          graded_cr.index = cr[:index]
+          graded_cr.criteria_type = cr[:criteria_type]
+          graded_cr.weight = cr[:weight]
+          graded_cr.mandatory = cr[:mandatory]
+          graded_cr.criteria_description = cr[:desc]
+          graded_cr.meet_the_specification = cr[:spec]
+          graded_cr.graded_rubric_id = graded_rubric.id
+          graded_cr.comment = cr[:note]
+          graded_cr.point = cr[:pointp]
+          graded_cr.status = cr[:pointfp]
+          graded_cr.save
+        end
+      end
+    end
+
+    graded_rubric.id
+  end
 end

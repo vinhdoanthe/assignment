@@ -137,9 +137,14 @@ class SubmissionGradesController < ApplicationController
   end
 
   def grade
-    binding.pry
-    SubmissionGradeSerive.new.grade(grade_params)
-    # TODO 
+    grade_result =  SubmissionGradesService.new.grade(params)
+    if grade_result
+      redirect_to submission_grade_path(params[:submission_id])
+      flash[:success] = I18n.t('notification.grade_success')
+    else
+      redirect_to submission_grade_path(params[:submission_id])
+      flash[:danger] = I18n.t('notification.grade_fail')
+    end
   end
 
   private

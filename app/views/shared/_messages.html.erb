@@ -1,10 +1,8 @@
-<div class='row'>
-  <div class='col-12'>
-    <% flash.each do |name, msg| %>
-      <div class='alert alert-<%= "#{name}" %>'>
-        <a href="#" class='close' data-dismiss='alert'>&#215;</a>
-        <%= content_tag :div, msg, :id => "flash_#{name}" if msg.is_a?(String) %>
-      </div>
+<% unless flash.empty? %>
+  <script type="text/javascript">
+    <% flash.each do |key, value| %>
+      <% type = key.to_s.gsub('alert','error').gsub('notice', 'success') %>
+      toastr['<%= type %>'] ('<%= value %>')
     <% end %>
-  </div>
-</div>
+  </script>
+<% end %>
