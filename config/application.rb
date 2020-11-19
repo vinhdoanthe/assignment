@@ -10,5 +10,8 @@ module Assign
 
     config.i18n.available_locales = [:en, :vi]
     config.i18n.default_locale = :vi
+    Raven.configure do |config|
+      config.dsn = Settings.raven_dsn
+    end
   end
 end

@@ -24,7 +24,7 @@ $(document).ready(function() {
   //   $('#gradeForm').submit()
   // })
 
-  $('#confirmSendGradeBtn').on('click', (event) => {
+  $('#confirmSendGradeBtn').click((event) => {
     console.log('clicked')
     $('#confirmSendGradeForm').submit()
   })
