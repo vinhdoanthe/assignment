@@ -39,9 +39,9 @@
     <label class="col-sm-2 col-form-label"><%= t('assignment.submission_grade.label.note') %></label>
     <div class="col-sm-10 col-form-label">
       <p class="mg-auto">
-        <div>
-          <%= result[:comment] %>
-        </div>
+      <div>
+        <%= result[:comment] %>
+      </div>
       </p>
       <textarea name='note' class='display-none'><%= result[:comment] %></textarea>
     </div>
@@ -57,5 +57,9 @@
     <div class="col-sm-10 col-form-label">
       <p class="mg-auto"><%= result[:point] %></p>
     </div>
+  </div>
+  <div class="modal-footer justify-content-between">
+    <button type="button" class="btn btn-default" data-dismiss="modal"><%= t('assignment.submission_grade.action.close') %></button>
+    <%= form.submit t('assignment.submission_grade.action.confirm_grade'), class: "btn btn-primary" %>
   </div>
 <% end %>
