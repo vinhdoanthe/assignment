@@ -8,5 +8,13 @@
 /*}*/
 
 .footer-margin {
-    height: 100px;
+  height: 100px;
+}
+
+.login-background-img {
+  background: url(/images/welcome-image.jpg) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
