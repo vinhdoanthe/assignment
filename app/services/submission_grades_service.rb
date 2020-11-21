@@ -116,7 +116,7 @@ class SubmissionGradesService
     graded_rubric_id = GradedRubricService.new.build_graded_rubric params[:submission_id], point, params[:note], cr_list
 
     if !graded_rubric_id.nil?
-      if submission.update(status: status, point: point)
+      if submission.update(status: status, point: point, graded_at: Time.now)
         SubmissionGradeMailer.graded_email(submission.id).deliver_later
         return true
       end
