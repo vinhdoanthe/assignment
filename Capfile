@@ -12,7 +12,7 @@ require 'capistrano/sidekiq'
 require "whenever/capistrano"
 
 set :rbenv_type, :user
-set :rbenv_ruby, '2.5.1'
+set :rbenv_ruby, '2.6.5'
 
 # Load the SCM plugin appropriate to your project:
 #
