@@ -10,9 +10,8 @@ gem 'activeadmin-searchable_select'
 gem 'bootstrap', '~> 4.3.1'
 gem 'cancancan'
 gem 'config'
-# gem 'devise'
-gem 'devise', github: 'heartcombo/devise', branch: 'ca-omniauth-2'
-
+gem 'devise'
+gem "omniauth", "~> 1.9.1"
 gem 'omniauth-google-oauth2'
 gem 'enumerize'
 gem 'figaro'
@@ -70,14 +69,15 @@ gem 'jbuilder', '~> 2.5'
 gem 'bootsnap', '>= 1.1.0', require: false
 
 group :production do
-  gem 'capistrano-sidekiq'
+  # gem 'capistrano-sidekiq'
   gem 'google-cloud-storage', '~> 1.8', require: false
   gem 'mysql2'
 end
 
+gem 'sidekiq', '< 6.0.0'
+
 group :development, :test do
   # Use sqlite3 as the database for Active Record
-  gem 'sidekiq', '< 6.0.0'
   gem 'mysql2'
   gem 'pry', '~> 0.12.2'
   gem 'pry-remote'
