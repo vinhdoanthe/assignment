@@ -5,6 +5,13 @@
 
 server 'apc.funix.edu.vn', user: 'deploy', roles: %w{app db web}
 
+task :restart, :clear_cache do
+  on roles(:app) do
+    execute "cd #{current_app_path}"
+    execute :sudo, :systemctl, :restart, :sidekiq
+  end
+end
+
 # server "example.com", user: "deploy", roles: %w{app db web}, my_property: :my_value
 # server "example.com", user: "deploy", roles: %w{app web}, other_property: :other_value
 # server "db.example.com", user: "deploy", roles: %w{db}
