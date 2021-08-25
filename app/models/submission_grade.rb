@@ -5,6 +5,8 @@ class SubmissionGrade < ApplicationRecord
   extend Enumerize
   include Constants
 
+  after_save :set_submission_filename
+
   belongs_to :assignment, -> {with_deleted}
   belongs_to :student, class_name: 'User', foreign_key: 'student_id'
   belongs_to :mentor, class_name: 'User', foreign_key: 'mentor_id', optional: true
@@ -133,4 +135,13 @@ class SubmissionGrade < ApplicationRecord
     status == Constants::SUBMISSION_GRADE_STATUS_NOT_PASSED
   end
 
+
+  private
+  def set_submission_filename
+    if self.submission_file.attached?
+      filename = self.assignment.display_name + '_' + self.student.email
+      ext = '.' + self.submission_file.blob.filename.extension
+      self.submission_file.blob.update(filename: filename+ext)
+    end
+  end
 end
