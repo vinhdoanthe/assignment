@@ -75,7 +75,7 @@ end
 
 group :development, :test do
   # Use sqlite3 as the database for Active Record
-  gem 'sidekiq', '< 6.0.0'
+  gem 'sidekiq', '< 7.0.0'
   gem 'mysql2'
   gem 'pry', '~> 0.12.2'
   gem 'pry-remote'
